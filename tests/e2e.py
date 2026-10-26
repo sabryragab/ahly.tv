@@ -127,6 +127,7 @@ def main():
           for k in range(min(3, n)):
               page.locator("#rd-grid .card").nth(k).click()
               played += media_plays(page, "#radio", 15)
+              page.evaluate("hideNowPlaying()")
           page.evaluate("stopRadio()")
           log(f"Radio {name}: {n} stations, first 3 played: {played}/3")
           tops = page.evaluate("Array.from(document.querySelectorAll('#rd-grid .card')).slice(0,5).map(e=>Math.round(e.getBoundingClientRect().top))")
@@ -166,7 +167,9 @@ def main():
           failed = True
       page.locator("#q-surahs .surah").nth(17).click()
       log(f"quran audio plays (Al-Kahf): {media_plays(page, '#radio', 20)} {page.locator('#np-name').inner_text()}")
-      page.screenshot(path="shot-quran.png")
+      log(f"now playing screen shows: {page.locator('#nowp').is_visible()} title: {page.locator('#nw-ttl').inner_text()}")
+      page.wait_for_timeout(3000)
+      page.screenshot(path="shot-nowplaying.png")
       page.evaluate("stopRadio()")
       # favourites, recent, channel number
       page.evaluate("show('tv')")

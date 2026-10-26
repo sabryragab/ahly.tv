@@ -234,6 +234,28 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .home .match{font-size:1.05vw}.home .match img{width:3.4vw;height:3.4vw}.home .match .vs{font-size:2vw}
 .home .card .art .gl b{font-size:.8vw}.home .card .art .gl svg.i{width:1.8vw;height:1.8vw}
 
+/* now playing: full screen with slowly moving nature photos */
+.nowp{position:fixed;top:0;right:0;bottom:0;left:0;z-index:45;background:#071a14;overflow:hidden}
+.nowp .bg{position:absolute;top:-4%;right:-4%;bottom:-4%;left:-4%;background-size:cover;background-position:center;opacity:0;transition:opacity 2.5s ease}
+.nowp .bg.on{opacity:1;animation:kb 32s ease-in-out infinite alternate}
+.nowp .bg.b2.on{animation-name:kb2}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-2%,-1.5%)}}
+@keyframes kb2{from{transform:scale(1.1) translate(2%,1%)}to{transform:scale(1) translate(0,0)}}
+.nowp .shade{position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 30%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.78))}
+.nowp .cnt{position:absolute;right:6vw;left:6vw;bottom:7vh;display:grid;grid-gap:1vw;text-align:right;color:#fff}
+.nowp .kind{color:var(--gold);font-size:1.3vw;letter-spacing:.03em}
+.nowp .ttl{font-family:var(--f-quran);font-size:5.2vw;line-height:1.1;text-shadow:0 .3vw 1.6vw rgba(0,0,0,.5)}
+.nowp .sub{font-size:1.6vw;color:#f1e6e7;text-shadow:0 .2vw 1vw rgba(0,0,0,.6)}
+.nowp .prog{display:grid;grid-template-columns:auto 1fr auto;grid-gap:1vw;align-items:center;font-size:1vw;color:#e7dcdd;font-variant-numeric:tabular-nums;max-width:60vw}
+.nowp .bar{height:.4vw;border-radius:1vw;background:rgba(255,255,255,.25);overflow:hidden}
+.nowp .bar i{display:block;height:100%;width:0;background:var(--gold)}
+.nowp .ctl{display:grid;grid-auto-flow:column;grid-auto-columns:max-content;grid-gap:.8vw;margin-top:.6vw}
+.nowp .ctl .btn{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.25)}
+.nowp .clock{position:absolute;top:5vh;left:6vw;text-align:left;color:#fff;text-shadow:0 .2vw 1vw rgba(0,0,0,.5)}
+.nowp .clock b{font-size:2.6vw}
+.nowp .credit{position:absolute;top:5vh;right:6vw;font-size:.75vw;color:rgba(255,255,255,.7)}
+.np .open{background:var(--gold);color:var(--night)}
+
 /* quran */
 .surahs{display:grid;grid-template-columns:repeat(8,1fr);grid-gap:.7vw}
 .surah{background:var(--wine);border-radius:.7vw;padding:.7vw .4vw;text-align:center;display:grid;grid-gap:.2vw}
@@ -427,7 +449,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 <div class="np" id="np" hidden>
   <div class="eq" aria-hidden="true"><i></i><i></i><i></i></div>
   <span class="nm" id="np-name"></span>
-  <span></span>
+  <button class="btn open" data-nav id="np-open">عرض</button>
   <button class="btn ghost" data-nav id="np-stop">إيقاف</button>
 </div>
 
@@ -443,6 +465,25 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
   <p>اللهم ربّ هذه الدعوة التامة والصلاة القائمة</p>
   <button class="btn" data-nav id="adhan-close">إغلاق</button>
 </div>
+<div class="nowp" id="nowp" hidden>
+  <div class="bg" id="bg1"></div><div class="bg b2" id="bg2"></div><div class="shade"></div>
+  <div class="clock"><b id="nw-clk"></b><br><span id="nw-nx"></span></div>
+  <div class="credit" id="nw-credit"></div>
+  <div class="cnt">
+    <div class="kind" id="nw-kind"></div>
+    <div class="ttl" id="nw-ttl"></div>
+    <div class="sub" id="nw-sub"></div>
+    <div class="prog" id="nw-prog"><span id="nw-cur"></span><div class="bar"><i id="nw-bar"></i></div><span id="nw-dur"></span></div>
+    <div class="ctl">
+      <button class="btn" data-nav id="nw-pp">إيقاف مؤقت</button>
+      <button class="btn" data-nav id="nw-prev" hidden>السورة اللي قبلها</button>
+      <button class="btn" data-nav id="nw-next" hidden>السورة اللي بعدها</button>
+      <button class="btn" data-nav id="nw-sleep">مؤقت النوم</button>
+      <button class="btn" data-nav id="nw-stop">إيقاف</button>
+      <button class="btn" data-nav id="nw-hide">رجوع</button>
+    </div>
+  </div>
+</div>
 <div class="saver" id="saver" hidden><div class="in" id="saver-in">
   <div class="clk" id="sv-clk"></div><div class="dt" id="sv-dt"></div>
   <div class="nx" id="sv-nx"></div>
@@ -457,6 +498,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 
 <script>
 "use strict";
+document.documentElement.setAttribute("dir","rtl");document.documentElement.setAttribute("lang","ar");
 /* polyfills for older Android TV browsers */
 (function(){var Ps=[Element.prototype,Document.prototype,DocumentFragment.prototype];for(var i=0;i<Ps.length;i++){if(!Ps[i].replaceChildren)Ps[i].replaceChildren=function(){while(this.lastChild)this.removeChild(this.lastChild);for(var j=0;j<arguments.length;j++)this.append(arguments[j])}}})();
 
@@ -533,8 +575,9 @@ function tickInner(){const now=new Date(),ms=now.getTime();const s=cityYMD(city.
   let iqTxt="";if(iqOn){for(const k of ORDER){if(k==="sunrise")continue;const iqAt=today[k]+(city.m===UQ?IQ:IQ_EG)[k]*6e4;if(ms>=today[k]&&ms<iqAt){const r=Math.ceil((iqAt-ms)/1000);iqTxt="إقامة "+PNAMES[k]+" بعد "+arNum(Math.floor(r/60))+":"+arNum(r%60,2)}}}
   $("#nx-iq").hidden=!iqTxt;$("#nx-iq").textContent=iqTxt;
   if(now.getSeconds()%20===0)renderNotice(now,ms);
+  if(!$("#nowp").hidden){$("#nw-clk").textContent=$("#clk").textContent;$("#nw-nx").textContent=PNAMES[nx.k]+" بعد "+arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)}
   if(!$("#saver").hidden)renderSaver(now,ms,nx);
-  else if(saverDelay&&!inPlayer&&ms-lastInput>saverDelay*6e4&&$("#player").hidden&&$("#adhan").hidden)showSaver();
+  else if(saverDelay&&!inPlayer&&ms-lastInput>saverDelay*6e4&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden)showSaver();
   if(now.getSeconds()===0)renderPrayers()}
 
 /* ---------- adhan ---------- */
@@ -553,7 +596,7 @@ $("#pre-tog").onclick=()=>{preOn=!preOn;store.set("preOn",preOn);renderToggles()
 $("#iq-tog").onclick=()=>{iqOn=!iqOn;store.set("iqOn",iqOn);renderToggles()};
 function chime(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[0,.9,1.8].forEach((t,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=[587,740,880][i];g.gain.setValueAtTime(0,ac.currentTime+t);g.gain.linearRampToValueAtTime(.3,ac.currentTime+t+.05);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+t+1.6);o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+1.7)})}catch(e){}}
 let radioWasPlaying=false;
-function showAdhan(k){hideSaver();radioWasPlaying=!$("#radio").paused;$("#radio").pause();$("#zk-audio").pause();if(!$("#player").hidden)$("#video").muted=true;
+function showAdhan(k){hideSaver();hideNowPlaying();radioWasPlaying=!$("#radio").paused;$("#radio").pause();$("#zk-audio").pause();if(!$("#player").hidden)$("#video").muted=true;
   $("#adhan-t").textContent="حان الآن موعد أذان "+PNAMES[k];$("#adhan-city").textContent="بتوقيت "+city.n;$("#adhan").hidden=false;focusSel("#adhan-close");
   const a=$("#adhan-audio"),u=adhanUrl();if(u){a.src=u;a.play().catch(chime)}else chime();
   clearTimeout(showAdhan.t);showAdhan.t=setTimeout(()=>{if(a.paused)closeAdhan()},u?600e3:60e3);a.onended=closeAdhan}
@@ -813,9 +856,10 @@ let rdHls=null;
 function playRadio(s){const a=$("#radio");a.onended=null;qNow=null;stopZkAudio();if(rdHls){rdHls.destroy();rdHls=null}a.onerror=()=>toast("الإذاعة دي مش شغالة دلوقتي، جرّب غيرها");rdNow=s;
   if(/m3u8/i.test(s.url)&&window.Hls&&Hls.isSupported()){rdHls=new Hls();rdHls.loadSource(s.url);rdHls.attachMedia(a);rdHls.on(Hls.Events.MANIFEST_PARSED,()=>a.play().catch(()=>{}))}
   else{a.src=s.url;a.play().catch(e=>{if(e&&e.name!=="AbortError")toast("الإذاعة دي مش شغالة دلوقتي، جرّب غيرها")})}
+  setNowPlaying({kind:"radio",title:s.name,sub:"بث مباشر"});if(!s.quiet)showNowPlaying();
   $("#np").hidden=false;$("#np-name").textContent=s.name;store.set("lastRd",s);$("#t-lastrd").textContent="آخر إذاعة: "+s.name;
   document.querySelectorAll("#rd-grid .card").forEach(c=>{const on=c.querySelector(".nm").textContent===s.name;c.classList.toggle("playing",on)})}
-function stopRadio(){const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a.onerror=null;a.pause();a.removeAttribute("src");$("#np").hidden=true;rdNow=null;document.querySelectorAll("#rd-grid .card.playing").forEach(c=>c.classList.remove("playing"))}
+function stopRadio(){hideNowPlaying();const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a.onerror=null;a.pause();a.removeAttribute("src");$("#np").hidden=true;rdNow=null;document.querySelectorAll("#rd-grid .card.playing").forEach(c=>c.classList.remove("playing"))}
 $("#np-stop").onclick=()=>{stopRadio();focusView()};
 
 /* ---------- Quran library (mp3quran.net) ---------- */
@@ -827,14 +871,38 @@ async function renderQuran(){try{await loadQuran()}catch(e){$("#q-surahs").repla
   const r=QL.reciters[curRec()];$("#q-title").textContent=r.n+" · "+r.k;
   $("#q-reciters").replaceChildren(...QL.reciters.map((x,i)=>el("button",{class:"chip","data-nav":"","aria-pressed":String(i===curRec()),text:x.n+(x.k==="مجوّد"?" (مجوّد)":""),onclick(){qRec=i;store.set("qRec",i);renderQuran()}})));
   $("#q-surahs").replaceChildren(...QL.suwar.map((n,i)=>el("button",{class:"surah"+(qNow&&qNow.rec===curRec()&&qNow.n===i+1?" playing":""),"data-nav":"",onclick(){playSurah(curRec(),i+1)}},el("i",{text:arNum(i+1)}),el("span",{text:n}))))}
-async function playSurah(ri,n){try{await loadQuran()}catch(e){toast("مكتبة القرآن مش متاحة دلوقتي");return}const r=QL.reciters[ri];
-  playRadio({name:"سورة "+QL.suwar[n-1]+" · "+r.n,url:r.s+pad3(n)+".mp3"});qNow={rec:ri,n:n};$("#t-quran").textContent="سورة "+QL.suwar[n-1]+" · "+r.n;
-  const a=$("#radio");a.onended=()=>{if(qCont&&qNow&&qNow.n<114)playSurah(qNow.rec,qNow.n+1);else stopRadio()};
+async function playSurah(ri,n,auto){try{await loadQuran()}catch(e){toast("مكتبة القرآن مش متاحة دلوقتي");return}const r=QL.reciters[ri];
+  playRadio({name:"سورة "+QL.suwar[n-1]+" · "+r.n,url:r.s+pad3(n)+".mp3",quiet:true});setNowPlaying({kind:"quran",title:"سورة "+QL.suwar[n-1],sub:r.n+" · "+r.k});if(!auto||!$("#nowp").hidden)showNowPlaying();qNow={rec:ri,n:n};$("#t-quran").textContent="سورة "+QL.suwar[n-1]+" · "+r.n;
+  const a=$("#radio");a.onended=()=>{if(qCont&&qNow&&qNow.n<114)playSurah(qNow.rec,qNow.n+1,true);else stopRadio()};
   document.querySelectorAll("#q-surahs .surah").forEach((b,i)=>b.classList.toggle("playing",ri===curRec()&&i===n-1))}
 function renderSleep(){$("#q-sleep").textContent="مؤقت النوم: "+(sleepMin?"بعد "+arNum(sleepMin)+" دقيقة":"مقفول");$("#q-cont").textContent="تشغيل السور ورا بعض: "+(qCont?"يعمل":"متوقف")}
 $("#q-sleep").onclick=()=>{const o=[0,15,30,45,60,90];sleepMin=o[(o.indexOf(sleepMin)+1)%o.length];sleepAt=sleepMin?Date.now()+sleepMin*6e4:0;renderSleep();if(sleepMin)toast("الصوت هيقف بعد "+arNum(sleepMin)+" دقيقة")};
 $("#q-cont").onclick=()=>{qCont=!qCont;store.set("qCont",qCont);renderSleep()};
 setInterval(()=>{if(sleepAt&&Date.now()>=sleepAt){sleepAt=0;sleepMin=0;stopRadio();renderSleep();toast("مؤقت النوم: الصوت وقف")}},10000);
+
+/* ---------- now playing screen ---------- */
+const BGS=[{"f": "bg/fall1.jpg", "a": "Dietmar Rabich", "l": "CC BY-SA 4.0"}, {"f": "bg/fall2.jpg", "a": "Tiago Fioreze", "l": "CC BY-SA 3.0"}, {"f": "bg/fall3.jpg", "a": "Diego Delso", "l": "CC BY-SA 4.0"}, {"f": "bg/forest1.jpg", "a": "W.carter", "l": "CC0"}, {"f": "bg/forest2.jpg", "a": "Kuhnmi", "l": "CC BY-SA 4.0"}, {"f": "bg/forest3.jpg", "a": "Rbrechko", "l": "CC BY-SA 4.0"}, {"f": "bg/garden1.jpg", "a": "Rhododendrites", "l": "CC BY-SA 4.0"}, {"f": "bg/lake1.jpg", "a": "Chensiyuan", "l": "CC BY-SA 4.0"}, {"f": "bg/lake3.jpg", "a": "Isiwal", "l": "CC BY-SA 4.0"}, {"f": "bg/lake4.jpg", "a": "Hansueli Krapf", "l": "CC BY-SA 3.0"}, {"f": "bg/mount1.jpg", "a": "Dominicus Johannes Bergsma", "l": "CC BY-SA 4.0"}, {"f": "bg/sea1.jpg", "a": "Michal Klajban", "l": "CC BY-SA 4.0"}, {"f": "bg/sea2.jpg", "a": "Michal Klajban", "l": "CC BY-SA 4.0"}];
+let bgOrder=[],bgI=0,bgT=null,bgLayer=1,npInfo=null;
+function nextBg(){if(!bgOrder.length){bgOrder=BGS.map((b,i)=>i).sort(()=>Math.random()-.5)}const b=BGS[bgOrder[bgI++%bgOrder.length]];
+  const on=$("#bg"+bgLayer),off=$("#bg"+(3-bgLayer));off.style.backgroundImage="url('"+b.f+"')";
+  const im=new Image();im.onload=()=>{off.classList.add("on");on.classList.remove("on");bgLayer=3-bgLayer;$("#nw-credit").textContent="صورة: "+b.a+" · "+b.l+" · Wikimedia Commons"};im.src=b.f}
+function setNowPlaying(info){npInfo=info;$("#nw-kind").textContent=info.kind==="quran"?"القرآن الكريم":"راديو";$("#nw-ttl").textContent=info.title;$("#nw-sub").textContent=info.sub||"";
+  $("#nw-prev").hidden=$("#nw-next").hidden=info.kind!=="quran";$("#nw-prog").style.visibility="hidden"}
+function showNowPlaying(){if(!npInfo)return;const n=$("#nowp");if(n.hidden){n.hidden=false;nextBg();clearInterval(bgT);bgT=setInterval(nextBg,30000)}renderNwSleep();focusSel("#nw-pp")}
+function hideNowPlaying(){const n=$("#nowp");if(n.hidden)return false;n.hidden=true;clearInterval(bgT);focusView();return true}
+const mmss=t=>{t=Math.floor(t||0);const h=Math.floor(t/3600),m=Math.floor(t/60)%60,x=t%60;return (h?arNum(h)+":"+arNum(m,2):arNum(m))+":"+arNum(x,2)};
+(function(){const a=$("#radio");a.addEventListener("timeupdate",()=>{if($("#nowp").hidden)return;const d=a.duration;
+  if(isFinite(d)&&d>0){$("#nw-prog").style.visibility="visible";$("#nw-cur").textContent=mmss(a.currentTime);$("#nw-dur").textContent=mmss(d);$("#nw-bar").style.width=(100*a.currentTime/d)+"%"}
+  else{$("#nw-prog").style.visibility="hidden"}});
+  a.addEventListener("play",()=>{$("#nw-pp").textContent="إيقاف مؤقت"});a.addEventListener("pause",()=>{$("#nw-pp").textContent="تشغيل"})})();
+function renderNwSleep(){$("#nw-sleep").textContent=sleepMin?"مؤقت النوم: "+arNum(sleepMin)+" د":"مؤقت النوم"}
+$("#nw-pp").onclick=()=>{const a=$("#radio");if(a.paused)a.play().catch(()=>{});else a.pause()};
+$("#nw-next").onclick=()=>{if(qNow&&qNow.n<114)playSurah(qNow.rec,qNow.n+1)};
+$("#nw-prev").onclick=()=>{if(qNow&&qNow.n>1)playSurah(qNow.rec,qNow.n-1)};
+$("#nw-sleep").onclick=()=>{$("#q-sleep").click();renderNwSleep()};
+$("#nw-stop").onclick=()=>{stopRadio();hideNowPlaying()};
+$("#nw-hide").onclick=hideNowPlaying;
+$("#np-open").onclick=showNowPlaying;
 
 /* ---------- channel numbers typed on the remote ---------- */
 let numBuf="",numT;
@@ -868,7 +936,7 @@ document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.
 
 /* ---------- remote control ---------- */
 function visible(n){if(!n.offsetParent&&getComputedStyle(n).position!=="fixed")return false;const r=n.getBoundingClientRect();return r.width>0&&r.height>0}
-function scope(){return $("#adhan").hidden?document:$("#adhan")}
+function scope(){return !$("#adhan").hidden?$("#adhan"):!$("#nowp").hidden?$("#nowp"):document}
 function focusables(){return Array.prototype.filter.call(scope().querySelectorAll("[data-nav]"),visible)}
 function focusEl(n){if(!n)return;n.focus({preventScroll:true});const r=n.getBoundingClientRect(),h=innerHeight,m=h*.12;
   if(r.top<m)window.scrollBy(0,r.top-m);else if(r.bottom>h-m)window.scrollBy(0,r.bottom-(h-m))}
@@ -896,6 +964,7 @@ window.tvKey=function(k){
 window.tvBack=function(){if(hideSaver())return true;
   if(!$("#adhan").hidden){closeAdhan();return true}
   if(!$("#player").hidden){closePlayer();return true}
+  if(hideNowPlaying())return true;
   if(!$("#pl-panel").hidden){$("#pl-close").click();return true}
   if(view!=="home"){show("home");focusView();return true}
   return false};
