@@ -360,6 +360,8 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 
   <!-- SETTINGS -->
   <section class="view" id="v-settings" hidden>
+    <h2>التحديثات</h2>
+    <div class="row"><span class="muted" id="ver">—</span><button class="btn ghost" data-nav id="chk-upd">التحقق من التحديثات</button></div>
     <h2>قوائم IPTV</h2>
     <div class="row"><button class="btn" data-nav id="set-addpl"><svg class="i"><use href="#i-phone"/></svg>ريموت الموبايل وإضافة قوايم</button></div>
     <div id="pl-list2" style="display:grid;grid-gap:.6vw;max-width:60vw"></div>
@@ -818,7 +820,7 @@ function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").fo
   if(v==="settings")renderPlLists();
   if(v==="apps")renderApps();else pinMode=false;
   if(v==="quran"&&!loaded.q){loaded.q=1;renderQuran();renderSleep()}
-  if(v==="settings"){renderVoices();renderToggles();renderSaverOpts()}}
+  if(v==="settings"){renderVer();renderVoices();renderToggles();renderSaverOpts()}}
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>show(t.dataset.view));
 document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.go);focusView()});
 
@@ -864,7 +866,11 @@ document.addEventListener("keydown",e=>{if(window.AhlyTV)return; // the Android 
 
 /* ---------- in-app update ---------- */
 let updating=false;
-window.onUpdateAvailable=function(name){const b=$("#q-update");b.hidden=false;b.textContent="تحديث جديد "+(name||"")};
+let updFound=false,updChecking=false;
+window.onUpdateAvailable=function(name){updFound=true;const b=$("#q-update");b.hidden=false;b.textContent="تحديث جديد "+(name||"");if(updChecking){updChecking=false;toast("فيه نسخة جديدة "+(name||"")+"، دوس «تحديث جديد» فوق");focusEl(b)}};
+function renderVer(){const c=bridge&&bridge.versionCode?bridge.versionCode():0;$("#ver").textContent=c?"نسختك: 2."+(c-1000):"نسخة المعاينة"}
+$("#chk-upd").onclick=()=>{if(!bridge||!bridge.checkUpdate){toast("التحديث بيشتغل من تطبيق الشاشة");return}updChecking=true;bridge.checkUpdate();
+  setTimeout(()=>{if(updChecking){updChecking=false;toast(updFound?"فيه تحديث، دوس «تحديث جديد» فوق":"عندك أحدث نسخة ✓")}},6000)};
 window.onUpdateProgress=function(p){const b=$("#q-update");
   if(p===-2){updating=false;b.textContent="تحديث جديد";toast("اسمح للتطبيق بتثبيت التحديثات من الشاشة اللي فتحت، وارجع دوس «تحديث» تاني");return}
   if(p<0){updating=false;b.textContent="تحديث جديد";toast("التحميل وقف، جرّب تاني");return}
