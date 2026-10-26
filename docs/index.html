@@ -281,13 +281,13 @@ const arNum=(n,d=1)=>new Intl.NumberFormat("ar-EG",{minimumIntegerDigits:d}).for
 const METHODS={UQ:{fajr:18.5,isha:"90min",n:"أم القرى"},EG:{fajr:19.5,isha:17.5,n:"الهيئة المصرية العامة للمساحة"},MWL:{fajr:18,isha:17,n:"رابطة العالم الإسلامي"}};
 const CITIES=[
  ["riyadh","الرياض",24.7136,46.6753,"Asia/Riyadh"],["jeddah","جدة",21.4858,39.1925,"Asia/Riyadh"],["makkah","مكة المكرمة",21.4225,39.8262,"Asia/Riyadh"],
- ["madinah","المدينة المنورة",24.4672,39.6111,"Asia/Riyadh"],["dammam","الدمام",26.4207,50.0888,"Asia/Riyadh"],["abha","أبها",18.2164,42.5053,"Asia/Riyadh"],
+ ["taif","الطائف",21.2703,40.4158,"Asia/Riyadh"],["madinah","المدينة المنورة",24.4672,39.6111,"Asia/Riyadh"],["dammam","الدمام",26.4207,50.0888,"Asia/Riyadh"],["abha","أبها",18.2164,42.5053,"Asia/Riyadh"],
  ["cairo","القاهرة",30.0444,31.2357,"Africa/Cairo"],["giza","الجيزة",30.0131,31.2089,"Africa/Cairo"],["alex","الإسكندرية",31.2001,29.9187,"Africa/Cairo"],
  ["mansoura","المنصورة",31.0409,31.3785,"Africa/Cairo"],["tanta","طنطا",30.7865,31.0004,"Africa/Cairo"],["asyut","أسيوط",27.1783,31.1859,"Africa/Cairo"],["aswan","أسوان",24.0889,32.8998,"Africa/Cairo"],
  ["dubai","دبي",25.2048,55.2708,"Asia/Dubai"],["kuwait","الكويت",29.3759,47.9774,"Asia/Kuwait"],["doha","الدوحة",25.2854,51.531,"Asia/Qatar"]
 ].map(([id,n,lat,lng,tz])=>({id,n,lat,lng,tz}));
 function methodFor(tz){const m=store.get("method","auto");if(m!=="auto")return m;if(/Riyadh/.test(tz))return "UQ";if(/Cairo/.test(tz))return "EG";return "MWL"}
-function loadPlace(){const g=store.get("geo",null);if(store.get("city","riyadh")==="geo"&&g)return {id:"geo",n:"موقعي",lat:g.lat,lng:g.lng,tz:g.tz};return CITIES.find(c=>c.id===store.get("city","riyadh"))||CITIES[0]}
+function loadPlace(){const g=store.get("geo",null);if(store.get("city","taif")==="geo"&&g)return {id:"geo",n:"موقعي",lat:g.lat,lng:g.lng,tz:g.tz};return CITIES.find(c=>c.id===store.get("city","taif"))||CITIES[0]}
 let place=loadPlace();
 
 /* ---------- prayer math ---------- */

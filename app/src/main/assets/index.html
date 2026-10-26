@@ -315,6 +315,7 @@ const CITIES=[
  {id:"riyadh",n:"الرياض",lat:24.7136,lng:46.6753,tz:"Asia/Riyadh",m:UQ},
  {id:"jeddah",n:"جدة",lat:21.4858,lng:39.1925,tz:"Asia/Riyadh",m:UQ},
  {id:"makkah",n:"مكة المكرمة",lat:21.4225,lng:39.8262,tz:"Asia/Riyadh",m:UQ},
+ {id:"taif",n:"الطائف",lat:21.2703,lng:40.4158,tz:"Asia/Riyadh",m:UQ},
  {id:"madinah",n:"المدينة المنورة",lat:24.4672,lng:39.6111,tz:"Asia/Riyadh",m:UQ},
  {id:"dammam",n:"الدمام",lat:26.4207,lng:50.0888,tz:"Asia/Riyadh",m:UQ},
  {id:"cairo",n:"القاهرة",lat:30.0444,lng:31.2357,tz:"Africa/Cairo",m:EG},
@@ -325,7 +326,7 @@ const CITIES=[
 ];
 const PNAMES={fajr:"الفجر",sunrise:"الشروق",dhuhr:"الظهر",asr:"العصر",maghrib:"المغرب",isha:"العشاء"};
 const ORDER=["fajr","sunrise","dhuhr","asr","maghrib","isha"];
-let city=CITIES.find(c=>c.id===store.get("city","riyadh"))||CITIES[0];
+let city=CITIES.find(c=>c.id===store.get("city","taif"))||CITIES[0];
 
 const D2R=Math.PI/180,R2D=180/Math.PI;
 const sin=d=>Math.sin(d*D2R),cos=d=>Math.cos(d*D2R),tan=d=>Math.tan(d*D2R);
