@@ -1,6 +1,23 @@
 package com.ahly.tv;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.provider.Settings;
+import android.util.Base64;
+import android.webkit.JavascriptInterface;
+import java.io.ByteArrayOutputStream;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,6 +30,75 @@ import android.webkit.WebViewClient;
 public class MainActivity extends Activity {
     private WebView web;
     private long lastMove = 0;
+    private long backDownAt = 0;
+    private boolean backLongFired = false;
+
+    /** Lets the page list and open the TV's other apps, and open system settings. */
+    public class Bridge {
+        @JavascriptInterface
+        public String apps() {
+            PackageManager pm = getPackageManager();
+            Map<String, ActivityInfo> found = new LinkedHashMap<>();
+            for (String cat : new String[]{Intent.CATEGORY_LEANBACK_LAUNCHER, Intent.CATEGORY_LAUNCHER}) {
+                Intent i = new Intent(Intent.ACTION_MAIN).addCategory(cat);
+                List<ResolveInfo> list = pm.queryIntentActivities(i, 0);
+                for (ResolveInfo r : list) {
+                    String pkg = r.activityInfo.packageName;
+                    if (pkg.equals(getPackageName()) || found.containsKey(pkg)) continue;
+                    found.put(pkg, r.activityInfo);
+                }
+            }
+            JSONArray out = new JSONArray();
+            for (ActivityInfo a : found.values()) {
+                try {
+                    JSONObject o = new JSONObject();
+                    o.put("pkg", a.packageName);
+                    o.put("label", String.valueOf(a.loadLabel(pm)));
+                    Drawable d = a.loadBanner(pm);
+                    boolean banner = d != null;
+                    if (d == null) d = a.loadIcon(pm);
+                    o.put("banner", banner);
+                    o.put("img", toPng(d, banner ? 240 : 112, banner ? 135 : 112));
+                    out.put(o);
+                } catch (Exception ignored) { }
+            }
+            return out.toString();
+        }
+
+        @JavascriptInterface
+        public void open(String pkg) {
+            PackageManager pm = getPackageManager();
+            Intent i = pm.getLeanbackLaunchIntentForPackage(pkg);
+            if (i == null) i = pm.getLaunchIntentForPackage(pkg);
+            if (i != null) { i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); startActivity(i); }
+        }
+
+        @JavascriptInterface
+        public void settings() { runOnUiThread(MainActivity.this::openSettings); }
+
+        @JavascriptInterface
+        public void homeSettings() {
+            runOnUiThread(() -> {
+                try { startActivity(new Intent(Settings.ACTION_HOME_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
+                catch (Exception e) { openSettings(); }
+            });
+        }
+    }
+
+    private void openSettings() {
+        try { startActivity(new Intent(Settings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
+        catch (Exception ignored) { }
+    }
+
+    private static String toPng(Drawable d, int w, int h) {
+        Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        d.setBounds(0, 0, w, h);
+        d.draw(c);
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 90, bo);
+        return "data:image/png;base64," + Base64.encodeToString(bo.toByteArray(), Base64.NO_WRAP);
+    }
 
     @Override
     protected void onCreate(Bundle state) {
@@ -31,6 +117,7 @@ public class MainActivity extends Activity {
         web.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
         web.setWebViewClient(new WebViewClient());
         web.setWebChromeClient(new WebChromeClient());
+        web.addJavascriptInterface(new Bridge(), "AhlyTV");
         web.setFocusable(true);
         web.setFocusableInTouchMode(true);
         web.requestFocus();
@@ -67,8 +154,11 @@ public class MainActivity extends Activity {
     public boolean dispatchKeyEvent(KeyEvent e) {
         int code = e.getKeyCode();
         if (code == KeyEvent.KEYCODE_BACK) {
-            if (e.getAction() == KeyEvent.ACTION_UP) {
-                // the page handles back; as a home screen we never exit
+            // short press: the page goes back. Hold 3 seconds: open the TV's settings (escape hatch).
+            if (e.getAction() == KeyEvent.ACTION_DOWN) {
+                if (e.getRepeatCount() == 0) { backDownAt = System.currentTimeMillis(); backLongFired = false; }
+                else if (!backLongFired && System.currentTimeMillis() - backDownAt > 2500) { backLongFired = true; openSettings(); }
+            } else if (e.getAction() == KeyEvent.ACTION_UP && !backLongFired) {
                 web.evaluateJavascript("window.tvBack&&window.tvBack()", null);
             }
             return true;

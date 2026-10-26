@@ -111,6 +111,8 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 .ch .logo img{max-width:80%;max-height:80%;object-fit:contain}
 .ch .nm{font-size:.85em;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ch.playing{box-shadow:0 0 0 3px var(--ahly)}
+.apps{grid-template-columns:repeat(auto-fill,minmax(clamp(150px,13vw,240px),1fr))}
+.ch .logo img.banner{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:cover}
 .state{background:var(--wine);border-radius:var(--r);padding:clamp(18px,2vw,32px);color:var(--mist);line-height:1.7}
 .state b{color:var(--chalk)}
 
@@ -166,6 +168,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 
   <nav class="tabs" role="tablist" id="tabs">
     <button class="tab" role="tab" data-nav data-view="home" aria-selected="true">الرئيسية</button>
+    <button class="tab" role="tab" data-nav data-view="apps">التطبيقات</button>
     <button class="tab" role="tab" data-nav data-view="prayer">مواقيت الصلاة</button>
     <button class="tab" role="tab" data-nav data-view="azkar">الأذكار</button>
     <button class="tab" role="tab" data-nav data-view="tv">القنوات</button>
@@ -186,10 +189,19 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
         <button class="tile gold" data-nav id="t-azkar"><span class="ic">☾</span><span class="t" id="t-azkar-t">أذكار المساء</span><span class="s">اضغط OK للعدّ</span></button>
         <button class="tile" data-nav data-go="tv"><span class="ic">▶</span><span class="t">القنوات</span><span class="s" id="t-lastch">IPTV وقنوات لايف</span></button>
         <button class="tile" data-nav data-go="radio"><span class="ic">◉</span><span class="t">الراديو</span><span class="s" id="t-lastrd">قرآن وإذاعات</span></button>
-        <button class="tile" data-nav data-go="prayer"><span class="ic">◷</span><span class="t">المواقيت</span><span class="s" id="t-city">—</span></button>
+        <button class="tile" data-nav data-go="apps"><span class="ic">▦</span><span class="t">التطبيقات</span><span class="s">نتفليكس، يوتيوب، الإعدادات…</span></button>
       </div>
     </div>
     <div class="prayers" id="home-prayers"></div>
+  </section>
+
+  <!-- APPS -->
+  <section class="view" id="v-apps" hidden>
+    <div class="row">
+      <button class="btn" data-nav id="sys-settings">إعدادات الشاشة</button>
+      <button class="btn ghost" data-nav id="home-settings">تغيير الشاشة الرئيسية</button>
+    </div>
+    <div class="grid apps" id="apps-grid"></div>
   </section>
 
   <!-- PRAYER -->
@@ -344,7 +356,7 @@ function renderPrayerStrip(box,now){const nx=nextPrayer(now);box.replaceChildren
   const c=el("div",{class:"pr"+(k===nx.k&&today[k]===nx.ms?" is-next":today[k]<now?" is-past":"")},el("div",{class:"n",text:PNAMES[k]}),el("div",{class:"v",text:fmtTime(today[k])}));return c}))}
 function renderPrayers(){const now=Date.now();renderPrayerStrip($("#home-prayers"),now);renderPrayerStrip($("#prayer-full"),now);
   $("#pr-sub").textContent=city.n+" · "+(city.m===UQ?"تقويم أم القرى":"الهيئة المصرية العامة للمساحة");
-  $("#t-city").textContent=city.n;$("#nx-city").textContent="بتوقيت "+city.n}
+  $("#nx-city").textContent="بتوقيت "+city.n}
 function renderCities(){$("#cities").replaceChildren(...CITIES.map(c=>el("button",{class:"chip","data-nav":"","aria-pressed":String(c.id===city.id),text:c.n,onclick(){city=c;store.set("city",c.id);compute();renderPrayers();renderCities();tick();focusSel("#cities [aria-pressed=true]")}})))}
 
 /* ---------- clock tick + adhan ---------- */
@@ -505,6 +517,19 @@ function playRadio(s){const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a
 function stopRadio(){const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a.onerror=null;a.pause();a.removeAttribute("src");$("#np").hidden=true}
 $("#np-stop").onclick=()=>{stopRadio();focusView()};
 
+/* ---------- other apps (Android bridge) ---------- */
+const bridge=window.AhlyTV||null;
+function renderApps(){const g=$("#apps-grid");
+  if(!bridge){g.replaceChildren(stateMsg("قايمة التطبيقات بتظهر جوه تطبيق الشاشة بس.","")) ;return}
+  let apps=[];try{apps=JSON.parse(bridge.apps())}catch(e){}
+  const pri=["netflix","youtube","shahid","amazon","disney","osn","watchit","tod","settings","downloader"];
+  const rank=a=>{const i=pri.findIndex(k=>(a.pkg+" "+a.label).toLowerCase().includes(k));return i<0?99:i};
+  apps.sort((a,b)=>rank(a)-rank(b)||a.label.localeCompare(b.label,"ar"));
+  g.replaceChildren(...apps.map(a=>{const lg=el("div",{class:"logo"});const im=el("img",{alt:"",src:a.img});if(a.banner)im.className="banner";lg.append(im);
+    return el("button",{class:"ch","data-nav":"",onclick(){bridge.open(a.pkg)}},lg,el("span",{class:"nm",text:a.label}))}))}
+$("#sys-settings").onclick=()=>bridge?bridge.settings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
+$("#home-settings").onclick=()=>bridge?bridge.homeSettings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
+
 /* ---------- settings ---------- */
 function renderPlList(){$("#pl-list").replaceChildren(...(userPl.length?userPl.map(p=>el("div",{class:"pl"},el("span",{text:p.n+" — "+p.u}),el("button",{class:"btn ghost","data-nav":"",text:"حذف",onclick(){userPl=userPl.filter(x=>x!==p);store.set("playlists",userPl);if(curPl===p.id)curPl="free-eg";renderPlList();renderSources()}}))):[el("div",{class:"muted",text:"مفيش قوائم مضافة لسه."})]))}
 $("#pl-add").onclick=()=>{const n=$("#pl-name").value.trim()||"IPTV",u=$("#pl-url").value.trim();if(!/^https?:\/\//i.test(u)){toast("الرابط لازم يبدأ بـ http");return}
@@ -519,7 +544,8 @@ function show(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
   if(v==="radio"&&!loaded.rd){loaded.rd=1;renderRdSources();renderRadio()}
   if(v==="azkar"&&!loaded.zk){loaded.zk=1;renderAzkar()}
-  if(v==="settings")renderPlList()}
+  if(v==="settings")renderPlList();
+  if(v==="apps")renderApps()}
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>show(t.dataset.view));
 document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.go);focusView()});
 

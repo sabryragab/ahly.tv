@@ -65,6 +65,8 @@ def main():
       log(f"Hls loaded: {page.evaluate('!!window.Hls')}")
       log("prayer: " + page.locator("#home-prayers").inner_text().replace(chr(10), " "))
 
+      page.evaluate("show('apps')")
+      log("apps tab: " + page.locator("#apps-grid").inner_text().strip()[:60])
       # TV lists
       page.evaluate("show('tv')")
       chips = page.locator("#tv-sources .chip")
