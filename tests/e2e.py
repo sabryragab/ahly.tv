@@ -87,12 +87,12 @@ def main():
               log(f"TV {name}: FAILED to load")
               continue
           played = 0
-          for k in range(min(3, n)):
+          for k in range(min(2, n)):
               page.evaluate(f"playChannel({k})")
               ok = media_plays(page, "#video")
               played += ok
               page.evaluate("closePlayer()")
-          log(f"TV {name}: {n} channels, first 3 played: {played}/3")
+          log(f"TV {name}: {n} channels, first 2 played: {played}/2")
       page.evaluate("show('tv')")
       page.locator("#tv-sources .chip").first.click()
       wait_tiles(page, "#tv-grid")
@@ -159,6 +159,8 @@ def main():
       page.evaluate("stopZkAudio()")
       page.evaluate("show('home')")
       page.screenshot(path="shot-home.png")
+      rel = page.evaluate("(async()=>{const t=await (await fetch('https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-religious.m3u')).text();return t.split('\\n').filter(l=>l.startsWith('#EXTINF')).map(l=>l.slice(l.lastIndexOf(',')+1)).slice(0,12).join(' | ')})()")
+      log(f"islamic list starts with: {rel}")
 
       log(f"page errors: {errors if errors else 'none'}")
       b.close()

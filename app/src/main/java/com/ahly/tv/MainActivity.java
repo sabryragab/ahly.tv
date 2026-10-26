@@ -19,6 +19,11 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import android.net.Uri;
+import android.os.Build;
+import androidx.core.content.FileProvider;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import java.io.File;
@@ -131,12 +136,94 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void ttsStop() { if (tts != null) tts.stop(); }
 
+        /** Opens the native full-screen player with the visible channel list. */
+        @JavascriptInterface
+        public void playChannels(String json, int index) {
+            PlayerActivity.channelsJson = json;
+            PlayerActivity.lastIndex = -1;
+            runOnUiThread(() -> startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", index)));
+        }
+
+        @JavascriptInterface
+        public int versionCode() { return currentVersion(); }
+
+        @JavascriptInterface
+        public void checkUpdate() { new Thread(MainActivity.this::checkForUpdate).start(); }
+
+        @JavascriptInterface
+        public void update() { new Thread(MainActivity.this::downloadAndInstall).start(); }
+
         @JavascriptInterface
         public void homeSettings() {
             runOnUiThread(() -> {
                 try { startActivity(new Intent(Settings.ACTION_HOME_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
                 catch (Exception e) { openSettings(); }
             });
+        }
+    }
+
+    private static final String REL = "https://github.com/sabryragab/ahly.tv/releases/latest/download/";
+
+    private int currentVersion() {
+        try { return getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (Exception e) { return 0; }
+    }
+
+    private void js(String code) { runOnUiThread(() -> web.evaluateJavascript(code, null)); }
+
+    private HttpURLConnection open(String u) throws Exception {
+        // follow GitHub's redirect to its file host by hand (HttpURLConnection won't across hosts)
+        for (int i = 0; i < 5; i++) {
+            HttpURLConnection c = (HttpURLConnection) new URL(u).openConnection();
+            c.setInstanceFollowRedirects(false);
+            c.setConnectTimeout(15000); c.setReadTimeout(30000);
+            int code = c.getResponseCode();
+            if (code >= 300 && code < 400) { u = c.getHeaderField("Location"); c.disconnect(); continue; }
+            return c;
+        }
+        throw new Exception("too many redirects");
+    }
+
+    private void checkForUpdate() {
+        try {
+            HttpURLConnection c = open(REL + "version.json");
+            InputStream in = c.getInputStream();
+            ByteArrayOutputStream b = new ByteArrayOutputStream(); byte[] buf = new byte[4096]; int n;
+            while ((n = in.read(buf)) > 0) b.write(buf, 0, n);
+            JSONObject v = new JSONObject(b.toString("UTF-8"));
+            if (v.optInt("code") > currentVersion()) js("window.onUpdateAvailable&&window.onUpdateAvailable(" + JSONObject.quote(v.optString("name")) + ")");
+        } catch (Exception ignored) { }
+    }
+
+    private void downloadAndInstall() {
+        try {
+            if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
+                js("window.onUpdateProgress&&window.onUpdateProgress(-2)");
+                runOnUiThread(() -> {
+                    try { startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName()))); } catch (Exception ignored) { }
+                });
+                return;
+            }
+            File dir = new File(getCacheDir(), "updates"); dir.mkdirs();
+            File apk = new File(dir, "AhlyTV.apk");
+            HttpURLConnection c = open(REL + "AhlyTV.apk");
+            int total = c.getContentLength(), done = 0, last = -1;
+            try (InputStream in = c.getInputStream(); FileOutputStream out = new FileOutputStream(apk)) {
+                byte[] buf = new byte[65536]; int n;
+                while ((n = in.read(buf)) > 0) {
+                    out.write(buf, 0, n); done += n;
+                    int pct = total > 0 ? (int) (100L * done / total) : 0;
+                    if (pct != last && pct % 5 == 0) { last = pct; js("window.onUpdateProgress&&window.onUpdateProgress(" + pct + ")"); }
+                }
+            }
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= 24) { uri = FileProvider.getUriForFile(this, "com.ahly.tv.files", apk); i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); }
+            else { apk.setReadable(true, false); uri = Uri.fromFile(apk); }
+            i.setDataAndType(uri, "application/vnd.android.package-archive");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            runOnUiThread(() -> startActivity(i));
+        } catch (Exception e) {
+            js("window.onUpdateProgress&&window.onUpdateProgress(-1)");
         }
     }
 
@@ -309,7 +396,7 @@ public class MainActivity extends Activity {
         if (e.getAction() == KeyEvent.ACTION_DOWN) {
             // when holding an arrow down, step at a steady pace instead of racing
             long now = System.currentTimeMillis();
-            if (e.getRepeatCount() > 0 && now - lastMove < 140) return true;
+            if (e.getRepeatCount() > 0 && now - lastMove < 110) return true;
             if (e.getRepeatCount() > 0 && k.equals("C")) return true;
             lastMove = now;
             web.evaluateJavascript("window.tvKey?window.tvKey('" + k + "'):'ok'", result -> {
@@ -323,7 +410,13 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onResume() { super.onResume(); web.onResume(); web.requestFocus(); }
+    protected void onResume() {
+        super.onResume(); web.onResume(); web.requestFocus();
+        if (PlayerActivity.lastIndex >= 0) {
+            int i = PlayerActivity.lastIndex; PlayerActivity.lastIndex = -1;
+            web.evaluateJavascript("window.onPlayerClosed&&window.onPlayerClosed(" + i + ")", null);
+        }
+    }
 
     @Override
     protected void onDestroy() {

@@ -1,4 +1,6 @@
 plugins { id 'com.android.application' }
+// one fixed signing key for every build, so each new version installs over the old one
+def runNo = (System.getenv("GITHUB_RUN_NUMBER") ?: "0") as int
 android {
     namespace 'com.ahly.tv'
     compileSdk 34
@@ -6,8 +8,26 @@ android {
         applicationId 'com.ahly.tv'
         minSdk 21
         targetSdk 34
-        versionCode 5
-        versionName "1.4"
+        versionCode 1000 + runNo
+        versionName "2." + runNo
+    }
+    signingConfigs {
+        fixed {
+            storeFile file('ahlytv.keystore')
+            storePassword 'ahlytv2026'
+            keyAlias 'ahlytv'
+            keyPassword 'ahlytv2026'
+        }
+    }
+    buildTypes {
+        debug { signingConfig signingConfigs.fixed }
+        release { signingConfig signingConfigs.fixed; minifyEnabled false }
     }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+dependencies {
+    implementation 'androidx.media3:media3-exoplayer:1.4.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.4.1'
+    implementation 'androidx.media3:media3-ui:1.4.1'
+    implementation 'androidx.core:core:1.13.1'
 }

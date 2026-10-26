@@ -35,9 +35,10 @@ jobs:
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk AhlyTV.apk
+          echo "{\"code\": $((1000 + GITHUB_RUN_NUMBER)), \"name\": \"2.$GITHUB_RUN_NUMBER\"}" > version.json
           gh release delete latest --yes --cleanup-tag || true
           { echo "آخر نسخة من التطبيق"; echo; echo '```'; cat test-report.txt; echo '```'; } > notes.md
-          gh release create latest AhlyTV.apk shot-*.png --title "الأهلي TV" --notes-file notes.md --latest
+          gh release create latest AhlyTV.apk version.json shot-*.png --title "الأهلي TV" --notes-file notes.md --latest
       - name: Save test report
         if: always()
         env: { GH_TOKEN: "${{ github.token }}" }

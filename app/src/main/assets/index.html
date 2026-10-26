@@ -40,6 +40,7 @@ svg.i{width:1.6vw;height:1.6vw;fill:none;stroke:currentColor;stroke-width:1.8;st
 .right{display:grid;grid-auto-flow:column;align-items:center;grid-gap:.8vw}
 .qb{background:var(--wine);padding:.45vw 1vw;border-radius:2vw;font-size:1vw;border:1px solid var(--line);display:flex;align-items:center}
 .qb svg.i{width:1.2vw;height:1.2vw;margin-inline-end:.4vw}
+.qb.upd{background:var(--gold);color:var(--night);font-weight:700;border-color:var(--gold)}
 .clock{text-align:left;font-variant-numeric:tabular-nums;margin-inline-start:.6vw}
 .clock b{font-family:var(--f-display);font-size:3vw;font-weight:500;line-height:1;display:block}
 .clock span{color:var(--mist);font-size:.95vw}
@@ -53,8 +54,7 @@ svg.i{width:1.6vw;height:1.6vw;fill:none;stroke:currentColor;stroke-width:1.8;st
 [data-nav]{outline:none}
 [data-nav]:focus{box-shadow:0 0 0 .25vw var(--night),0 0 0 .5vw var(--gold);position:relative;z-index:2}
 .tab:focus,.chip:focus,.btn:focus,.qb:focus{background:var(--chalk)!important;color:var(--night)!important}
-.card:focus,.tile:focus{transform:scale(1.04)}
-.card,.tile{transition:transform .12s}
+.card:focus,.tile:focus{background:var(--wine-2)}
 
 h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .muted{color:var(--mist)}
@@ -192,6 +192,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
     </div>
     <div></div>
     <div class="right">
+      <button class="qb upd" data-nav id="q-update" hidden>تحديث جديد</button>
       <button class="qb" data-nav id="q-wifi"><svg class="i"><use href="#i-wifi"/></svg>الواي فاي</button>
       <button class="qb" data-nav id="q-set"><svg class="i"><use href="#i-gear"/></svg>الإعدادات</button>
       <div class="clock"><b id="clk">--:--</b><span id="dates"></span></div>
@@ -481,9 +482,16 @@ const DATA="https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/";
 const FREE=[
  {id:"free-eg",n:"قنوات مصر",u:DATA+"tv-eg.m3u",alt:"https://iptv-org.github.io/iptv/countries/eg.m3u"},
  {id:"free-sa",n:"قنوات السعودية",u:DATA+"tv-sa.m3u",alt:"https://iptv-org.github.io/iptv/countries/sa.m3u"},
- {id:"free-rel",n:"قنوات دينية",u:DATA+"tv-religious.m3u",alt:"https://iptv-org.github.io/iptv/categories/religious.m3u",filterAr:1},
- {id:"free-news",n:"أخبار",u:DATA+"tv-news.m3u",alt:"https://iptv-org.github.io/iptv/categories/news.m3u",filterAr:1},
- {id:"free-sport",n:"رياضة مفتوحة",u:DATA+"tv-sports.m3u",alt:"https://iptv-org.github.io/iptv/categories/sports.m3u",filterAr:1}];
+ {id:"free-rel",n:"قنوات إسلامية",u:DATA+"tv-religious.m3u"},
+ {id:"free-ar",n:"كل القنوات العربية",u:DATA+"tv-arabic.m3u"},
+ {id:"free-news",n:"أخبار",u:DATA+"tv-news.m3u"},
+ {id:"free-sport",n:"رياضة مفتوحة",u:DATA+"tv-sports.m3u"},
+ {id:"free-kids",n:"أطفال",u:DATA+"tv-kids.m3u"},
+ {id:"free-movies",n:"أفلام",u:DATA+"tv-movies.m3u"},
+ {id:"free-doc",n:"وثائقي",u:DATA+"tv-documentary.m3u"},
+ {id:"free-ae",n:"الإمارات",u:DATA+"tv-ae.m3u"},
+ {id:"free-kw",n:"الكويت",u:DATA+"tv-kw.m3u"},
+ {id:"free-world",n:"قنوات عالمية",u:DATA+"tv-world.m3u"}];
 let userPl=store.get("playlists",[]);
 const allPl=()=>userPl.concat(FREE);
 let curPl=store.get("curPl","free-eg"),plCache={},curGroup="الكل",channels=[],chIdx=-1;
@@ -514,6 +522,8 @@ function streamCandidates(url){const out=[];const m=url.match(/^(https?:\/\/[^/]
   if(m&&!/\.(mp4|mkv|avi)$/i.test(url))out.push(m[1]+"/live/"+m[2]+"/"+m[3]+"/"+m[4]+".m3u8");if(out.indexOf(url)<0)out.push(url);return out}
 let hls=null,osdT,playToken=0;
 function playChannel(i){if(!channels.length)return;chIdx=(i+channels.length)%channels.length;const c=channels[chIdx];stopRadio();stopZkAudio();
+  if(bridge&&bridge.playChannels){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name);
+    bridge.playChannels(JSON.stringify(channels.map(x=>({n:cleanName(x.name),u:x.url}))),chIdx);return}
   $("#player").hidden=false;$("#perr").hidden=true;$("#osd-t").textContent=cleanName(c.name);$("#osd-n").textContent=arNum(chIdx+1)+" / "+arNum(channels.length);
   showOsd();store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name);tryStreams(streamCandidates(c.url),++playToken)}
 function tryStreams(list,tok){const v=$("#video");if(tok!==playToken)return;if(hls){hls.destroy();hls=null}v.onerror=null;v.removeAttribute("src");
@@ -528,6 +538,9 @@ function tryStreams(list,tok){const v=$("#video");if(tok!==playToken)return;if(h
 function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=setTimeout(()=>$("#osd").classList.add("hide"),4000)}
 function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
+
+window.onPlayerClosed=function(i){chIdx=i;const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
+  const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[i])focusEl(tiles[i])};
 
 /* add playlist from phone */
 function phoneUrl(){const ip=bridge&&bridge.ip?bridge.ip():"";return ip?("http://"+ip+":8765"):""}
@@ -589,7 +602,8 @@ document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.
 function visible(n){if(!n.offsetParent&&getComputedStyle(n).position!=="fixed")return false;const r=n.getBoundingClientRect();return r.width>0&&r.height>0}
 function scope(){return $("#adhan").hidden?document:$("#adhan")}
 function focusables(){return Array.prototype.filter.call(scope().querySelectorAll("[data-nav]"),visible)}
-function focusEl(n){if(!n)return;n.focus({preventScroll:true});const r=n.getBoundingClientRect(),h=innerHeight;if(r.top<90||r.bottom>h-90)n.scrollIntoView({block:"center"})}
+function focusEl(n){if(!n)return;n.focus({preventScroll:true});const r=n.getBoundingClientRect(),h=innerHeight,m=h*.12;
+  if(r.top<m)window.scrollBy(0,r.top-m);else if(r.bottom>h-m)window.scrollBy(0,r.bottom-(h-m))}
 function focusSel(s){setTimeout(()=>focusEl($(s)),0)}
 function focusView(){focusEl(document.querySelector(".tab[aria-selected=true]"))}
 function move(dir){const items=focusables(),cur=document.activeElement;if(items.indexOf(cur)<0){focusEl(items[0]);return}
@@ -619,6 +633,20 @@ document.addEventListener("keydown",e=>{if(window.AhlyTV)return; // the Android 
   const inInput=document.activeElement&&document.activeElement.tagName==="INPUT";
   if(map[e.key]&&!(inInput&&e.key!=="ArrowUp"&&e.key!=="ArrowDown")){e.preventDefault();tvKey(map[e.key]);return}
   if(e.key==="Escape"||e.key==="BrowserBack"||(e.key==="Backspace"&&!inInput)){e.preventDefault();tvBack()}});
+
+/* ---------- in-app update ---------- */
+let updating=false;
+window.onUpdateAvailable=function(name){const b=$("#q-update");b.hidden=false;b.textContent="تحديث جديد "+(name||"")};
+window.onUpdateProgress=function(p){const b=$("#q-update");
+  if(p===-2){updating=false;b.textContent="تحديث جديد";toast("اسمح للتطبيق بتثبيت التحديثات من الشاشة اللي فتحت، وارجع دوس «تحديث» تاني");return}
+  if(p<0){updating=false;b.textContent="تحديث جديد";toast("التحميل وقف، جرّب تاني");return}
+  b.textContent="جاري التحميل "+arNum(p)+"٪";if(p>=100){b.textContent="جاري التثبيت…";updating=false}};
+$("#q-update").onclick=()=>{if(updating||!bridge)return;updating=true;$("#q-update").textContent="جاري التحميل…";bridge.update()};
+if(bridge&&bridge.checkUpdate){setTimeout(()=>bridge.checkUpdate(),4000);setInterval(()=>bridge.checkUpdate(),6*36e5)}
+
+/* ---------- smoother remote: moving across the tabs switches the page ---------- */
+let tabT;
+document.addEventListener("focusin",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("tab")){clearTimeout(tabT);tabT=setTimeout(()=>{if(document.activeElement===t&&view!==t.dataset.view)show(t.dataset.view)},220)}});
 
 /* ---------- boot ---------- */
 renderCities();renderAdhanToggle();
