@@ -42,7 +42,7 @@ public class PlayerActivity extends Activity {
     public static PlayerActivity current;   // for the phone remote
     private String numBuf = "";
     private final Runnable numGo = () -> {
-        try { int n = Integer.parseInt(numBuf); if (n >= 1 && n <= chans.size()) { idx = n - 1; switchBy(0); } } catch (Exception ignored) { }
+        try { int n = Integer.parseInt(numBuf); if (n >= 1 && n <= this.chans.size()) { this.idx = n - 1; switchBy(0); } } catch (Exception ignored) { }
         numBuf = "";
     };
 
