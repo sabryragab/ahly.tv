@@ -40,6 +40,9 @@ public class PlayerActivity extends Activity {
     public static String channelsJson = "[]";   // handed over by MainActivity (can be large)
     public static int lastIndex = -1;
     public static PlayerActivity current;   // for the phone remote
+    public static boolean liveDone = false, liveFailed = false;
+    public static String liveKey = "";
+    private boolean live = false;
     private String numBuf = "";
     private final Runnable numGo = () -> {
         try { int n = Integer.parseInt(numBuf); if (n >= 1 && n <= this.chans.size()) { this.idx = n - 1; switchBy(0); } } catch (Exception ignored) { }
@@ -66,9 +69,15 @@ public class PlayerActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         try {
             JSONArray a = new JSONArray(channelsJson);
-            for (int i = 0; i < a.length(); i++) { JSONObject o = a.getJSONObject(i); chans.add(new String[]{o.optString("n"), o.optString("u")}); }
+            for (int i = 0; i < a.length(); i++) { JSONObject o = a.getJSONObject(i); chans.add(new String[]{o.optString("n"), o.optString("u")}); if (i == 0) liveKey = o.optString("k", ""); }
         } catch (Exception ignored) { }
         idx = getIntent().getIntExtra("index", 0);
+        live = getIntent().getBooleanExtra("live", false);
+        if (live) {
+            liveFailed = false;
+            int auto = getIntent().getIntExtra("auto", 0);
+            if (auto > 0) h.postDelayed(this::finish, auto * 60000L);
+        }
 
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(Color.BLACK);
@@ -129,7 +138,7 @@ public class PlayerActivity extends Activity {
     private void startCurrent() {
         if (chans.isEmpty()) { finish(); return; }
         idx = (idx % chans.size() + chans.size()) % chans.size();
-        lastIndex = idx;
+        lastIndex = live ? -1 : idx;
         String url = chans.get(idx)[1];
         tries = new ArrayList<>();
         Matcher m = XTREAM.matcher(url);
@@ -144,7 +153,10 @@ public class PlayerActivity extends Activity {
     }
 
     private void tryNext() {
-        if (tries.isEmpty()) { spinner.setVisibility(View.GONE); error.setVisibility(View.VISIBLE); showOsd(); return; }
+        if (tries.isEmpty()) {
+            if (live) { liveFailed = true; finish(); return; }
+            spinner.setVisibility(View.GONE); error.setVisibility(View.VISIBLE); showOsd(); return;
+        }
         String u = tries.remove(0);
         boolean forceHls = u.startsWith("hls:");
         if (forceHls) u = u.substring(4);
@@ -155,6 +167,7 @@ public class PlayerActivity extends Activity {
     }
 
     private void switchBy(int d) {
+        if (live) { showOsd(); return; }
         idx += d;
         idx = (idx % chans.size() + chans.size()) % chans.size();
         title.setText(chans.get(idx)[0]);
@@ -227,5 +240,15 @@ public class PlayerActivity extends Activity {
     protected void onRestart() { super.onRestart(); player.setPlayWhenReady(true); }
 
     @Override
-    protected void onDestroy() { h.removeCallbacksAndMessages(null); player.release(); super.onDestroy(); }
+    public void finish() {
+        // mark before MainActivity resumes, so it knows a live broadcast just ended
+        if (live) { liveDone = true; lastIndex = -1; }
+        super.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (live) { liveDone = true; lastIndex = -1; }
+        h.removeCallbacksAndMessages(null); player.release(); super.onDestroy();
+    }
 }

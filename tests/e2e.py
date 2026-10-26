@@ -192,6 +192,15 @@ def main():
       log(f"screensaver after idle: {sv}, closes on key: {not page.locator('#saver').is_visible()}")
       if not sv:
           failed = True
+      page.evaluate("showGuest()")
+      page.wait_for_timeout(3500)
+      log(f"guest mode shows: {page.locator('#guest').is_visible()} text: {page.locator('#g-wel').inner_text()}")
+      page.screenshot(path="shot-guest.png")
+      page.evaluate("tvBack()")
+      log(f"guest mode closes on back: {not page.locator('#guest').is_visible()}")
+      hs = page.evaluate("(async()=>{const h=await findHaram();return h.makkah.length+'/'+h.madinah.length})()")
+      log(f"haram live streams found (makkah/madinah): {hs}")
+      log(f"sky phase: {page.evaluate('skyNow')}, weather card: {page.evaluate('document.querySelector(\"#wx\").className')}")
       page.screenshot(path="shot-home.png", full_page=True)
       rel = page.evaluate("(async()=>{const t=await (await fetch('https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-religious.m3u')).text();return t.split('\\n').filter(l=>l.startsWith('#EXTINF')).map(l=>l.slice(l.lastIndexOf(',')+1)).slice(0,12).join(' | ')})()")
       log(f"islamic list starts with: {rel}")

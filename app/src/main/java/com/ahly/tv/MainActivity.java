@@ -146,6 +146,31 @@ public class MainActivity extends Activity {
             runOnUiThread(() -> startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", index)));
         }
 
+        /** Live broadcast (the Haram at adhan time); closes itself after autoMin minutes. */
+        @JavascriptInterface
+        public void playLive(String json, int autoMin) {
+            PlayerActivity.channelsJson = json;
+            PlayerActivity.lastIndex = -1;
+            runOnUiThread(() -> startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", 0).putExtra("live", true).putExtra("auto", autoMin)));
+        }
+
+        @JavascriptInterface
+        public void closePlayer() { PlayerActivity pa = PlayerActivity.current; if (pa != null) runOnUiThread(pa::finish); }
+
+        /** A short message that also shows over the video player. */
+        @JavascriptInterface
+        public void notify(String text) { runOnUiThread(() -> android.widget.Toast.makeText(MainActivity.this, text, android.widget.Toast.LENGTH_LONG).show()); }
+
+        /** Lowest backlight while the sleep timer's black screen is up. */
+        @JavascriptInterface
+        public void dim(boolean on) {
+            runOnUiThread(() -> {
+                android.view.WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.screenBrightness = on ? 0.01f : android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                getWindow().setAttributes(lp);
+            });
+        }
+
         @JavascriptInterface
         public int versionCode() { return currentVersion(); }
 
@@ -455,7 +480,10 @@ public class MainActivity extends Activity {
         super.onResume(); web.onResume(); web.requestFocus();
         // look for a new version every time the app comes to the front (at most every 10 minutes)
         if (System.currentTimeMillis() - lastUpdateCheck > 10 * 60 * 1000) { lastUpdateCheck = System.currentTimeMillis(); new Thread(this::checkForUpdate).start(); }
-        if (PlayerActivity.lastIndex >= 0) {
+        if (PlayerActivity.liveDone) {
+            PlayerActivity.liveDone = false;
+            web.evaluateJavascript("window.onLiveClosed&&window.onLiveClosed(" + PlayerActivity.liveFailed + "," + JSONObject.quote(PlayerActivity.liveKey) + ")", null);
+        } else if (PlayerActivity.lastIndex >= 0) {
             int i = PlayerActivity.lastIndex; PlayerActivity.lastIndex = -1;
             web.evaluateJavascript("window.onPlayerClosed&&window.onPlayerClosed(" + i + ")", null);
         }

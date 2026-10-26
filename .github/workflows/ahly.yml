@@ -1,0 +1,17 @@
+name: Al Ahly matches
+on:
+  schedule: [{ cron: '*/20 * * * *' }]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: data-commit, cancel-in-progress: false }
+jobs:
+  ahly:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 scripts/ahly.py
+      - run: |
+          git config user.name "ahly-tv-bot"; git config user.email "actions@users.noreply.github.com"
+          git add data/ahly.json
+          git diff --cached --quiet || (git commit -m "Update Al Ahly matches" && git pull --rebase && git push)
