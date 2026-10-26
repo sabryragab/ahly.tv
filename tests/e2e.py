@@ -50,6 +50,8 @@ def main():
           "--allow-file-access-from-files", "--disable-web-security",
           "--autoplay-policy=no-user-gesture-required", "--mute-audio"])
       page = b.new_page(viewport={"width": 1920, "height": 1080})
+      # behave like an older TV WebView: remove newer DOM methods before the app loads
+      page.add_init_script("delete Element.prototype.replaceChildren; delete Document.prototype.replaceChildren; delete DocumentFragment.prototype.replaceChildren;")
       errors = []
       page.on("pageerror", lambda e: errors.append(str(e)))
       page.goto(PAGE)
@@ -64,6 +66,11 @@ def main():
       log(f"after DOWN: {page.evaluate('document.activeElement.className')}")
       log(f"Hls loaded: {page.evaluate('!!window.Hls')}")
       log("prayer: " + page.locator("#home-prayers").inner_text().replace(chr(10), " "))
+      nx = page.locator("#nx-name").inner_text()
+      log(f"next prayer card: {nx} {page.locator('#nx-cd').inner_text()}")
+      if nx.strip() in ("", "—") or not page.locator("#home-prayers .pr").count():
+          failed = True
+          log("PRAYER TIMES MISSING")
 
       page.evaluate("show('apps')")
       log("apps tab: " + page.locator("#apps-grid").inner_text().strip()[:60])

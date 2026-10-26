@@ -26,6 +26,16 @@
   --pad:clamp(16px,3vw,48px);
 }
 [hidden]{display:none!important}
+/* TV screens crop the edges (overscan): keep content inside the safe area */
+@media (min-width:960px){body{padding-left:5vw!important;padding-right:5vw!important}.app{padding-top:4vh!important}}
+/* older TV browsers: no aspect-ratio / flex gap */
+@supports not (aspect-ratio:1){.crest{height:clamp(44px,4vw,66px)}.cnt{height:clamp(56px,5vw,88px)}.ch .logo{height:clamp(80px,7.5vw,130px)}}
+.nogap .tabs>*,.nogap .seg>*,.nogap .row>*,.nogap .quick>*{margin:4px}
+.nogap .brand>*+*{margin-inline-start:14px}
+.nogap .app>*+*,.nogap .view>*+*,.nogap .zk-list>*+*,.nogap .form>*+*{margin-top:18px}
+.nogap .tile>*+*,.nogap .next>*+*,.nogap .field>*+*{margin-top:6px}
+.nogap .ch>*+*{margin-top:8px}
+.nogap .np>*+*,.nogap .quick .qb+*{margin-inline-start:12px}
 html,body{height:100%}
 body{margin:0}
 body{background:var(--night);color:var(--chalk);font-family:var(--f-body);font-size:clamp(15px,1.25vw,22px);overflow-x:hidden;
@@ -71,7 +81,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 .hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(14px,2vw,28px)}
 @media (max-width:820px){.hero{grid-template-columns:1fr}}
 .next{background:linear-gradient(135deg,var(--ahly),#7d0718);border-radius:calc(var(--r)*1.5);padding:clamp(18px,2.4vw,40px);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
-.next::after{content:"";position:absolute;inset:auto -40px -60px auto;width:240px;height:240px;border-radius:50%;border:28px solid rgba(255,255,255,.07)}
+.next::after{content:"";position:absolute;top:auto;left:auto;right:-40px;bottom:-60px;width:240px;height:240px;border-radius:50%;border:28px solid rgba(255,255,255,.07)}
 .next .lbl{font-size:.85em;letter-spacing:.06em;color:#ffd9d9}
 .next .name{font-family:var(--f-display);font-size:clamp(34px,4.4vw,80px);line-height:1}
 .next .cd{font-variant-numeric:tabular-nums;font-size:clamp(22px,2.4vw,42px);font-weight:700}
@@ -132,16 +142,16 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 .pl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 
 /* player */
-.player{position:fixed;inset:0;background:#000;z-index:50;display:flex;align-items:center;justify-content:center}
+.player{position:fixed;top:0;right:0;bottom:0;left:0;background:#000;z-index:50;display:flex;align-items:center;justify-content:center}
 .player video{width:100%;height:100%;background:#000}
-.osd{position:absolute;inset:auto 0 0 0;padding:24px max(24px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(0,0,0,.85));display:flex;justify-content:space-between;align-items:end;gap:16px;transition:opacity .4s}
+.osd{position:absolute;top:auto;right:0;bottom:0;left:0;padding:24px max(24px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(0,0,0,.85));display:flex;justify-content:space-between;align-items:end;gap:16px;transition:opacity .4s}
 .osd.hide{opacity:0}
 .osd .t{font-family:var(--f-display);font-size:clamp(20px,2.4vw,42px)}
 .osd .h{color:var(--mist);font-size:.85em}
 .perr{position:absolute;color:var(--chalk);background:rgba(0,0,0,.7);padding:18px 26px;border-radius:12px}
 
 /* now playing bar */
-.np{position:fixed;inset:auto 0 0 0;z-index:20;background:rgba(20,4,10,.94);border-top:2px solid var(--ahly);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:14px}
+.np{position:fixed;top:auto;right:0;bottom:0;left:0;z-index:20;background:rgba(20,4,10,.94);border-top:2px solid var(--ahly);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:14px}
 .np .eq{display:flex;gap:3px;align-items:end;height:22px}
 .np .eq i{width:4px;background:var(--gold);animation:eq 1s infinite ease-in-out}
 .np .eq i:nth-child(2){animation-delay:.2s}.np .eq i:nth-child(3){animation-delay:.4s}
@@ -150,7 +160,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 .np .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* adhan overlay */
-.adhan{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 50% 40%,#5a0d1b,var(--night) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px}
+.adhan{position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;background:radial-gradient(circle at 50% 40%,#5a0d1b,var(--night) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px}
 .adhan .k{color:var(--gold);letter-spacing:.08em}
 .adhan h3{font-family:var(--f-display);font-size:clamp(40px,6vw,110px);margin:0;line-height:1.1}
 .adhan p{font-family:var(--f-quran);font-size:clamp(20px,2vw,36px);color:var(--mist);margin:0}
@@ -289,6 +299,9 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 
 <script>
 "use strict";
+/* Polyfills for older Android TV WebViews (before Chrome 86) */
+(function(){for(const P of [Element.prototype,Document.prototype,DocumentFragment.prototype]){if(!P.replaceChildren)P.replaceChildren=function(...n){while(this.lastChild)this.removeChild(this.lastChild);if(n.length)this.append(...n)}}
+  try{const d=document.createElement("div");d.style.cssText="display:flex;flex-direction:column;row-gap:1px;position:absolute";d.append(document.createElement("div"),document.createElement("div"));document.documentElement.append(d);const ok=d.scrollHeight===1;d.remove();if(!ok)document.documentElement.classList.add("nogap")}catch(e){}})();
 /* ---------- storage ---------- */
 const store={get(k,d){try{const v=localStorage.getItem("ahlytv:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
   set(k,v){try{localStorage.setItem("ahlytv:"+k,JSON.stringify(v))}catch(e){}}};
@@ -365,7 +378,8 @@ function renderCities(){$("#cities").replaceChildren(...CITIES.map(c=>el("button
 
 /* ---------- clock tick + adhan ---------- */
 let lastDay="";
-function tick(){const now=new Date(),ms=now.getTime();
+function tick(){try{tickInner()}catch(e){console.error(e)}}
+function tickInner(){const now=new Date(),ms=now.getTime();
   const dk=Object.values(cityYMD(city.tz,now)).join("-");if(dk!==lastDay){lastDay=dk;compute();renderPrayers()}
   $("#clk").textContent=fmtClock(now);$("#dates").textContent=dates(now);
   const nx=nextPrayer(ms);$("#nx-name").textContent=PNAMES[nx.k];
