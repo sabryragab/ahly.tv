@@ -54,6 +54,7 @@ public class MainActivity extends Activity {
     private boolean backLongFired = false;
     private PhoneServer phoneServer;
     private boolean okDown = false, okLong = false;
+    private long lastUpdateCheck = 0;
     private TextToSpeech tts;
     private volatile boolean ttsAr = false;
 
@@ -452,6 +453,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume(); web.onResume(); web.requestFocus();
+        // look for a new version every time the app comes to the front (at most every 10 minutes)
+        if (System.currentTimeMillis() - lastUpdateCheck > 10 * 60 * 1000) { lastUpdateCheck = System.currentTimeMillis(); new Thread(this::checkForUpdate).start(); }
         if (PlayerActivity.lastIndex >= 0) {
             int i = PlayerActivity.lastIndex; PlayerActivity.lastIndex = -1;
             web.evaluateJavascript("window.onPlayerClosed&&window.onPlayerClosed(" + i + ")", null);

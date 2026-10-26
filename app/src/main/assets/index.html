@@ -987,7 +987,7 @@ window.onUpdateProgress=function(p){const b=$("#q-update");
   if(p<0){updating=false;b.textContent="تحديث جديد";toast("التحميل وقف، جرّب تاني");return}
   b.textContent="جاري التحميل "+arNum(p)+"٪";if(p>=100){b.textContent="جاري التثبيت…";updating=false}};
 $("#q-update").onclick=()=>{if(updating||!bridge)return;updating=true;$("#q-update").textContent="جاري التحميل…";bridge.update()};
-if(bridge&&bridge.checkUpdate){setTimeout(()=>bridge.checkUpdate(),4000);setInterval(()=>bridge.checkUpdate(),6*36e5)}
+if(bridge&&bridge.checkUpdate){setTimeout(()=>bridge.checkUpdate(),4000);setInterval(()=>bridge.checkUpdate(),30*6e4)}
 
 /* ---------- smoother remote: moving across the tabs switches the page ---------- */
 document.addEventListener("focusin",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("tab")){clearTimeout(tabT);tabT=setTimeout(()=>{if(document.activeElement===t&&view!==t.dataset.view)show(t.dataset.view)},220)}});
