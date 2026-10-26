@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>إضافة قايمة IPTV</title>
+<title>ريموت الأهلي TV</title>
 <style>
 :root{--bg:#f6f2f2;--card:#fff;--ink:#1d1416;--muted:#76686b;--line:#eadfe0;--red:#b3122b;--soft:#f8e6e8}
 @media (prefers-color-scheme:dark){:root{--bg:#140c0e;--card:#1f1618;--ink:#f4eced;--muted:#a8999c;--line:#33272a;--red:#e24a5f;--soft:#3a1d22}}
@@ -27,10 +27,37 @@ button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0
 .row span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row button{border:0;background:none;color:var(--red);font:inherit}
 [hidden]{display:none!important}
+.top{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px}
+.top button{border:0;background:none;padding:11px 4px;border-radius:10px;font:inherit;font-weight:600;color:var(--muted)}
+.top button.on{background:var(--red);color:#fff}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:330px;margin:0 auto}
+.pad button,.keys button{font:inherit;font-size:20px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:18px 0;touch-action:manipulation}
+.pad button:active,.keys button:active{background:var(--soft)}
+.pad .ok{background:var(--red);color:#fff;border-color:var(--red);font-weight:700;border-radius:50%;aspect-ratio:1}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.keys button{font-size:16px;padding:14px 0}
+.digits{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.digits button{font:inherit;font-size:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 0}
+.typer{display:grid;grid-template-columns:1fr auto;gap:8px}
+.typer button{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0;border-radius:12px;padding:0 16px}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="top"><button data-p="remote" class="on">الريموت</button><button data-p="iptv">قوايم IPTV</button></div>
+  <div id="p-remote" style="display:grid;gap:16px">
+    <div class="keys"><button data-k="HOME">الرئيسية</button><button data-k="B">رجوع</button><button data-k="PP">تشغيل/إيقاف</button></div>
+    <div class="pad">
+      <span></span><button data-k="U">▲</button><span></span>
+      <button data-k="R">▶</button><button data-k="C" class="ok">OK</button><button data-k="L">◀</button>
+      <span></span><button data-k="D">▼</button><span></span>
+    </div>
+    <div class="keys"><button data-k="VDN">صوت −</button><button data-k="MUTE">كتم</button><button data-k="VUP">صوت +</button></div>
+    <div class="keys"><button data-k="CU">قناة ▲</button><button data-k="CL">★ مفضلة</button><button data-k="CD">قناة ▼</button></div>
+    <div class="digits"><button data-k="N1">1</button><button data-k="N2">2</button><button data-k="N3">3</button><button data-k="N4">4</button><button data-k="N5">5</button><button data-k="N6">6</button><button data-k="N7">7</button><button data-k="N8">8</button><button data-k="N9">9</button><button data-k="N0">0</button></div>
+    <form class="typer" id="f-type"><input name="t" placeholder="اكتب هنا وابعته للشاشة" autocomplete="off"><button>ابعت</button></form>
+  </div>
+  <div id="p-iptv" hidden style="display:grid;gap:16px">
   <div><h1>ضيف قايمة IPTV للشاشة</h1><p>اللي هتضيفه هنا هيظهر على الشاشة في «القنوات وIPTV» على طول.</p></div>
   <div class="tabs"><button data-t="url" class="on">رابط m3u</button><button data-t="file">ملف</button><button data-t="xt">Xtream</button></div>
 
@@ -57,9 +84,13 @@ button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0
   <div class="msg" id="msg" hidden></div>
   <div><h1 style="font-size:18px">القوايم اللي على الشاشة</h1></div>
   <div class="list" id="list"><p style="padding:10px 0">جاري التحميل…</p></div>
+  </div>
 </div>
 <script>
 const $=s=>document.querySelector(s);
+document.querySelectorAll(".top button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".top button").forEach(x=>x.classList.toggle("on",x===b));$("#p-remote").hidden=b.dataset.p!=="remote";$("#p-iptv").hidden=b.dataset.p!=="iptv";if(b.dataset.p==="iptv")load()});
+document.querySelectorAll("[data-k]").forEach(b=>b.addEventListener("click",()=>{fetch("/key?k="+b.dataset.k).catch(()=>{});if(navigator.vibrate)navigator.vibrate(10)}));
+$("#f-type").onsubmit=async e=>{e.preventDefault();const t=e.target.t.value;try{const r=await (await fetch("/text",{method:"POST",body:t})).json();if(r.ok)e.target.reset();else alert(r.error)}catch(err){}};
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
   ["url","file","xt"].forEach(t=>$("#f-"+t).hidden=t!==b.dataset.t)});
 function say(t){const m=$("#msg");m.textContent=t;m.hidden=false;m.scrollIntoView({behavior:"smooth",block:"center"})}

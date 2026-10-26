@@ -39,6 +39,12 @@ import java.util.regex.Pattern;
 public class PlayerActivity extends Activity {
     public static String channelsJson = "[]";   // handed over by MainActivity (can be large)
     public static int lastIndex = -1;
+    public static PlayerActivity current;   // for the phone remote
+    private String numBuf = "";
+    private final Runnable numGo = () -> {
+        try { int n = Integer.parseInt(numBuf); if (n >= 1 && n <= chans.size()) { idx = n - 1; switchBy(0); } } catch (Exception ignored) { }
+        numBuf = "";
+    };
 
     private final List<String[]> chans = new ArrayList<>(); // {name, url}
     private int idx;
@@ -169,9 +175,38 @@ public class PlayerActivity extends Activity {
         showOsd();
     }
 
+    /** keys sent from the phone remote */
+    public void remote(String k) {
+        switch (k) {
+            case "U": case "CU": switchBy(-1); break;
+            case "D": case "CD": switchBy(1); break;
+            case "B": case "HOME": finish(); break;
+            case "PP": player.setPlayWhenReady(!player.getPlayWhenReady()); break;
+            default:
+                if (k.startsWith("N") && k.length() == 2) digit(k.charAt(1)); else showOsd();
+        }
+    }
+
+    private void digit(char d) {
+        numBuf = (numBuf + d);
+        if (numBuf.length() > 4) numBuf = numBuf.substring(numBuf.length() - 4);
+        number.setText("قناة رقم " + numBuf);
+        showOsd();
+        h.removeCallbacks(numGo);
+        h.postDelayed(numGo, 1500);
+    }
+
+    @Override
+    protected void onResume() { super.onResume(); current = this; }
+
+    @Override
+    protected void onPause() { if (current == this) current = null; super.onPause(); }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (e.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(e);
+        int code = e.getKeyCode();
+        if (code >= KeyEvent.KEYCODE_0 && code <= KeyEvent.KEYCODE_9) { digit((char) ('0' + code - KeyEvent.KEYCODE_0)); return true; }
         switch (e.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_UP: case KeyEvent.KEYCODE_CHANNEL_UP: case KeyEvent.KEYCODE_PAGE_UP:
                 switchBy(-1); return true;

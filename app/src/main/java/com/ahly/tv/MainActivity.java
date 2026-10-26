@@ -53,6 +53,7 @@ public class MainActivity extends Activity {
     private long backDownAt = 0;
     private boolean backLongFired = false;
     private PhoneServer phoneServer;
+    private boolean okDown = false, okLong = false;
     private TextToSpeech tts;
     private volatile boolean ttsAr = false;
 
@@ -266,6 +267,25 @@ public class MainActivity extends Activity {
                     return new Object[]{200, "text/html; charset=utf-8", b.toByteArray()};
                 }
             }
+            if (path.equals("/key")) {
+                String k = q.get("k");
+                if (k == null || !k.matches("[A-Z0-9]{1,5}")) return json(200, "{\"ok\":false}");
+                if (k.equals("VUP") || k.equals("VDN") || k.equals("MUTE")) {
+                    android.media.AudioManager am = (android.media.AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    int dir = k.equals("VUP") ? android.media.AudioManager.ADJUST_RAISE : k.equals("VDN") ? android.media.AudioManager.ADJUST_LOWER : android.media.AudioManager.ADJUST_TOGGLE_MUTE;
+                    am.adjustStreamVolume(android.media.AudioManager.STREAM_MUSIC, dir, android.media.AudioManager.FLAG_SHOW_UI);
+                    return json(200, "{\"ok\":true}");
+                }
+                PlayerActivity pa = PlayerActivity.current;
+                if (pa != null) { final String kk = k; runOnUiThread(() -> pa.remote(kk)); return json(200, "{\"ok\":true}"); }
+                callPage("window.remoteKey?window.remoteKey('" + k + "'):''");
+                return json(200, "{\"ok\":true}");
+            }
+            if (path.equals("/text") && method.equals("POST")) {
+                String t = new String(body, StandardCharsets.UTF_8);
+                String r = callPage("window.typeText?window.typeText(" + JSONObject.quote(t) + "):''");
+                return json(200, "ok".equals(r) ? "{\"ok\":true}" : "{\"ok\":false,\"error\":\"اختار خانة الكتابة على الشاشة الأول\"}");
+            }
             if (path.equals("/list")) {
                 String r = callPage("window.listPlaylists?window.listPlaylists():'[]'");
                 return json(200, r.isEmpty() ? "[]" : r);
@@ -371,6 +391,7 @@ public class MainActivity extends Activity {
             case KeyEvent.KEYCODE_PAGE_UP: return "CU";
             case KeyEvent.KEYCODE_CHANNEL_DOWN:
             case KeyEvent.KEYCODE_PAGE_DOWN: return "CD";
+            case KeyEvent.KEYCODE_PROG_RED: return "RED";
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PAUSE: return "PP";
@@ -391,22 +412,41 @@ public class MainActivity extends Activity {
             }
             return true;
         }
+        if (code >= KeyEvent.KEYCODE_0 && code <= KeyEvent.KEYCODE_9) {
+            if (e.getAction() == KeyEvent.ACTION_DOWN && e.getRepeatCount() == 0) sendKey("N" + (code - KeyEvent.KEYCODE_0));
+            return true;
+        }
         String k = keyName(code);
         if (k == null) return super.dispatchKeyEvent(e);
+        if (k.equals("C")) {
+            // OK: short press = select, hold = favourite / pin
+            if (e.getAction() == KeyEvent.ACTION_DOWN) {
+                if (e.getRepeatCount() == 0) { okDown = true; okLong = false; }
+                else if (!okLong && e.getRepeatCount() >= 6) { okLong = true; sendKey("CL"); }
+            } else if (e.getAction() == KeyEvent.ACTION_UP && okDown) {
+                okDown = false;
+                if (!okLong) sendKey("C");
+            }
+            return true;
+        }
         if (e.getAction() == KeyEvent.ACTION_DOWN) {
             // when holding an arrow down, step at a steady pace instead of racing
             long now = System.currentTimeMillis();
             if (e.getRepeatCount() > 0 && now - lastMove < 110) return true;
             if (e.getRepeatCount() > 0 && k.equals("C")) return true;
             lastMove = now;
-            web.evaluateJavascript("window.tvKey?window.tvKey('" + k + "'):'ok'", result -> {
-                if (result != null && result.contains("ime")) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) imm.showSoftInput(web, InputMethodManager.SHOW_IMPLICIT);
-                }
-            });
+            sendKey(k);
         }
         return true;
+    }
+
+    private void sendKey(String k) {
+        web.evaluateJavascript("window.tvKey?window.tvKey('" + k + "'):'ok'", result -> {
+            if (result != null && result.contains("ime")) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) imm.showSoftInput(web, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
     }
 
     @Override

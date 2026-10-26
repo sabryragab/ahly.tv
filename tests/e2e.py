@@ -157,8 +157,39 @@ def main():
       st = page.evaluate("(()=>{const a=document.querySelector('#zk-audio');return {src:a.currentSrc,paused:a.paused,rs:a.readyState,ns:a.networkState,err:a.error&&a.error.code,t:a.currentTime}})()")
       log(f"azkar audio plays: {ok} {st}")
       page.evaluate("stopZkAudio()")
+      # Quran library
+      page.evaluate("show('quran')")
+      page.wait_for_timeout(2500)
+      ns = page.locator("#q-surahs .surah").count()
+      log(f"quran library: {ns} surahs, {page.locator('#q-reciters .chip').count()} reciters")
+      if ns != 114:
+          failed = True
+      page.locator("#q-surahs .surah").nth(17).click()
+      log(f"quran audio plays (Al-Kahf): {media_plays(page, '#radio', 20)} {page.locator('#np-name').inner_text()}")
+      page.screenshot(path="shot-quran.png")
+      page.evaluate("stopRadio()")
+      # favourites, recent, channel number
+      page.evaluate("show('tv')")
+      page.locator("#tv-sources .chip:not(.add)").nth(0).click()
+      wait_tiles(page, "#tv-grid")
+      fav = page.evaluate("(()=>{const c=document.querySelector('#tv-grid .card');c.focus();tvKey('CL');return document.querySelector('#tv-sources .chip').textContent})()")
+      log(f"long OK adds favourite: {fav}")
+      page.evaluate("tvKey('CL')")
+      # screensaver
       page.evaluate("show('home')")
-      page.screenshot(path="shot-home.png")
+      page.wait_for_timeout(2500)
+      log(f"weather: {page.locator('#wx-now').inner_text()} {page.locator('#wx-t').inner_text()}")
+      log(f"ahly card: {page.locator('#ahly').inner_text().replace(chr(10),' ')[:120]}")
+      log(f"verse/hadith: {page.locator('#ayah').inner_text()[:60]}")
+      page.evaluate("lastInput=Date.now()-11*60000")
+      page.wait_for_timeout(1600)
+      sv = page.locator('#saver').is_visible()
+      page.screenshot(path="shot-saver.png")
+      page.evaluate("tvKey('R')")
+      log(f"screensaver after idle: {sv}, closes on key: {not page.locator('#saver').is_visible()}")
+      if not sv:
+          failed = True
+      page.screenshot(path="shot-home.png", full_page=True)
       rel = page.evaluate("(async()=>{const t=await (await fetch('https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-religious.m3u')).text();return t.split('\\n').filter(l=>l.startsWith('#EXTINF')).map(l=>l.slice(l.lastIndexOf(',')+1)).slice(0,12).join(' | ')})()")
       log(f"islamic list starts with: {rel}")
 
