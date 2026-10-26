@@ -1,0 +1,13 @@
+name: Probe
+on: { workflow_dispatch: { inputs: { cmd: { required: true } } } }
+permissions: { contents: write }
+jobs:
+  p:
+    runs-on: ubuntu-24.04
+    steps:
+      - env: { GH_TOKEN: "${{ github.token }}", CMD: "${{ inputs.cmd }}" }
+        run: |
+          bash -c "$CMD" > out.txt 2>&1 || true
+          head -c 60000 out.txt > o.txt
+          gh release delete probe -R ${{ github.repository }} --yes --cleanup-tag || true
+          gh release create probe -R ${{ github.repository }} --prerelease --title probe --notes-file o.txt
