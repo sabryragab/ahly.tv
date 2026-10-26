@@ -195,6 +195,45 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .card.pinned .art{box-shadow:0 0 0 .2vw var(--gold) inset}
 .btn.on{background:var(--gold);color:var(--night)}
 
+
+/* home fits one TV screen (no scrolling): two columns, rows share the height */
+.home{display:grid;grid-template-columns:1.12fr 1fr;grid-gap:1.2vw;height:74vh}
+.hcol{display:grid;grid-gap:1vw;min-height:0}
+.home .hcol:first-child{grid-template-rows:1fr auto auto}
+.home .hcol:last-child{grid-template-rows:auto 1fr auto}
+.home .next{padding:1.4vw 1.8vw;grid-gap:.2vw;min-height:0}
+.home .next .name{font-size:3.6vw}
+.home .next .cd{font-size:1.9vw}
+.home .notice{margin-top:.5vw;padding:.5vw .8vw;grid-template-columns:1fr auto;background:rgba(0,0,0,.18);border-color:rgba(255,255,255,.25);z-index:1}
+.home .notice b{font-size:1.05vw}.home .notice span{font-size:.9vw;color:#ffd9d9}
+.home .prayers{grid-gap:.6vw}
+.home .pr{padding:.55vw .4vw}.home .pr .v{font-size:1.55vw}.home .pr .n{font-size:.9vw}
+.home .side{grid-gap:.8vw}
+.home .tile{padding:.8vw 1vw;grid-template-columns:auto 1fr;grid-template-rows:auto auto;grid-column-gap:.8vw;align-items:center}
+.home .tile .ic{grid-row:1/3;width:2.4vw;height:2.4vw}
+.home .tile .t{font-size:1.3vw;margin:0}.home .tile .s{font-size:.85vw}
+.home .sec{grid-gap:.5vw}.home .sec h3{font-size:1.05vw}
+.home .strip{display:grid;grid-auto-flow:column;grid-auto-columns:8.6vw;grid-gap:.8vw;overflow:hidden}
+.contents{display:contents}
+.home .card{padding:.4vw;grid-gap:.3vw}.home .card .nm{font-size:.8vw}
+.home .info{display:grid;grid-template-columns:1fr 1.3fr;grid-gap:.8vw;min-height:0}
+.home .box{padding:.8vw 1vw;grid-gap:.25vw;overflow:hidden;min-height:0}
+.home .box .h{font-size:.85vw}
+.wxrow{display:grid;grid-template-columns:auto 1fr;grid-gap:.6vw;align-items:baseline}
+.home .box .big{font-size:2.2vw}
+.home .wx-days{font-size:.8vw}
+.home .match img{width:2.2vw;height:2.2vw}
+.home .match{font-size:.85vw}.home .match .vs{font-size:1.3vw}
+.home .ayahbox{grid-template-columns:auto 1fr;align-items:center;grid-column-gap:1vw}
+.home .ayahbox .h{grid-row:1/3}
+.home .ayah{font-size:1.25vw;line-height:1.7;max-height:4.4vw;overflow:hidden}
+.home .info .box{align-content:center;grid-gap:.6vw}
+.home .info .box .big{font-size:3.4vw}
+.home .info .sm{font-size:1vw}
+.home .wx-days{font-size:.95vw;margin-top:.6vw}
+.home .match{font-size:1.05vw}.home .match img{width:3.4vw;height:3.4vw}.home .match .vs{font-size:2vw}
+.home .card .art .gl b{font-size:.8vw}.home .card .art .gl svg.i{width:1.8vw;height:1.8vw}
+
 /* quran */
 .surahs{display:grid;grid-template-columns:repeat(8,1fr);grid-gap:.7vw}
 .surah{background:var(--wine);border-radius:.7vw;padding:.7vw .4vw;text-align:center;display:grid;grid-gap:.2vw}
@@ -263,23 +302,26 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 
   <!-- HOME -->
   <section class="view" id="v-home">
-    <div class="hero">
-      <div class="next"><span class="lbl" id="nx-lbl">الصلاة القادمة</span><span class="name" id="nx-name">—</span><span class="cd" id="nx-cd">--:--:--</span><span class="iq" id="nx-iq" hidden></span><span class="city" id="nx-city"></span></div>
-      <div class="side">
-        <button class="tile gold" data-nav id="t-azkar"><span class="ic"><svg class="i"><use href="#i-moon"/></svg></span><span class="t" id="t-azkar-t">أذكار الصباح</span><span class="s">قراءة واستماع</span></button>
-        <button class="tile" data-nav data-go="tv"><span class="ic"><svg class="i"><use href="#i-tv"/></svg></span><span class="t">القنوات</span><span class="s" id="t-lastch">IPTV وقنوات مفتوحة</span></button>
-        <button class="tile" data-nav data-go="radio"><span class="ic"><svg class="i"><use href="#i-radio"/></svg></span><span class="t">الراديو</span><span class="s" id="t-lastrd">قرآن وإذاعات</span></button>
-        <button class="tile" data-nav data-go="quran"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span class="t">القرآن الكريم</span><span class="s" id="t-quran">اختار القارئ والسورة</span></button>
+    <div class="home">
+      <div class="hcol">
+        <div class="next"><span class="lbl" id="nx-lbl">الصلاة القادمة</span><span class="name" id="nx-name">—</span><span class="cd" id="nx-cd">--:--:--</span><span class="iq" id="nx-iq" hidden></span><span class="city" id="nx-city"></span>
+          <div class="notice" id="notice" hidden><div><b id="notice-t"></b> <span id="notice-s"></span></div><span id="notice-act"></span></div></div>
+        <div class="prayers" id="home-prayers"></div>
+        <div class="sec"><h3>تطبيقاتي وآخر القنوات</h3><div class="strip"><div id="my-apps" class="contents"></div><div id="recent" class="contents"></div></div><span id="recent-sec" hidden></span></div>
       </div>
-    </div>
-    <div class="notice" id="notice" hidden><span class="ic"><svg class="i"><use href="#i-moon"/></svg></span><div><b id="notice-t"></b><br><span id="notice-s"></span></div><span id="notice-act"></span></div>
-    <div class="prayers" id="home-prayers"></div>
-    <div class="sec"><h3>تطبيقاتي</h3><div class="strip apps" id="my-apps"></div></div>
-    <div class="sec" id="recent-sec" hidden><h3>شاهدت مؤخراً</h3><div class="strip" id="recent"></div></div>
-    <div class="info">
-      <div class="box" id="wx"><span class="h">الطقس</span><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span><div class="wx-days" id="wx-days"></div></div>
-      <div class="box" id="ahly"><span class="h" id="ahly-h">الأهلي</span><div id="ahly-b" class="sm">جاري التحميل…</div></div>
-      <div class="box"><span class="h" id="ayah-h">آية اليوم</span><div class="ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
+      <div class="hcol">
+        <div class="side">
+          <button class="tile gold" data-nav id="t-azkar"><span class="ic"><svg class="i"><use href="#i-moon"/></svg></span><span class="t" id="t-azkar-t">أذكار الصباح</span><span class="s">قراءة واستماع</span></button>
+          <button class="tile" data-nav data-go="quran"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span class="t">القرآن الكريم</span><span class="s" id="t-quran">اختار القارئ والسورة</span></button>
+          <button class="tile" data-nav data-go="tv"><span class="ic"><svg class="i"><use href="#i-tv"/></svg></span><span class="t">القنوات</span><span class="s" id="t-lastch">IPTV وقنوات مفتوحة</span></button>
+          <button class="tile" data-nav data-go="radio"><span class="ic"><svg class="i"><use href="#i-radio"/></svg></span><span class="t">الراديو</span><span class="s" id="t-lastrd">قرآن وإذاعات</span></button>
+        </div>
+        <div class="info">
+          <div class="box" id="wx"><span class="h">الطقس</span><div class="wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-days" id="wx-days"></div></div>
+          <div class="box" id="ahly"><span class="h" id="ahly-h">الأهلي</span><div id="ahly-b" class="sm">جاري التحميل…</div></div>
+        </div>
+        <div class="box ayahbox"><span class="h" id="ayah-h">آية اليوم</span><div class="ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
+      </div>
     </div>
   </section>
 
@@ -648,7 +690,7 @@ function renderMyApps(){const box=$("#my-apps"),apps=getApps(),pins=getPins();co
   pins.forEach(pkg=>{const a=apps.find(x=>x.pkg===pkg);if(a){const c=card(a.label,appArt(a),()=>bridge.open(a.pkg));c.dataset.pkg=a.pkg;tiles.push(c)}});
   if(!bridge)tiles.push(card("يوتيوب",glyphArt("i-play","YouTube"),()=>toast("التطبيقات بتفتح من تطبيق الشاشة")));
   tiles.push(card("إضافة تطبيق",el("div",{class:"art"},el("div",{class:"add"},el("b",{text:"+"}),el("span",{text:"إضافة"}))),()=>{show("apps");pinMode=true;renderPinMode();focusSel("#apps-grid .card")}));
-  box.replaceChildren(...tiles)}
+  box.replaceChildren(...tiles);if(window.renderRecent)renderRecent()}
 function renderPinMode(){$("#pin-mode").classList.toggle("on",pinMode);$("#pin-mode").textContent=pinMode?"اختار التطبيق اللي عايز تثبّته ✓":"تثبيت على الرئيسية"}
 $("#pin-mode").onclick=()=>{pinMode=!pinMode;renderPinMode()};
 function renderApps(){const g=$("#apps-grid");renderPinMode();
@@ -688,7 +730,7 @@ function isFav(c){return favs.some(f=>f.url===c.url)}
 function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة"});toast("★ اتضافت للمفضلة")}
   store.set("favs",favs);delete plCache.fav;renderSources();const cur=document.activeElement;if(cur&&cur._ch){const st=cur.querySelector(".star");if(isFav(c)&&!st)cur.prepend(el("span",{class:"star",text:"★"}));if(!isFav(c)&&st)st.remove()}}
 function pushRecent(c){recent=[{name:c.name,url:c.url,logo:c.logo||"",group:"مؤخراً"}].concat(recent.filter(x=>x.url!==c.url)).slice(0,12);store.set("recent",recent);delete plCache.recent;renderRecent()}
-function renderRecent(){$("#recent-sec").hidden=!recent.length;$("#recent").replaceChildren(...recent.map((c,i)=>{const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>{channels=recent.slice();playChannel(i)});n._ch=c;return n}))}
+function renderRecent(){const room=Math.max(0,7-$("#my-apps").children.length);$("#recent-sec").hidden=!recent.length;$("#recent").replaceChildren(...recent.slice(0,room).map((c,i)=>{const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>{channels=recent.slice();playChannel(i)});n._ch=c;return n}))}
 let curPl=store.get("curPl","free-eg"),plCache={},curGroup="الكل",channels=[],chIdx=-1;
 async function fetchT(url,ms){const ac=window.AbortController?new AbortController():null;const t=setTimeout(()=>{if(ac)ac.abort()},ms||25000);
   try{const r=await fetch(url,ac?{signal:ac.signal,cache:"no-cache"}:{});if(!r.ok)throw new Error("HTTP "+r.status);return r}finally{clearTimeout(t)}}
