@@ -24,7 +24,7 @@ def log(s):
 def wait_tiles(page, grid, timeout=30):
     end = time.time() + timeout
     while time.time() < end:
-        n = page.locator(f"{grid} .ch").count()
+        n = page.locator(f"{grid} .card").count()
         if n:
             return n
         if page.locator(f"{grid} .state b").count():
@@ -76,7 +76,7 @@ def main():
       log("apps tab: " + page.locator("#apps-grid").inner_text().strip()[:60])
       # TV lists
       page.evaluate("show('tv')")
-      chips = page.locator("#tv-sources .chip")
+      chips = page.locator("#tv-sources .chip:not(.add)")
       for i in range(chips.count()):
           name = chips.nth(i).inner_text()
           chips.nth(i).click()
@@ -93,7 +93,23 @@ def main():
               played += ok
               page.evaluate("closePlayer()")
           log(f"TV {name}: {n} channels, first 3 played: {played}/3")
+      page.evaluate("show('tv')")
+      page.locator("#tv-sources .chip").first.click()
+      wait_tiles(page, "#tv-grid")
       page.screenshot(path="shot-tv.png")
+      # playlist sent from the phone page
+      page.evaluate("onPhoneAdd({id:'utest',name:'قايمة من الموبايل',url:'https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-sa.m3u'})")
+      page.wait_for_timeout(300)
+      n = wait_tiles(page, "#tv-grid")
+      log(f"playlist added from phone: {n} channels, chip: {page.locator('#tv-sources .chip').first.inner_text()}")
+      if n <= 0:
+          failed = True
+      page.evaluate("deletePlaylist('utest')")
+      page.locator("#pl-open").click()
+      page.wait_for_timeout(300)
+      log(f"add-from-phone panel shows: {page.locator('#pl-panel').is_visible()}")
+      page.screenshot(path="shot-add.png")
+      page.evaluate("document.querySelector('#pl-close').click()")
 
       # Radio lists
       page.evaluate("show('radio')")
@@ -109,10 +125,16 @@ def main():
               continue
           played = 0
           for k in range(min(3, n)):
-              page.locator("#rd-grid .ch").nth(k).click()
+              page.locator("#rd-grid .card").nth(k).click()
               played += media_plays(page, "#radio", 15)
           page.evaluate("stopRadio()")
           log(f"Radio {name}: {n} stations, first 3 played: {played}/3")
+          tops = page.evaluate("Array.from(document.querySelectorAll('#rd-grid .card')).slice(0,5).map(e=>Math.round(e.getBoundingClientRect().top))")
+          if len(set(tops)) != 1:
+              failed = True
+              log(f"RADIO CARDS NOT IN A ROW: {tops}")
+          if i == 0:
+              page.screenshot(path="shot-radio.png")
 
       # adhan overlay + azkar counter
       page.evaluate("showAdhan('dhuhr')")
@@ -121,10 +143,17 @@ def main():
       log(f"adhan closes with OK: {not page.locator('#adhan').is_visible()}")
       page.evaluate("show('azkar')")
       page.wait_for_timeout(300)
-      first = page.locator("#zk-list .zk").first
-      before = first.locator(".cnt").inner_text()
-      first.click()
-      log(f"azkar counter: {before} -> {first.locator('.cnt').inner_text()}")
+      before = page.locator("#zk-cnt").inner_text()
+      page.locator("#zk-reader").click()
+      log(f"azkar counter: {before} -> {page.locator('#zk-cnt').inner_text()}")
+      page.evaluate("document.querySelector('#zk-reader').focus(); tvKey('L')")
+      log(f"azkar next with LEFT: {page.locator('#zk-pos').inner_text()}")
+      fs = page.evaluate("getComputedStyle(document.querySelector('#zk-text p')).fontSize")
+      log(f"azkar font size at 1920px: {fs}")
+      page.screenshot(path="shot-azkar.png")
+      page.locator("#zk-listen").click()
+      log(f"azkar audio plays: {media_plays(page, '#zk-audio', 20)}")
+      page.evaluate("stopZkAudio()")
       page.evaluate("show('home')")
       page.screenshot(path="shot-home.png")
 

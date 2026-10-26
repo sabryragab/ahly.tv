@@ -12,7 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Bundle hls.js into the app (works even if the CDN is slow)
-        run: curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js -o app/src/main/assets/hls.min.js
+        run: |
+          curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js -o app/src/main/assets/hls.min.js
+          curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js -o app/src/main/assets/qrcode.min.js
+          python3 scripts/build_tv.py
       - name: Test the app in Chrome (lists load, streams play, remote keys work)
         id: e2e
         continue-on-error: true
@@ -34,7 +37,7 @@ jobs:
           cp app/build/outputs/apk/debug/app-debug.apk AhlyTV.apk
           gh release delete latest --yes --cleanup-tag || true
           { echo "آخر نسخة من التطبيق"; echo; echo '```'; cat test-report.txt; echo '```'; } > notes.md
-          gh release create latest AhlyTV.apk shot-home.png shot-tv.png --title "الأهلي TV" --notes-file notes.md --latest
+          gh release create latest AhlyTV.apk shot-*.png --title "الأهلي TV" --notes-file notes.md --latest
       - name: Save test report
         if: always()
         env: { GH_TOKEN: "${{ github.token }}" }

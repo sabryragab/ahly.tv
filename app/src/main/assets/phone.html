@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إضافة قايمة IPTV</title>
+<style>
+:root{--bg:#f6f2f2;--card:#fff;--ink:#1d1416;--muted:#76686b;--line:#eadfe0;--red:#b3122b;--soft:#f8e6e8}
+@media (prefers-color-scheme:dark){:root{--bg:#140c0e;--card:#1f1618;--ink:#f4eced;--muted:#a8999c;--line:#33272a;--red:#e24a5f;--soft:#3a1d22}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,"Segoe UI",Tahoma,sans-serif;padding:20px 16px 40px}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:16px}
+h1{font-size:22px;margin:0}
+p{margin:0;color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tabs button{border:0;background:none;padding:10px 4px;border-radius:10px;font:inherit;color:var(--muted)}
+.tabs button.on{background:var(--soft);color:var(--red);font-weight:700}
+form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px}
+label{font-size:14px;color:var(--muted);display:grid;gap:6px}
+input{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;width:100%}
+input.ltr{direction:ltr;text-align:left}
+button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0;border-radius:12px;padding:13px}
+.msg{padding:12px 14px;border-radius:12px;background:var(--soft);color:var(--red);font-weight:600}
+.list{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row button{border:0;background:none;color:var(--red);font:inherit}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div><h1>ضيف قايمة IPTV للشاشة</h1><p>اللي هتضيفه هنا هيظهر على الشاشة في «القنوات وIPTV» على طول.</p></div>
+  <div class="tabs"><button data-t="url" class="on">رابط m3u</button><button data-t="file">ملف</button><button data-t="xt">Xtream</button></div>
+
+  <form id="f-url">
+    <label>اسم القايمة<input name="name" placeholder="اشتراكي" required></label>
+    <label>رابط القايمة<input name="url" class="ltr" inputmode="url" placeholder="http://…/get.php?…&type=m3u_plus" required></label>
+    <button class="go">إضافة للشاشة</button>
+  </form>
+
+  <form id="f-file" hidden>
+    <label>اسم القايمة<input name="name" placeholder="ملف القنوات" required></label>
+    <label>ملف m3u أو m3u8 من الموبايل<input name="file" type="file" accept=".m3u,.m3u8,.txt,audio/x-mpegurl,application/vnd.apple.mpegurl,*/*" required></label>
+    <button class="go">رفع للشاشة</button>
+  </form>
+
+  <form id="f-xt" hidden>
+    <label>اسم القايمة<input name="name" placeholder="اشتراكي" required></label>
+    <label>السيرفر (Server URL)<input name="host" class="ltr" inputmode="url" placeholder="http://example.com:8080" required></label>
+    <label>اسم المستخدم<input name="user" class="ltr" autocapitalize="off" required></label>
+    <label>كلمة السر<input name="pass" class="ltr" autocapitalize="off" required></label>
+    <button class="go">إضافة للشاشة</button>
+  </form>
+
+  <div class="msg" id="msg" hidden></div>
+  <div><h1 style="font-size:18px">القوايم اللي على الشاشة</h1></div>
+  <div class="list" id="list"><p style="padding:10px 0">جاري التحميل…</p></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  ["url","file","xt"].forEach(t=>$("#f-"+t).hidden=t!==b.dataset.t)});
+function say(t){const m=$("#msg");m.textContent=t;m.hidden=false;m.scrollIntoView({behavior:"smooth",block:"center"})}
+async function send(body){const r=await fetch("/add",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const j=await r.json();if(!j.ok)throw new Error(j.error||"error");return j}
+$("#f-url").onsubmit=async e=>{e.preventDefault();const f=e.target;try{await send({name:f.name.value.trim(),url:f.url.value.trim()});f.reset();say("اتضافت ✓ بص على الشاشة");load()}catch(err){say("حصلت مشكلة: "+err.message)}};
+$("#f-xt").onsubmit=async e=>{e.preventDefault();const f=e.target;let h=f.host.value.trim().replace(/\/+$/,"");if(!/^https?:\/\//.test(h))h="http://"+h;
+  const url=h+"/get.php?username="+encodeURIComponent(f.user.value.trim())+"&password="+encodeURIComponent(f.pass.value.trim())+"&type=m3u_plus&output=m3u8";
+  try{await send({name:f.name.value.trim(),url});f.reset();say("اتضاف الاشتراك ✓ بص على الشاشة");load()}catch(err){say("حصلت مشكلة: "+err.message)}};
+$("#f-file").onsubmit=async e=>{e.preventDefault();const f=e.target,file=f.file.files[0];if(!file)return;
+  if(file.size>40*1024*1024){say("الملف كبير أوي (أكتر من ٤٠ ميجا)");return}
+  say("جاري الرفع…");const text=await file.text();if(!/#EXTM3U|#EXTINF/.test(text.slice(0,5000))){say("الملف ده مش قايمة m3u");return}
+  try{await send({name:f.name.value.trim()||file.name,text});f.reset();say("اترفع الملف ✓ بص على الشاشة");load()}catch(err){say("حصلت مشكلة: "+err.message)}};
+async function load(){try{const r=await fetch("/list");const l=await r.json();const box=$("#list");box.innerHTML="";
+  if(!l.length){box.innerHTML='<p style="padding:10px 0">لسه مفيش قوايم.</p>';return}
+  l.forEach(p=>{const row=document.createElement("div");row.className="row";const s=document.createElement("span");s.textContent=p.n+(p.file?" · ملف":"");
+    const b=document.createElement("button");b.textContent="حذف";b.onclick=async()=>{await fetch("/delete?id="+encodeURIComponent(p.id),{method:"POST"});load()};row.append(s,b);box.append(row)})}catch(e){}}
+load();
+</script>
+</body>
+</html>

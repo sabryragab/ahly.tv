@@ -18,6 +18,21 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -32,6 +47,9 @@ public class MainActivity extends Activity {
     private long lastMove = 0;
     private long backDownAt = 0;
     private boolean backLongFired = false;
+    private PhoneServer phoneServer;
+    private TextToSpeech tts;
+    private volatile boolean ttsAr = false;
 
     /** Lets the page list and open the TV's other apps, and open system settings. */
     public class Bridge {
@@ -84,12 +102,113 @@ public class MainActivity extends Activity {
             });
         }
 
+        /** The TV's address on the home Wi-Fi, for the phone page. */
+        @JavascriptInterface
+        public String ip() { return localIp(); }
+
+        @JavascriptInterface
+        public String readFile(String id) {
+            try {
+                File f = playlistFile(id);
+                byte[] b = new byte[(int) f.length()];
+                try (FileInputStream in = new FileInputStream(f)) { int off = 0; while (off < b.length) { int n = in.read(b, off, b.length - off); if (n < 0) break; off += n; } }
+                return new String(b, StandardCharsets.UTF_8);
+            } catch (Exception e) { return ""; }
+        }
+
+        @JavascriptInterface
+        public void deleteFile(String id) { playlistFile(id).delete(); }
+
+        @JavascriptInterface
+        public boolean ttsReady() { return ttsAr; }
+
+        @JavascriptInterface
+        public void speak(String text) {
+            if (tts == null || !ttsAr) return;
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "zk");
+        }
+
+        @JavascriptInterface
+        public void ttsStop() { if (tts != null) tts.stop(); }
+
         @JavascriptInterface
         public void homeSettings() {
             runOnUiThread(() -> {
                 try { startActivity(new Intent(Settings.ACTION_HOME_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
                 catch (Exception e) { openSettings(); }
             });
+        }
+    }
+
+    private File playlistFile(String id) {
+        return new File(getFilesDir(), "pl_" + id.replaceAll("[^A-Za-z0-9_-]", "") + ".m3u");
+    }
+
+    private static String localIp() {
+        try {
+            for (NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                if (!ni.isUp() || ni.isLoopback()) continue;
+                for (InetAddress a : Collections.list(ni.getInetAddresses())) {
+                    if (a instanceof Inet4Address && a.isSiteLocalAddress()) return a.getHostAddress();
+                }
+            }
+        } catch (Exception ignored) { }
+        return "";
+    }
+
+    /** Runs JS in the page and waits for its (string) result, for the phone server thread. */
+    private String callPage(String js) {
+        final String[] out = {""};
+        final CountDownLatch done = new CountDownLatch(1);
+        runOnUiThread(() -> web.evaluateJavascript(js, r -> {
+            try { Object v = new JSONTokener(r).nextValue(); out[0] = v == null ? "" : String.valueOf(v); } catch (Exception e) { out[0] = ""; }
+            done.countDown();
+        }));
+        try { done.await(5, TimeUnit.SECONDS); } catch (InterruptedException ignored) { }
+        return out[0];
+    }
+
+    private Object[] json(int status, String body) { return new Object[]{status, "application/json; charset=utf-8", body.getBytes(StandardCharsets.UTF_8)}; }
+
+    private Object[] handlePhone(String method, String path, Map<String, String> q, byte[] body) {
+        try {
+            if (path.equals("/") || path.equals("/index.html")) {
+                try (InputStream in = getAssets().open("phone.html")) {
+                    ByteArrayOutputStream b = new ByteArrayOutputStream(); byte[] buf = new byte[8192]; int n;
+                    while ((n = in.read(buf)) > 0) b.write(buf, 0, n);
+                    return new Object[]{200, "text/html; charset=utf-8", b.toByteArray()};
+                }
+            }
+            if (path.equals("/list")) {
+                String r = callPage("window.listPlaylists?window.listPlaylists():'[]'");
+                return json(200, r.isEmpty() ? "[]" : r);
+            }
+            if (path.equals("/delete") && method.equals("POST")) {
+                String id = q.get("id");
+                if (id != null) callPage("window.deletePlaylist&&window.deletePlaylist(" + JSONObject.quote(id) + ")");
+                return json(200, "{\"ok\":true}");
+            }
+            if (path.equals("/add") && method.equals("POST")) {
+                JSONObject in = new JSONObject(new String(body, StandardCharsets.UTF_8));
+                JSONObject p = new JSONObject();
+                String name = in.optString("name", "").trim();
+                p.put("name", name.isEmpty() ? "IPTV" : name);
+                String text = in.optString("text", "");
+                if (!text.isEmpty()) {
+                    String id = "f" + System.currentTimeMillis();
+                    try (FileOutputStream o = new FileOutputStream(playlistFile(id))) { o.write(text.getBytes(StandardCharsets.UTF_8)); }
+                    p.put("id", id); p.put("file", true);
+                } else {
+                    String url = in.optString("url", "").trim();
+                    if (!url.startsWith("http")) return json(200, "{\"ok\":false,\"error\":\"الرابط لازم يبدأ بـ http\"}");
+                    p.put("id", "u" + System.currentTimeMillis()); p.put("url", url);
+                }
+                String r = callPage("window.onPhoneAdd?window.onPhoneAdd(" + p.toString() + "):''");
+                return json(200, "ok".equals(r) ? "{\"ok\":true}" : "{\"ok\":false,\"error\":\"افتح تطبيق الأهلي TV على الشاشة وجرّب تاني\"}");
+            }
+            return json(404, "{\"ok\":false}");
+        } catch (Exception e) {
+            return json(500, "{\"ok\":false,\"error\":" + JSONObject.quote(String.valueOf(e.getMessage())) + "}");
         }
     }
 
@@ -130,6 +249,18 @@ public class MainActivity extends Activity {
         web.setFocusableInTouchMode(true);
         web.requestFocus();
         setContentView(web);
+        phoneServer = new PhoneServer(8765, this::handlePhone);
+        phoneServer.start();
+        tts = new TextToSpeech(this, status -> {
+            if (status != TextToSpeech.SUCCESS) return;
+            int r = tts.setLanguage(new Locale("ar"));
+            ttsAr = r >= TextToSpeech.LANG_AVAILABLE;
+            tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override public void onStart(String id) { }
+                @Override public void onError(String id) { }
+                @Override public void onDone(String id) { runOnUiThread(() -> web.evaluateJavascript("window.onTtsDone&&window.onTtsDone()", null)); }
+            });
+        });
         if (state != null) web.restoreState(state);
         else web.loadUrl("file:///android_asset/index.html");
     }
@@ -153,7 +284,9 @@ public class MainActivity extends Activity {
             case KeyEvent.KEYCODE_PAGE_UP: return "CU";
             case KeyEvent.KEYCODE_CHANNEL_DOWN:
             case KeyEvent.KEYCODE_PAGE_DOWN: return "CD";
-            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE: return "PP";
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE: return "PP";
             default: return null;
         }
     }
@@ -191,4 +324,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() { super.onResume(); web.onResume(); web.requestFocus(); }
+
+    @Override
+    protected void onDestroy() {
+        if (phoneServer != null) phoneServer.stop();
+        if (tts != null) tts.shutdown();
+        super.onDestroy();
+    }
 }
