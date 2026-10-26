@@ -586,8 +586,8 @@ $("#adhan-url").value=adhanUrl();
 $("#adhan-save").onclick=()=>{store.set("adhanUrl",$("#adhan-url").value.trim());toast("اتحفظ صوت الأذان")};
 
 /* ---------- views ---------- */
-let view="home";const loaded={};
-function show(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
+let view="home",tabT;const loaded={};
+function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===v)));
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
   if(v==="radio"&&!loaded.rd){loaded.rd=1;renderRdSources();renderRadio()}
@@ -645,7 +645,6 @@ $("#q-update").onclick=()=>{if(updating||!bridge)return;updating=true;$("#q-upda
 if(bridge&&bridge.checkUpdate){setTimeout(()=>bridge.checkUpdate(),4000);setInterval(()=>bridge.checkUpdate(),6*36e5)}
 
 /* ---------- smoother remote: moving across the tabs switches the page ---------- */
-let tabT;
 document.addEventListener("focusin",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("tab")){clearTimeout(tabT);tabT=setTimeout(()=>{if(document.activeElement===t&&view!==t.dataset.view)show(t.dataset.view)},220)}});
 
 /* ---------- boot ---------- */
