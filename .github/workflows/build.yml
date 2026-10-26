@@ -11,20 +11,35 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+      - name: Bundle hls.js into the app (works even if the CDN is slow)
+        run: curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js -o app/src/main/assets/hls.min.js
+      - name: Test the app in Chrome (lists load, streams play, remote keys work)
+        id: e2e
+        continue-on-error: true
+        run: |
+          pip install -q playwright==1.47.0
+          python -m playwright install --with-deps chrome
+          python tests/e2e.py app/src/main/assets/index.html
       - uses: actions/setup-java@v5
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.7' }
       - run: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - run: gradle assembleDebug --stacktrace
-      - uses: actions/upload-artifact@v4
-        with:
-          name: AhlyTV-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
       - name: Publish APK as latest release
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.e2e.outcome == 'success'
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk AhlyTV.apk
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest AhlyTV.apk --title "الأهلي TV" --notes "آخر نسخة من التطبيق" --latest
+          { echo "آخر نسخة من التطبيق"; echo; echo '```'; cat test-report.txt; echo '```'; } > notes.md
+          gh release create latest AhlyTV.apk shot-home.png shot-tv.png --title "الأهلي TV" --notes-file notes.md --latest
+      - name: Save test report
+        if: always()
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          touch test-report.txt
+          gh release delete test-report --yes --cleanup-tag || true
+          gh release create test-report --prerelease --title "Test report" --notes "$(echo '```'; cat test-report.txt; echo '```')" $(ls shot-*.png 2>/dev/null)
+      - if: steps.e2e.outcome != 'success'
+        run: exit 1

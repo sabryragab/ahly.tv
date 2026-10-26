@@ -2,7 +2,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Reem+Kufi:wght@500;700&display=swap">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+<script src="hls.min.js"></script>
+<script>window.Hls||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"><\/script>')</script>
 <style>
 /* Layout: TV "10-foot" shell — header band (clock + club wordmark), top tab rail, one view at a time, fixed now-playing bar. Single deliberate look: Ahly red night. */
 :root{
@@ -417,64 +418,87 @@ $("#zk-reset").onclick=()=>{store.set("zk:"+zkKey(),null);renderAzkar()};
 $("#t-azkar").onclick=()=>{zkSet=$("#t-azkar").dataset.zk||"am";show("azkar");renderAzkar()};
 
 /* ---------- IPTV / live ---------- */
+// Lists checked daily by the repo's GitHub Action (dead streams removed); original source is the fallback.
+const DATA="https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/";
 const FREE=[
- {id:"free-eg",n:"قنوات مصر المجانية",u:"https://iptv-org.github.io/iptv/countries/eg.m3u",free:1},
- {id:"free-sa",n:"قنوات السعودية المجانية",u:"https://iptv-org.github.io/iptv/countries/sa.m3u",free:1},
- {id:"free-rel",n:"قنوات دينية",u:"https://iptv-org.github.io/iptv/categories/religious.m3u",free:1,filterAr:1},
- {id:"free-news",n:"أخبار",u:"https://iptv-org.github.io/iptv/categories/news.m3u",free:1,filterAr:1},
- {id:"free-sport",n:"رياضة مفتوحة",u:"https://iptv-org.github.io/iptv/categories/sports.m3u",free:1,filterAr:1}];
+ {id:"free-eg",n:"قنوات مصر",u:DATA+"tv-eg.m3u",alt:"https://iptv-org.github.io/iptv/countries/eg.m3u"},
+ {id:"free-sa",n:"قنوات السعودية",u:DATA+"tv-sa.m3u",alt:"https://iptv-org.github.io/iptv/countries/sa.m3u"},
+ {id:"free-rel",n:"قنوات دينية",u:DATA+"tv-religious.m3u",alt:"https://iptv-org.github.io/iptv/categories/religious.m3u",filterAr:1},
+ {id:"free-news",n:"أخبار",u:DATA+"tv-news.m3u",alt:"https://iptv-org.github.io/iptv/categories/news.m3u",filterAr:1},
+ {id:"free-sport",n:"رياضة مفتوحة",u:DATA+"tv-sports.m3u",alt:"https://iptv-org.github.io/iptv/categories/sports.m3u",filterAr:1}];
 let userPl=store.get("playlists",[]);
 const allPl=()=>[...userPl,...FREE];
 let curPl=store.get("curPl","free-eg"),plCache={},curGroup="الكل",channels=[],chIdx=-1;
+async function fetchT(url,ms=20000){const ac=window.AbortController?new AbortController():null;const t=setTimeout(()=>ac&&ac.abort(),ms);
+  try{const r=await fetch(url,ac?{signal:ac.signal,cache:"no-cache"}:{});if(!r.ok)throw new Error("HTTP "+r.status);return r}finally{clearTimeout(t)}}
+async function firstOk(urls,read){let err;for(const u of urls){if(!u)continue;try{return await read(await fetchT(u))}catch(e){err=e}}throw err}
 function parseM3U(txt,filterAr){const out=[];let meta=null;for(const raw of txt.split(/\r?\n/)){const line=raw.trim();if(!line)continue;
   if(line.startsWith("#EXTINF")){const attr=k=>{const m=line.match(new RegExp(k+'="([^"]*)"'));return m?m[1]:""};
     meta={name:line.slice(line.lastIndexOf(",")+1).trim(),logo:attr("tvg-logo"),group:(attr("group-title")||"عام").split(";")[0],lang:attr("tvg-language"),id:attr("tvg-id")}}
   else if(!line.startsWith("#")&&meta){meta.url=line;out.push(meta);meta=null}}
   if(filterAr)return out.filter(c=>/[؀-ۿ]/.test(c.name)||/arab/i.test(c.lang)||/\.(eg|sa|ae|kw|qa|bh|om|jo|lb|ma|dz|tn|iq|sy|ps|ly|sd|ye)(@|$)/i.test(c.id));
   return out}
-async function loadPl(p){if(plCache[p.id])return plCache[p.id];const r=await fetch(p.u);if(!r.ok)throw new Error(r.status);const list=parseM3U(await r.text(),p.filterAr);plCache[p.id]=list;return list}
+async function loadPl(p){if(plCache[p.id])return plCache[p.id];
+  const list=await firstOk([p.u,p.alt],async r=>{const t=await r.text();if(!/#EXTM3U|#EXTINF/.test(t.slice(0,2000)))throw new Error("مش قايمة m3u");return parseM3U(t,p.filterAr)});
+  plCache[p.id]=list;return list}
 function renderSources(){$("#tv-sources").replaceChildren(...allPl().map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===curPl),text:p.n,onclick(){curPl=p.id;store.set("curPl",curPl);curGroup="الكل";renderSources();renderChannels()}})))}
+function retryBtn(fn){return el("button",{class:"btn","data-nav":"",text:"إعادة المحاولة",onclick:fn})}
 async function renderChannels(){const grid=$("#tv-grid");const p=allPl().find(x=>x.id===curPl)||FREE[0];
   grid.replaceChildren(el("div",{class:"state",text:"جاري تحميل القنوات…"}));$("#tv-groups").replaceChildren();
   try{const list=await loadPl(p);const groups=["الكل",...new Set(list.map(c=>c.group))];
     if(groups.length>2)$("#tv-groups").replaceChildren(...groups.slice(0,40).map(g=>el("button",{class:"chip","data-nav":"","aria-pressed":String(g===curGroup),text:g,onclick(){curGroup=g;renderChannels()}})));
     channels=curGroup==="الكل"?list:list.filter(c=>c.group===curGroup);
     if(!channels.length){grid.replaceChildren(el("div",{class:"state",text:"القائمة فاضية."}));return}
-    grid.replaceChildren(...channels.slice(0,600).map((c,i)=>chTile(c.name,c.logo,()=>playChannel(i))))}
-  catch(e){grid.replaceChildren(stateMsg("مقدرتش أحمّل القائمة.","اتأكد إن الشاشة متوصلة بالنت وإن الرابط صحيح. لو بتفتح الصفحة دي من معاينة Claude، القنوات والراديو مش هيشتغلوا هنا، هيشتغلوا من تطبيق الشاشة."))}}
+    grid.replaceChildren(...channels.slice(0,800).map((c,i)=>chTile(c.name,c.logo,()=>playChannel(i))))}
+  catch(e){delete plCache[p.id];grid.replaceChildren(stateMsg("مقدرتش أحمّل القائمة ("+(e&&e.name==="AbortError"?"النت بطيء":(e&&e.message||"خطأ"))+").","اتأكد إن الشاشة متوصلة بالنت وإن الرابط صحيح."),retryBtn(renderChannels))}}
 function stateMsg(a,b){return el("div",{class:"state"},el("b",{text:a}),el("br"),b)}
 function chTile(name,logo,fn){const lg=el("div",{class:"logo",text:(name||"?").trim().slice(0,2)});
-  if(logo){const im=el("img",{alt:"",loading:"lazy",src:logo});im.onerror=()=>im.remove();im.onload=()=>{lg.firstChild&&lg.firstChild.nodeType===3&&lg.firstChild.remove()};lg.append(im)}
+  if(logo&&/^https?:/.test(logo)){const im=el("img",{alt:"",loading:"lazy",src:logo});im.onerror=()=>im.remove();im.onload=()=>{lg.firstChild&&lg.firstChild.nodeType===3&&lg.firstChild.remove()};lg.append(im)}
   return el("button",{class:"ch","data-nav":"",onclick:fn},lg,el("span",{class:"nm",text:name}))}
-let hls=null,osdT;
+/* Xtream-style IPTV links (…/user/pass/123 or …/live/user/pass/123.ts) are raw MPEG-TS, which TV browsers
+   can't play; the same servers serve HLS at …/live/user/pass/123.m3u8. */
+function streamCandidates(url){const out=[];const m=url.match(/^(https?:\/\/[^/]+)\/(?:live\/)?([^/]+)\/([^/]+)\/(\d+)(?:\.(ts|m3u8))?$/i);
+  if(m&&!/\.(mp4|mkv|avi)$/i.test(url))out.push(`${m[1]}/live/${m[2]}/${m[3]}/${m[4]}.m3u8`);out.push(url);return [...new Set(out)]}
+let hls=null,osdT,playToken=0;
 function playChannel(i){if(!channels.length)return;chIdx=(i+channels.length)%channels.length;const c=channels[chIdx];stopRadio();
-  const v=$("#video");$("#player").hidden=false;$("#perr").hidden=true;$("#osd-t").textContent=c.name;$("#osd-n").textContent=arNum(chIdx+1)+" / "+arNum(channels.length);
+  $("#player").hidden=false;$("#perr").hidden=true;$("#osd-t").textContent=c.name;$("#osd-n").textContent=arNum(chIdx+1)+" / "+arNum(channels.length);
   showOsd();store.set("lastCh",c.name);$("#t-lastch").textContent="آخر قناة: "+c.name;
-  if(hls){hls.destroy();hls=null}v.removeAttribute("src");
-  const isHls=/\.m3u8|m3u8|type=m3u|\/live\//i.test(c.url);
-  if(isHls&&window.Hls&&Hls.isSupported()){hls=new Hls({maxBufferLength:20});hls.loadSource(c.url);hls.attachMedia(v);hls.on(Hls.Events.ERROR,(e,d)=>{if(d.fatal){$("#perr").hidden=false}})}
-  else{v.src=c.url}
-  v.play().catch(()=>{});v.onerror=()=>{$("#perr").hidden=false}}
+  const tok=++playToken;tryStreams(streamCandidates(c.url),tok)}
+function tryStreams(list,tok){const v=$("#video");if(tok!==playToken)return;
+  if(hls){hls.destroy();hls=null}v.onerror=null;v.removeAttribute("src");
+  if(!list.length){$("#perr").hidden=false;return}
+  const url=list[0],rest=list.slice(1);let done=false;const fail=()=>{if(done||tok!==playToken)return;done=true;clearTimeout(guard);tryStreams(rest,tok)};
+  const guard=setTimeout(()=>{if(v.readyState<2)fail()},15000);v.onplaying=()=>{done=true;clearTimeout(guard)};
+  const looksHls=/m3u8|type=m3u|\/hls\//i.test(url)||!/\.(mp4|mp3|aac|ts|mkv|webm)(\?|$)/i.test(url);
+  if(looksHls&&window.Hls&&Hls.isSupported()){hls=new Hls({maxBufferLength:20,manifestLoadingTimeOut:12000,manifestLoadingMaxRetry:1,levelLoadingTimeOut:12000});
+    hls.loadSource(url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>{}));
+    hls.on(Hls.Events.ERROR,(e,d)=>{if(!d.fatal)return;if(done&&d.type===Hls.ErrorTypes.NETWORK_ERROR){hls.startLoad();return}if(done&&d.type===Hls.ErrorTypes.MEDIA_ERROR){hls.recoverMediaError();return}fail()})}
+  else{v.src=url;v.onerror=fail;v.play().catch(()=>{})}}
 function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=setTimeout(()=>$("#osd").classList.add("hide"),4000)}
-function closePlayer(){const v=$("#video");if(hls){hls.destroy();hls=null}v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
+function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .ch");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
 
 /* ---------- radio ---------- */
+const RB=h=>cc=>`https://${h}.api.radio-browser.info/json/stations/search?countrycode=${cc}&hidebroken=true&order=clickcount&reverse=true&limit=150`;
+const RB_MIRRORS=["de1","de2","fi1","nl1","at1"];
 const RSRC=[
- {id:"quran",n:"إذاعات القرآن الكريم",kind:"mp3quran",u:"https://mp3quran.net/api/v3/radios?language=ar"},
- {id:"eg",n:"إذاعات مصر",kind:"rb",u:"https://de1.api.radio-browser.info/json/stations/search?countrycode=EG&hidebroken=true&order=clickcount&reverse=true&limit=120"},
- {id:"sa",n:"إذاعات السعودية",kind:"rb",u:"https://de1.api.radio-browser.info/json/stations/search?countrycode=SA&hidebroken=true&order=clickcount&reverse=true&limit=120"}];
+ {id:"quran",n:"إذاعات القرآن الكريم",urls:[DATA+"radio-quran.json","https://mp3quran.net/api/v3/radios?language=ar"]},
+ {id:"eg",n:"إذاعات مصر",urls:[DATA+"radio-eg.json",...RB_MIRRORS.map(h=>RB(h)("EG"))]},
+ {id:"sa",n:"إذاعات السعودية",urls:[DATA+"radio-sa.json",...RB_MIRRORS.map(h=>RB(h)("SA"))]}];
 let curRd=store.get("curRd","quran"),rdCache={},stations=[];
-async function loadRadio(s){if(rdCache[s.id])return rdCache[s.id];const r=await fetch(s.u);if(!r.ok)throw new Error(r.status);const j=await r.json();
-  const list=s.kind==="mp3quran"?(j.radios||[]).map(x=>({name:x.name,url:x.url,logo:""})):j.map(x=>({name:x.name.trim(),url:x.url_resolved||x.url,logo:x.favicon}));
-  rdCache[s.id]=list;return list}
+function normRadio(j){if(j&&j.radios)return j.radios.map(x=>({name:x.name.trim(),url:x.url,logo:""}));
+  return (j||[]).map(x=>({name:(x.name||"").trim(),url:x.url_resolved||x.url,logo:x.favicon||x.logo||""})).filter(x=>x.url)}
+async function loadRadio(s){if(rdCache[s.id])return rdCache[s.id];const list=await firstOk(s.urls,async r=>{const l=normRadio(await r.json());if(!l.length)throw new Error("فاضية");return l});rdCache[s.id]=list;return list}
 function renderRdSources(){$("#rd-sources").replaceChildren(...RSRC.map(s=>el("button",{class:"chip","data-nav":"","aria-pressed":String(s.id===curRd),text:s.n,onclick(){curRd=s.id;store.set("curRd",curRd);renderRdSources();renderRadio()}})))}
 async function renderRadio(){const g=$("#rd-grid");g.replaceChildren(el("div",{class:"state",text:"جاري تحميل الإذاعات…"}));
-  try{stations=await loadRadio(RSRC.find(s=>s.id===curRd));g.replaceChildren(...stations.map(s=>chTile(s.name,s.logo,()=>playRadio(s))))}
-  catch(e){g.replaceChildren(stateMsg("مقدرتش أحمّل الإذاعات.","اتأكد من النت. من معاينة Claude الراديو مش هيشتغل، هيشتغل من تطبيق الشاشة."))}}
-function playRadio(s){const a=$("#radio");a.src=s.url;a.play().then(()=>{}).catch(()=>toast("الإذاعة دي مش شغالة دلوقتي"));
+  try{stations=await loadRadio(RSRC.find(s=>s.id===curRd)||RSRC[0]);g.replaceChildren(...stations.map(s=>chTile(s.name,s.logo,()=>playRadio(s))))}
+  catch(e){g.replaceChildren(stateMsg("مقدرتش أحمّل الإذاعات.","اتأكد إن الشاشة متوصلة بالنت."),retryBtn(renderRadio))}}
+let rdHls=null;
+function playRadio(s){const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a.onerror=()=>toast("الإذاعة دي مش شغالة دلوقتي، جرّب غيرها");
+  if(/m3u8/i.test(s.url)&&window.Hls&&Hls.isSupported()){rdHls=new Hls();rdHls.loadSource(s.url);rdHls.attachMedia(a);rdHls.on(Hls.Events.MANIFEST_PARSED,()=>a.play().catch(()=>{}))}
+  else{a.src=s.url;a.play().catch(e=>{if(e&&e.name!=="AbortError")toast("الإذاعة دي مش شغالة دلوقتي، جرّب غيرها")})}
   $("#np").hidden=false;$("#np-name").textContent=s.name;store.set("lastRd",s);$("#t-lastrd").textContent="آخر إذاعة: "+s.name}
-function stopRadio(){const a=$("#radio");a.pause();a.removeAttribute("src");$("#np").hidden=true}
+function stopRadio(){const a=$("#radio");if(rdHls){rdHls.destroy();rdHls=null}a.onerror=null;a.pause();a.removeAttribute("src");$("#np").hidden=true}
 $("#np-stop").onclick=()=>{stopRadio();focusView()};
 
 /* ---------- settings ---------- */
