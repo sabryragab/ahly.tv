@@ -26,7 +26,7 @@ html,body{height:100%}
 body{background:var(--night);color:var(--chalk);font-family:var(--f-body);font-size:clamp(15px,1.25vw,22px);overflow-x:hidden;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   background-image:repeating-linear-gradient(115deg,transparent 0 90px,rgba(210,16,43,.06) 90px 180px),radial-gradient(ellipse at 85% -10%,rgba(210,16,43,.45),transparent 55%);
-  background-attachment:fixed}
+  }
 *{box-sizing:border-box}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 input,select{font:inherit}
@@ -49,9 +49,11 @@ input,select{font:inherit}
 .tab[aria-selected="true"]{background:var(--ahly);color:var(--chalk)}
 
 /* focus ring — what the remote sees */
-[data-nav]{outline:none;transition:transform .12s,box-shadow .12s}
-[data-nav]:focus-visible,[data-nav].kb:focus{box-shadow:0 0 0 3px var(--night),0 0 0 6px var(--gold);transform:scale(1.04);z-index:2;position:relative}
-@media (prefers-reduced-motion:reduce){[data-nav]{transition:none}[data-nav]:focus-visible{transform:none}}
+[data-nav]{outline:none}
+[data-nav]:focus{box-shadow:0 0 0 4px var(--gold);background-color:var(--wine-2);z-index:2;position:relative}
+.tab[data-nav]:focus{background:var(--chalk);color:var(--night)}
+.chip[data-nav]:focus{background:var(--chalk);color:var(--night)}
+.btn[data-nav]:focus{background:var(--chalk);color:var(--night)}
 
 h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px);margin:0 0 .5em}
 .muted{color:var(--mist)}
@@ -129,7 +131,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
 .perr{position:absolute;color:var(--chalk);background:rgba(0,0,0,.7);padding:18px 26px;border-radius:12px}
 
 /* now playing bar */
-.np{position:fixed;inset:auto 0 0 0;z-index:20;background:rgba(20,4,10,.94);border-top:2px solid var(--ahly);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:14px;backdrop-filter:blur(8px)}
+.np{position:fixed;inset:auto 0 0 0;z-index:20;background:rgba(20,4,10,.94);border-top:2px solid var(--ahly);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:14px}
 .np .eq{display:flex;gap:3px;align-items:end;height:22px}
 .np .eq i{width:4px;background:var(--gold);animation:eq 1s infinite ease-in-out}
 .np .eq i:nth-child(2){animation-delay:.2s}.np .eq i:nth-child(3){animation-delay:.4s}
@@ -497,7 +499,7 @@ document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.
 function visible(n){if(!n.offsetParent&&getComputedStyle(n).position!=="fixed")return false;const r=n.getBoundingClientRect();return r.width>0&&r.height>0}
 function scope(){if(!$("#adhan").hidden)return $("#adhan");return document}
 function focusables(){return [...scope().querySelectorAll("[data-nav]")].filter(visible)}
-function focusEl(n){if(!n)return;n.classList.add("kb");n.focus({preventScroll:true});n.scrollIntoView({block:"nearest",inline:"nearest",behavior:"smooth"})}
+function focusEl(n){if(!n)return;n.classList.add("kb");n.focus({preventScroll:true});const r=n.getBoundingClientRect(),h=innerHeight;if(r.top<90||r.bottom>h-90)n.scrollIntoView({block:"center"})}
 function focusSel(s){setTimeout(()=>focusEl($(s)),0)}
 function focusView(){const t=document.querySelector(".tab[aria-selected=true]");focusEl(t)}
 function move(dir){const items=focusables(),cur=document.activeElement;if(!items.includes(cur)){focusEl(items[0]);return}
@@ -507,6 +509,13 @@ function move(dir){const items=focusables(),cur=document.activeElement;if(!items
     else if(dir==="U"){if(b.bottom>a.top+4)continue;main=-dy;cross=Math.abs(dx)}else{if(b.top<a.bottom-4)continue;main=dy;cross=Math.abs(dx)}
     if(main<=0)continue;const sc=main+cross*2.2;if(sc<bs){bs=sc;best=n}}
   if(best)focusEl(best)}
+window.tvKey=function(k){
+  if(!document.activeElement||document.activeElement===document.body){if(!$("#adhan").hidden)focusSel("#adhan-close");else focusView();if(k!=="C")return "ok"}
+  if(!$("#adhan").hidden){if(k==="C")closeAdhan();return "ok"}
+  if(!$("#player").hidden){if(k==="U"||k==="CU")playChannel(chIdx-1);else if(k==="D"||k==="CD")playChannel(chIdx+1);else showOsd();return "ok"}
+  if(k==="PP"){const a=$("#radio");if(a.src){a.paused?a.play():a.pause()}return "ok"}
+  if(k==="C"){const a=document.activeElement;if(a&&a.tagName==="INPUT"){a.focus();return "ime"}if(a)a.click();return "ok"}
+  if("LRUD".includes(k))move(k);return "ok"};
 window.tvBack=function(){ // called by Android back button too
   if(!$("#adhan").hidden){closeAdhan();return true}
   if(!$("#player").hidden){closePlayer();return true}
@@ -525,5 +534,5 @@ document.addEventListener("mousedown",()=>document.querySelectorAll(".kb").forEa
 compute();renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
 tick();setInterval(tick,1000);
-setTimeout(()=>{if(matchMedia("(pointer:coarse)").matches===false)focusView()},300);
+setTimeout(focusView,300);
 </script>
