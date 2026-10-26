@@ -17,8 +17,9 @@ jobs:
         id: e2e
         continue-on-error: true
         run: |
-          pip install -q playwright==1.47.0
-          python -m playwright install --with-deps chrome
+          set -o pipefail
+          { pip install playwright==1.47.0 && python -m playwright install --with-deps chrome; } > install.log 2>&1 || { echo "INSTALL FAILED"; tail -25 install.log; } > test-report.txt
+          [ -s test-report.txt ] && exit 1
           python tests/e2e.py app/src/main/assets/index.html
       - uses: actions/setup-java@v5
         with: { distribution: temurin, java-version: '17' }
