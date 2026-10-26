@@ -17,13 +17,43 @@ CTX.verify_mode = ssl.CERT_NONE  # many IPTV hosts have broken certs; the TV Web
 AR = re.compile(r"[؀-ۿ]")
 ARAB_ID = re.compile(r"\.(eg|sa|ae|kw|qa|bh|om|jo|lb|ma|dz|tn|iq|sy|ps|ly|sd|ye)(@|$)", re.I)
 
+IO = "https://iptv-org.github.io/iptv/"
 TV_SOURCES = [
-    ("eg", "https://iptv-org.github.io/iptv/countries/eg.m3u", False),
-    ("sa", "https://iptv-org.github.io/iptv/countries/sa.m3u", False),
-    ("religious", "https://iptv-org.github.io/iptv/categories/religious.m3u", True),
-    ("news", "https://iptv-org.github.io/iptv/categories/news.m3u", True),
-    ("sports", "https://iptv-org.github.io/iptv/categories/sports.m3u", True),
+    ("eg", IO + "countries/eg.m3u", False),
+    ("sa", IO + "countries/sa.m3u", False),
+    ("religious", IO + "categories/religious.m3u", True),
+    ("news", IO + "categories/news.m3u", True),
+    ("sports", IO + "categories/sports.m3u", True),
+    ("arabic", IO + "languages/ara.m3u", False),
+    ("kids", IO + "categories/kids.m3u", True),
+    ("movies", IO + "categories/movies.m3u", True),
+    ("documentary", IO + "categories/documentary.m3u", True),
+    ("ae", IO + "countries/ae.m3u", False),
+    ("kw", IO + "countries/kw.m3u", False),
+    ("world", "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8", False),
 ]
+
+# Christian / church channels are left out of every list (the user asked for Islamic channels only).
+CHRISTIAN = re.compile(
+    r"abn ?sat|aghapy|agape|charity tv|coptic|ishtar|koogi|nour al ?koddass|nour el ?shabeb|nour mariam|^nour tv|noursat|"
+    r"ch4teen|elbeshara|beshara|atv ?sat|\bctv\b|sat-?7|miracle|logos|al ?karma|christ|jesus|church|gospel|bible|orthodox|"
+    r"catholic|maronite|\btbn\b|god tv|lumi[eè]re|suboro|me ?sat|alhorria|al ?malakoot|holy spirit|st\.? ?mark|"
+    r"أغابي|قبطي|البشارة|نورسات|الكرمة|سات ?7|مسيح|كنيس|الملكوت|القديس|مار ",
+    re.I)
+# the religious list keeps Islamic channels only, Quran and mainstream channels first
+ISLAMIC = ["quran", "قرآن", "sunnah", "سنة", "iqraa", "اقرأ", "makkah", "مكة", "madinah", "المدينة", "huda", "resalah",
+           "الرسالة", "majd", "المجد", "rahma", "الرحمة", "azhar", "أزهر", "nidae", "islam", "إسلام", "qurain", "ethraa",
+           "istiqama", "iman", "إيمان", "peace tv", "zad", "hidaya", "furqan", "nabawi", "maaref", "sahat",
+           "imam", "aimma", "karbala", "marjaeyat", "abbas", "jawadain"]
+NOT_ARABIC = re.compile(r"bangla|chinese|urdu|persian|farsi|kurd|turk", re.I)
+
+
+def islamic_rank(name):
+    n = name.lower()
+    for i, k in enumerate(ISLAMIC):
+        if k in n:
+            return i
+    return None
 RB_HOSTS = ["de1", "de2", "fi1", "nl1", "at1"]
 
 
@@ -88,6 +118,10 @@ for key, url, arab in TV_SOURCES:
     except Exception as e:
         report.append(f"tv/{key}: SOURCE FAILED {e}")
         continue
+    chans = [c for c in chans if not CHRISTIAN.search(c["name"]) and not CHRISTIAN.search(c["group"])]
+    if key == "religious":
+        chans = [c for c in chans if islamic_rank(c["name"]) is not None and not NOT_ARABIC.search(c["name"])]
+        chans.sort(key=lambda c: islamic_rank(c["name"]))
     seen, uniq = set(), []
     for c in chans:
         if c["url"] not in seen:
