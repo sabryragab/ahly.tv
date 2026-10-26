@@ -146,6 +146,7 @@ def main():
       before = page.locator("#zk-cnt").inner_text()
       page.locator("#zk-reader").click()
       log(f"azkar counter: {before} -> {page.locator('#zk-cnt').inner_text()}")
+      page.wait_for_timeout(1200)  # a finished zikr moves on by itself
       page.evaluate("document.querySelector('#zk-reader').focus(); tvKey('L')")
       log(f"azkar next with LEFT: {page.locator('#zk-pos').inner_text()}")
       fs = page.evaluate("getComputedStyle(document.querySelector('#zk-text p')).fontSize")

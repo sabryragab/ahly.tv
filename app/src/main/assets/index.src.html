@@ -432,7 +432,7 @@ function renderZk(){const L=AZ[zkSet],z=L[zkIdx];
 function zkGo(d){const n=zkIdx+d;if(n<0||n>=AZ[zkSet].length)return false;zkIdx=n;stopZkAudio();renderZk();if(zkAuto)zkPlay();return true}
 function zkCount(){if(zkLeft[zkIdx]>0){zkLeft[zkIdx]--;store.set(zkKey(),zkLeft);renderZk();if(!zkLeft[zkIdx])setTimeout(()=>zkGo(1),500)}}
 const hasTts=()=>!!(bridge&&bridge.ttsReady&&bridge.ttsReady());
-function stopZkAudio(){zAudio.pause();zAudio.removeAttribute("src");if(bridge&&bridge.ttsStop)bridge.ttsStop()}
+function stopZkAudio(){zAudio.pause();if(zAudio.getAttribute("src")){zAudio.removeAttribute("src");zAudio.load()}if(bridge&&bridge.ttsStop)bridge.ttsStop()}
 function zkPlay(){const z=AZ[zkSet][zkIdx];$("#radio").pause();
   if(z.a){zAudio.src=ZAUDIO(z.a);zAudio.play().catch(()=>toast("مقدرتش أشغّل الصوت، اتأكد من النت"))}
   else if(hasTts()){bridge.speak(z.t)}
