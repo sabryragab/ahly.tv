@@ -165,3 +165,63 @@ for cc in ("EG", "SA"):
 print("\n".join(report))
 if any("SOURCE FAILED" in r for r in report):
     sys.exit(0)  # keep previous good files; report shows the failure
+
+
+# ---------- Quran library (mp3quran.net): popular reciters, full Hafs recitation ----------
+POPULAR = ["الحصري", "عبدالباسط", "عبد الباسط", "المنشاوي", "العفاسي", "السديس", "الشريم", "ماهر المعيقلي", "ياسر الدوسري",
+           "أحمد العجمي", "سعد الغامدي", "الطبلاوي", "البنا", "ناصر القطامي", "خليفة الطنيجي", "الحذيفي", "محمد أيوب",
+           "عبدالله الجهني", "البدير", "أبو بكر الشاطري", "سعود الشريم", "فارس عباد", "عادل الكلباني", "إدريس أبكر",
+           "بندر بليلة", "عبدالله بصفر", "هاني الرفاعي", "محمد اللحيدان", "عبدالرحمن العوسي", "منصور السالمي", "إسلام صبحي"]
+try:
+    rj = json.loads(get("https://mp3quran.net/api/v3/reciters?language=ar")[2])["reciters"]
+    sj = json.loads(get("https://mp3quran.net/api/v3/suwar?language=ar")[2])["suwar"]
+    suwar = {int(s["id"]): s["name"].strip() for s in sj}
+
+    def rank(name):
+        for i, k in enumerate(POPULAR):
+            if k in name:
+                return i
+        return None
+
+    out = []
+    for r in rj:
+        rk = rank(r["name"])
+        if rk is None:
+            continue
+        for m in r["moshaf"]:
+            full = int(m.get("surah_total", 0)) == 114
+            kind = "مجوّد" if "المجود" in m["name"] else ("مرتّل" if "حفص عن عاصم - مرتل" in m["name"] else None)
+            if full and kind:
+                out.append({"n": r["name"].strip(), "k": kind, "s": m["server"], "r": rk + (0.5 if kind == "مجوّد" else 0)})
+    out.sort(key=lambda x: x["r"])
+    seen, lib = set(), []
+    for x in out:
+        key = (x["n"], x["k"])
+        if key not in seen:
+            seen.add(key); lib.append({"n": x["n"], "k": x["k"], "s": x["s"]})
+    ok = probe(lib[0]["s"] + "001.mp3") != "dead" if lib else False
+    if lib and ok:
+        (OUT / "quran.json").write_text(json.dumps({"suwar": [suwar[i] for i in range(1, 115)], "reciters": lib}, ensure_ascii=False), encoding="utf-8")
+    report.append(f"quran library: {len(lib)} recitations, audio ok: {ok}")
+except Exception as e:
+    report.append(f"quran library: SOURCE FAILED {e}")
+
+# ---------- Al Ahly fixtures and results (TheSportsDB free key) ----------
+try:
+    B = "https://www.thesportsdb.com/api/v1/json/123/"
+    def evs(path):
+        j = json.loads(get(B + path)[2] or b"{}")
+        return j.get("events") or j.get("results") or []
+    def slim(e):
+        return {"home": e.get("strHomeTeam"), "away": e.get("strAwayTeam"), "hs": e.get("intHomeScore"), "as": e.get("intAwayScore"),
+                "date": e.get("dateEvent"), "time": e.get("strTime"), "ts": e.get("strTimestamp"), "league": e.get("strLeague"),
+                "hb": e.get("strHomeTeamBadge"), "ab": e.get("strAwayTeamBadge")}
+    nxt = [slim(e) for e in evs("eventsnext.php?id=138995")][:3]
+    last = [slim(e) for e in evs("eventslast.php?id=138995")][:3]
+    (OUT / "ahly.json").write_text(json.dumps({"next": nxt, "last": last, "checked": time.strftime("%Y-%m-%dT%H:%MZ", time.gmtime())}, ensure_ascii=False), encoding="utf-8")
+    report.append(f"ahly: {len(nxt)} next, {len(last)} last")
+except Exception as e:
+    report.append(f"ahly: SOURCE FAILED {e}")
+
+(OUT / "report.txt").write_text("\n".join(report) + "\n", encoding="utf-8")
+print("\n".join(report[-2:]))

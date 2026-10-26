@@ -1,6 +1,6 @@
 name: Check channels and radio
 on:
-  schedule: [{ cron: '17 1 * * *' }]   # every day ~4am Riyadh
+  schedule: [{ cron: '17 */4 * * *' }]   # every 4 hours
   workflow_dispatch:
 permissions:
   contents: write
