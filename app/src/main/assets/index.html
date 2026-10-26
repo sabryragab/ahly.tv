@@ -44,6 +44,9 @@ input,select{font:inherit}
 .crest svg{width:62%;height:62%}
 .brand h1{font-family:var(--f-display);font-size:clamp(24px,2.6vw,46px);margin:0;line-height:1}
 .brand small{display:block;font-size:.62em;color:var(--gold);letter-spacing:.04em;margin-top:4px}
+.quick{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.qb{background:var(--wine);color:var(--chalk);padding:.45em 1em;border-radius:999px;font-size:.85em;border:1px solid var(--line)}
+.qb[data-nav]:focus{background:var(--chalk);color:var(--night)}
 .clock{text-align:left;font-variant-numeric:tabular-nums}
 .clock b{font-family:var(--f-display);font-size:clamp(30px,3.6vw,64px);font-weight:500;line-height:1;display:block}
 .clock span{color:var(--mist);font-size:.9em}
@@ -163,7 +166,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
       </div>
       <div><h1>الأهلي فوق الجميع</h1><small>نادي القرن · تأسس ٢٤ أبريل ١٩٠٧</small></div>
     </div>
-    <div class="clock"><b id="clk">--:--</b><span id="dates"></span></div>
+    <div class="quick"><button class="qb" data-nav id="q-wifi">الواي فاي</button><button class="qb" data-nav id="q-set">الإعدادات</button><div class="clock"><b id="clk">--:--</b><span id="dates"></span></div></div>
   </header>
 
   <nav class="tabs" role="tablist" id="tabs">
@@ -199,6 +202,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,34px)
   <section class="view" id="v-apps" hidden>
     <div class="row">
       <button class="btn" data-nav id="sys-settings">إعدادات الشاشة</button>
+      <button class="btn ghost" data-nav id="wifi-settings">الواي فاي</button>
       <button class="btn ghost" data-nav id="home-settings">تغيير الشاشة الرئيسية</button>
     </div>
     <div class="grid apps" id="apps-grid"></div>
@@ -527,6 +531,8 @@ function renderApps(){const g=$("#apps-grid");
   apps.sort((a,b)=>rank(a)-rank(b)||a.label.localeCompare(b.label,"ar"));
   g.replaceChildren(...apps.map(a=>{const lg=el("div",{class:"logo"});const im=el("img",{alt:"",src:a.img});if(a.banner)im.className="banner";lg.append(im);
     return el("button",{class:"ch","data-nav":"",onclick(){bridge.open(a.pkg)}},lg,el("span",{class:"nm",text:a.label}))}))}
+const openWifi=()=>bridge?bridge.wifi():toast("الزرار ده بيشتغل من تطبيق الشاشة"),openSys=()=>bridge?bridge.settings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
+$("#q-wifi").onclick=openWifi;$("#wifi-settings").onclick=openWifi;$("#q-set").onclick=openSys;
 $("#sys-settings").onclick=()=>bridge?bridge.settings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
 $("#home-settings").onclick=()=>bridge?bridge.homeSettings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
 

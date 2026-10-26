@@ -77,6 +77,14 @@ public class MainActivity extends Activity {
         public void settings() { runOnUiThread(MainActivity.this::openSettings); }
 
         @JavascriptInterface
+        public void wifi() {
+            runOnUiThread(() -> {
+                try { startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
+                catch (Exception e) { openSettings(); }
+            });
+        }
+
+        @JavascriptInterface
         public void homeSettings() {
             runOnUiThread(() -> {
                 try { startActivity(new Intent(Settings.ACTION_HOME_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); }
