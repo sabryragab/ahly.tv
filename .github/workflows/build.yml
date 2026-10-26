@@ -1,5 +1,7 @@
 name: Build APK
 on: [push, workflow_dispatch]
+permissions:
+  contents: write
 jobs:
   build:
     # ubuntu-24.04 ships with the Android SDK preinstalled (ANDROID_HOME is set)
@@ -16,3 +18,10 @@ jobs:
         with:
           name: AhlyTV-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Publish APK as latest release
+        if: github.ref == 'refs/heads/main'
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk AhlyTV.apk
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest AhlyTV.apk --title "الأهلي TV" --notes "آخر نسخة من التطبيق" --latest
