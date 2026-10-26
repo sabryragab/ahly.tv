@@ -1,0 +1,9 @@
+checked 2026-10-26 10:23 UTC
+tv/eg: 20 listed, 18 ok, 2 geo-blocked kept, 0 dead removed
+tv/sa: 54 listed, 45 ok, 8 geo-blocked kept, 1 dead removed
+tv/religious: 58 listed, 54 ok, 2 geo-blocked kept, 2 dead removed
+tv/news: 73 listed, 66 ok, 3 geo-blocked kept, 4 dead removed
+tv/sports: 19 listed, 9 ok, 9 geo-blocked kept, 1 dead removed
+radio/quran: 177 listed, 121 working
+radio/EG: 150 listed, 148 working
+radio/SA: 117 listed, 108 working
