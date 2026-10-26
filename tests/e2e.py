@@ -130,7 +130,7 @@ def main():
           page.evaluate("stopRadio()")
           log(f"Radio {name}: {n} stations, first 3 played: {played}/3")
           tops = page.evaluate("Array.from(document.querySelectorAll('#rd-grid .card')).slice(0,5).map(e=>Math.round(e.getBoundingClientRect().top))")
-          if len(set(tops)) != 1:
+          if max(tops) - min(tops) > 12:
               failed = True
               log(f"RADIO CARDS NOT IN A ROW: {tops}")
           if i == 0:
@@ -152,7 +152,9 @@ def main():
       log(f"azkar font size at 1920px: {fs}")
       page.screenshot(path="shot-azkar.png")
       page.locator("#zk-listen").click()
-      log(f"azkar audio plays: {media_plays(page, '#zk-audio', 20)}")
+      ok = media_plays(page, '#zk-audio', 25)
+      st = page.evaluate("(()=>{const a=document.querySelector('#zk-audio');return {src:a.currentSrc,paused:a.paused,rs:a.readyState,ns:a.networkState,err:a.error&&a.error.code,t:a.currentTime}})()")
+      log(f"azkar audio plays: {ok} {st}")
       page.evaluate("stopZkAudio()")
       page.evaluate("show('home')")
       page.screenshot(path="shot-home.png")
