@@ -12,7 +12,7 @@
    Header (club + clock) / tab rail / one view / now-playing bar. Ahly red night.
    Only CSS that old Android TV browsers understand (see scripts/build_tv.py); gaps via grid. */
 :root{
-  --night:#14040a; --wine:#3a0812; --wine-2:#55101d; --ahly:#d2102b; --gold:#e3b94a;
+  --night:#14040a; --wine:#3a0812; --wine-2:#55101d; --ahly:#d2102b; --gold:#e3b94a; --ahly-d:#7d0718; --glow:rgba(210,16,43,.42); --base:#14040a; --adh:#5a0d1b;
   --chalk:#fbf3ef; --mist:#c9a9ae; --line:rgba(251,243,239,.12); --ok:#6fd49a; --paper:#f6efee;
   --f-display:"Reem Kufi","Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
   --f-body:"IBM Plex Sans Arabic","Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;
@@ -20,6 +20,12 @@
   --r:.9vw;
 }
 [hidden]{display:none!important}
+/* themes */
+html.t-egypt{--night:#0e0b0b;--wine:#241a1a;--wine-2:#382525;--ahly:#c8102e;--ahly-d:#1a1a1a;--gold:#c9a227;--chalk:#ffffff;--mist:#c9bdbd;--paper:#f5f2ee;--glow:rgba(200,16,46,.30);--base:#0e0b0b;--adh:#3a1015}
+html.t-saudi{--night:#04140c;--wine:#0b2a1b;--wine-2:#124029;--ahly:#00843d;--ahly-d:#00391b;--gold:#d4b26a;--chalk:#f8f6ef;--mist:#a9c6b6;--paper:#f4f1e6;--glow:rgba(0,132,61,.38);--base:#04140c;--adh:#0b3a22}
+html.t-saudi #sky .golden,html.t-egypt #sky .golden{background:radial-gradient(ellipse at 15% 110%,rgba(255,170,60,.32),transparent 55%),radial-gradient(ellipse at 85% -10%,var(--glow),transparent 55%),var(--base)}
+.theme-chip{display:flex;align-items:center}
+.theme-chip i{display:inline-block;width:1.1vw;height:1.1vw;border-radius:50%;margin-inline-end:.5vw;box-shadow:0 0 0 1px rgba(255,255,255,.4)}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{background:var(--night);color:var(--chalk);font-family:var(--f-body);font-size:1.3vw;overflow-x:hidden;
@@ -52,7 +58,7 @@ svg.i{width:1.6vw;height:1.6vw;fill:none;stroke:currentColor;stroke-width:1.8;st
 
 /* remote focus */
 [data-nav]{outline:none}
-[data-nav]:focus{box-shadow:0 0 0 .25vw var(--night),0 0 0 .5vw var(--gold);position:relative;z-index:2}
+[data-nav]:focus{box-shadow:0 0 0 .22vw var(--night),0 0 0 .55vw var(--gold),0 0 1.6vw .4vw rgba(255,255,255,.25);position:relative;z-index:2}
 .tab:focus,.chip:focus,.btn:focus,.qb:focus{background:var(--chalk)!important;color:var(--night)!important}
 .card:focus,.tile:focus{background:var(--wine-2)}
 
@@ -62,7 +68,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 
 /* home */
 .hero{display:grid;grid-template-columns:1.25fr 1fr;grid-gap:1.4vw}
-.next{background:linear-gradient(135deg,var(--ahly),#7d0718);border-radius:1.4vw;padding:2vw 2.2vw;display:grid;grid-gap:.5vw;align-content:center;position:relative;overflow:hidden}
+.next{background:linear-gradient(135deg,var(--ahly),var(--ahly-d));border-radius:1.4vw;padding:2vw 2.2vw;display:grid;grid-gap:.5vw;align-content:center;position:relative;overflow:hidden}
 .next:after{content:"";position:absolute;right:-3vw;bottom:-5vw;width:16vw;height:16vw;border-radius:50%;border:2vw solid rgba(255,255,255,.07)}
 .next .lbl{font-size:1vw;color:#ffd9d9}
 .next .name{font-family:var(--f-display);font-size:4.4vw;line-height:1}
@@ -104,7 +110,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .card .art>*{position:absolute;top:0;right:0;bottom:0;left:0}
 .card .art img{width:100%;height:100%;object-fit:contain;padding:12%}
 .card .art img.cover{object-fit:cover;padding:0}
-.card .art .gl{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);background:linear-gradient(150deg,#6b0f1f,#2a060d)}
+.card .art .gl{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);background:linear-gradient(150deg,var(--wine-2),var(--night))}
 .card .art .gl svg.i{width:2.6vw;height:2.6vw}
 .card .art .gl b{font-family:var(--f-display);font-weight:500;color:var(--chalk);font-size:1.15vw;margin-top:.5vw;padding:0 .6vw;text-align:center;line-height:1.3;max-height:3em;overflow:hidden}
 .card .nm{font-size:1vw;padding:0 .3vw .2vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
@@ -161,7 +167,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .np .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* adhan */
-.adhan{position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;background:radial-gradient(circle at 50% 40%,#5a0d1b,var(--night) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4vw}
+.adhan{position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;background:radial-gradient(circle at 50% 40%,var(--adh),var(--night) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4vw}
 .adhan>*+*{margin-top:1.4vw}
 .adhan .k{color:var(--gold)}
 .adhan h3{font-family:var(--f-display);font-size:5.6vw;margin:0;line-height:1.1}
@@ -260,13 +266,13 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 #sky{position:fixed;top:0;right:0;bottom:0;left:0;z-index:-1;pointer-events:none}
 #sky i{position:absolute;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity 4s ease}
 #sky i.on{opacity:1}
-#sky .night{background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 52% 22%,#fff,transparent),radial-gradient(1px 1px at 68% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 28%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 6%,#fff,transparent),radial-gradient(1px 1px at 22% 34%,#fff,transparent),radial-gradient(1px 1px at 44% 40%,#ffffffaa,transparent),radial-gradient(1px 1px at 74% 44%,#ffffffaa,transparent),radial-gradient(ellipse at 80% -10%,rgba(60,40,120,.45),transparent 60%),linear-gradient(180deg,#0b0820,#14040a 70%)}
-#sky .dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,150,90,.45),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(120,70,160,.45),transparent 60%),linear-gradient(180deg,#1d0f2a,#14040a 75%)}
-#sky .day{background:radial-gradient(ellipse at 85% -10%,rgba(210,16,43,.42),transparent 55%),#14040a}
-#sky .golden{background:radial-gradient(ellipse at 15% 110%,rgba(255,140,40,.40),transparent 55%),radial-gradient(ellipse at 85% -10%,rgba(210,16,43,.45),transparent 55%),#16050a}
-#sky .dusk{background:radial-gradient(ellipse at 50% 115%,rgba(230,70,60,.38),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(90,30,110,.5),transparent 60%),linear-gradient(180deg,#1a0820,#14040a 75%)}
+#sky .night{background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 52% 22%,#fff,transparent),radial-gradient(1px 1px at 68% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 28%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 6%,#fff,transparent),radial-gradient(1px 1px at 22% 34%,#fff,transparent),radial-gradient(1px 1px at 44% 40%,#ffffffaa,transparent),radial-gradient(1px 1px at 74% 44%,#ffffffaa,transparent),radial-gradient(ellipse at 80% -10%,rgba(60,40,120,.45),transparent 60%),linear-gradient(180deg,#0b0820,var(--base) 70%)}
+#sky .dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,150,90,.45),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(120,70,160,.45),transparent 60%),linear-gradient(180deg,#1d0f2a,var(--base) 75%)}
+#sky .day{background:radial-gradient(ellipse at 85% -10%,var(--glow),transparent 55%),var(--base)}
+#sky .golden{background:radial-gradient(ellipse at 15% 110%,rgba(255,140,40,.40),transparent 55%),radial-gradient(ellipse at 85% -10%,var(--glow),transparent 55%),var(--base)}
+#sky .dusk{background:radial-gradient(ellipse at 50% 115%,rgba(230,70,60,.38),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(90,30,110,.5),transparent 60%),linear-gradient(180deg,#1a0820,var(--base) 75%)}
 body{background-image:none!important;background-color:transparent!important}
-html{background:#14040a}
+html{background:var(--base)}
 
 /* weather card: light sky with clouds */
 #wx{position:relative;background:linear-gradient(180deg,#9fd3ff,#dff1ff);color:#10324d}
@@ -286,7 +292,7 @@ html{background:#14040a}
 /* match day */
 .matchday .crest{animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 .2vw var(--gold) inset,0 0 0 0 rgba(210,16,43,.7)}50%{box-shadow:0 0 0 .2vw var(--gold) inset,0 0 0 1vw rgba(210,16,43,0)}}
-.matchday #ahly{background:linear-gradient(160deg,#7d0718,var(--wine));box-shadow:0 0 0 .2vw var(--ahly)}
+.matchday #ahly{background:linear-gradient(160deg,var(--ahly-d),var(--wine));box-shadow:0 0 0 .2vw var(--ahly)}
 
 /* guests (majlis) mode */
 .guest{position:fixed;top:0;right:0;bottom:0;left:0;z-index:70;background:#000;overflow:hidden;color:#fff}
@@ -351,8 +357,8 @@ html{background:#14040a}
 <div class="app" dir="rtl" id="app">
   <header class="top">
     <div class="brand">
-      <div class="crest" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#e3b94a" d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div>
-      <div><h1>الأهلي فوق الجميع</h1><small>نادي القرن · تأسس ٢٤ أبريل ١٩٠٧</small></div>
+      <div class="crest" aria-hidden="true" id="crest"></div>
+      <div><h1 id="brand-t">الأهلي فوق الجميع</h1><small id="brand-s">نادي القرن · تأسس ٢٤ أبريل ١٩٠٧</small></div>
     </div>
     <div></div>
     <div class="right">
@@ -477,6 +483,13 @@ html{background:#14040a}
 
   <!-- SETTINGS -->
   <section class="view" id="v-settings" hidden>
+    <h2>الثيم</h2>
+    <div class="seg wrap" id="themes"></div>
+    <div class="row" style="grid-template-columns:40vw auto auto;grid-auto-flow:row">
+      <div class="field"><label for="title-txt">العنوان اللي فوق (سيبه فاضي للعنوان الافتراضي)</label><input id="title-txt" data-nav style="direction:rtl;text-align:right" placeholder=""></div>
+      <button class="btn" data-nav id="title-save" style="align-self:end;justify-self:start">حفظ</button>
+      <button class="btn ghost" data-nav id="auto-theme" style="align-self:end;justify-self:start">ثيم الأعياد الوطنية: يعمل</button>
+    </div>
     <h2>التحديثات</h2>
     <div class="row"><span class="muted" id="ver">—</span><button class="btn ghost" data-nav id="chk-upd">التحقق من التحديثات</button></div>
     <h2>قوائم IPTV</h2>
@@ -1064,7 +1077,7 @@ function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").fo
   if(v==="settings")renderPlLists();
   if(v==="apps")renderApps();else pinMode=false;
   if(v==="quran"&&!loaded.q){loaded.q=1;renderQuran();renderSleep()}
-  if(v==="settings"){renderHaramTog();renderGuestQ();renderVer();renderVoices();renderToggles();renderSaverOpts()}}
+  if(v==="settings"){renderThemes();renderHaramTog();renderGuestQ();renderVer();renderVoices();renderToggles();renderSaverOpts()}}
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>show(t.dataset.view));
 document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.go);focusView()});
 
@@ -1096,12 +1109,15 @@ window.tvKey=function(k){
   if(cur&&cur.id==="zk-reader"){if(k==="L"){zkGo(1);return "ok"}if(k==="R"){zkGo(-1);return "ok"}if(k==="PP"){$("#zk-listen").click();return "ok"}}
   if(k==="PP"){const a=$("#radio");if(a.src){a.paused?a.play():a.pause()}return "ok"}
   if(k==="C"){if(cur&&cur.tagName==="INPUT"){cur.focus();return "ime"}if(cur)cur.click();return "ok"}
+  if(k==="D"&&cur&&cur.classList.contains("tab")){if(cur.dataset.view!==view)show(cur.dataset.view);if(enterView())return "ok"}
+  if(k==="D"&&cur&&cur.classList.contains("qb")){focusView();return "ok"}
   if("LRUD".indexOf(k)>=0)move(k);return "ok"};
 window.tvBack=function(){if(wakeBlack())return true;if(hideGuest())return true;if(hideSaver())return true;
   if(!$("#adhan").hidden){closeAdhan();return true}
   if(!$("#player").hidden){closePlayer();return true}
   if(hideNowPlaying())return true;
   if(!$("#pl-panel").hidden){$("#pl-close").click();return true}
+  {const cur=document.activeElement;if(cur&&cur.closest&&cur.closest(".view")){focusView();return true}}
   if(view!=="home"){show("home");focusView();return true}
   return false};
 document.addEventListener("keydown",e=>{if(window.AhlyTV)return; // the Android app forwards keys itself
@@ -1125,13 +1141,41 @@ window.onUpdateProgress=function(p){const b=$("#q-update");
 $("#q-update").onclick=()=>{if(updating||!bridge)return;updating=true;$("#q-update").textContent="جاري التحميل…";bridge.update()};
 if(bridge&&bridge.checkUpdate){setTimeout(()=>bridge.checkUpdate(),4000);setInterval(()=>bridge.checkUpdate(),30*6e4)}
 
-/* ---------- smoother remote: moving across the tabs switches the page ---------- */
-document.addEventListener("focusin",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("tab")){clearTimeout(tabT);tabT=setTimeout(()=>{if(document.activeElement===t&&view!==t.dataset.view)show(t.dataset.view)},220)}});
+/* ---------- themes ---------- */
+const CREST={
+ ahly:'<svg viewBox="0 0 24 24"><path fill="#e3b94a" d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>',
+ egypt:'<svg viewBox="0 0 24 24"><path fill="#c9a227" d="M12 3l9 16H3z"/><path fill="#0e0b0b" opacity=".35" d="M12 3l3 16H12z"/></svg>',
+ saudi:'<svg viewBox="0 0 24 24" fill="none" stroke="#d4b26a" stroke-width="1.6" stroke-linecap="round"><path d="M12 21V9"/><path d="M12 9c-2-3-5-3.5-7.5-2.5M12 9c2-3 5-3.5 7.5-2.5M12 9c-1.5-2.5-1.8-4.5-.8-6.5M12 9c1.5-2.5 1.8-4.5.8-6.5M12 9c-3 0-5.5 1.5-6.5 4M12 9c3 0 5.5 1.5 6.5 4"/></svg>'};
+const THEMES=[{id:"ahly",n:"الأهلي",c:"#d2102b",t:"الأهلي فوق الجميع",s:"نادي القرن · تأسس ٢٤ أبريل ١٩٠٧"},
+ {id:"egypt",n:"مصر",c:"#c8102e",t:"تحيا مصر",s:"مصر أم الدنيا"},
+ {id:"saudi",n:"السعودية",c:"#00843d",t:"حياكم الله",s:"المملكة العربية السعودية"}];
+let themeId=store.get("theme","ahly"),autoTheme=store.get("autoTheme",true),themeToday="";
+function nationalDay(){const p=parts(city.tz,new Date(),{month:"numeric",day:"numeric"}),md=(+p.month)+"-"+(+p.day);
+  if(md==="9-23")return["saudi","اليوم الوطني السعودي، كل عام والوطن بخير 💚"];if(md==="2-22")return["saudi","يوم التأسيس، يوم بدينا 💚"];
+  if(md==="10-6")return["egypt","ذكرى نصر أكتوبر المجيد"];if(md==="7-23")return["egypt","ذكرى ثورة ٢٣ يوليو"];return null}
+function applyTheme(){const nd=autoTheme?nationalDay():null,id=nd?nd[0]:themeId,t=THEMES.find(x=>x.id===id)||THEMES[0];
+  document.documentElement.classList.remove("t-ahly","t-egypt","t-saudi");document.documentElement.classList.add("t-"+t.id);
+  $("#crest").innerHTML=CREST[t.id];const own=store.get("title","");$("#brand-t").textContent=own||t.t;$("#brand-s").textContent=nd?nd[1]:t.s;themeToday=t.id}
+function renderThemes(){$("#themes").replaceChildren(...THEMES.map(t=>{const b=el("button",{class:"chip theme-chip","data-nav":"","aria-pressed":String(t.id===themeId)},el("i",{style:"background:"+t.c}),t.n);
+  b.onclick=()=>{themeId=t.id;store.set("theme",themeId);applyTheme();renderThemes();focusSel("#themes [aria-pressed=true]")};return b}));
+  $("#auto-theme").textContent="ثيم الأعياد الوطنية: "+(autoTheme?"يعمل":"متوقف");$("#title-txt").value=store.get("title","")}
+$("#auto-theme").onclick=()=>{autoTheme=!autoTheme;store.set("autoTheme",autoTheme);applyTheme();renderThemes()};
+$("#title-save").onclick=()=>{store.set("title",$("#title-txt").value.trim());applyTheme();toast("اتحفظ العنوان")};
+setInterval(applyTheme,30*6e4);
+
+/* ---------- remote: pages change only with OK; down from a tab enters the page in reading order ---------- */
+const focusMem={};
+document.addEventListener("focusin",e=>{const t=e.target;if(!t||!t.closest)return;const sec=t.closest(".view");if(sec)focusMem[sec.id]=t});
+function firstInView(){const sec=document.getElementById("v-"+view);if(!sec)return null;
+  const items=Array.prototype.filter.call(sec.querySelectorAll("[data-nav]"),visible);if(!items.length)return null;
+  items.sort((a,b)=>{const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();return Math.abs(ra.top-rb.top)>8?ra.top-rb.top:rb.right-ra.right});return items[0]}
+function enterView(){const m=focusMem["v-"+view];if(m&&document.body.contains(m)&&visible(m)){focusEl(m);return true}const f=firstInView();if(f){focusEl(f);return true}return false}
+window.goHome=function(){hideNowPlaying();hideGuest();if(!$("#player").hidden)closePlayer();show("home");focusView();return "ok"};
 
 /* ---------- boot ---------- */
 renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
-renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();
+applyTheme();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();
 setInterval(loadWeather,30*6e4);setInterval(loadAhly,10*6e4);setInterval(renderAyah,60*6e4);
 tick();renderNotice(new Date(),Date.now());renderSky(Date.now());findHaram();setInterval(tick,1000);setTimeout(focusView,300);
 </script>

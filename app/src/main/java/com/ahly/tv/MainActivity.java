@@ -432,9 +432,11 @@ public class MainActivity extends Activity {
             // short press: the page goes back. Hold 3 seconds: open the TV's settings (escape hatch).
             if (e.getAction() == KeyEvent.ACTION_DOWN) {
                 if (e.getRepeatCount() == 0) { backDownAt = System.currentTimeMillis(); backLongFired = false; }
-                else if (!backLongFired && System.currentTimeMillis() - backDownAt > 2500) { backLongFired = true; openSettings(); }
+                else if (!backLongFired && System.currentTimeMillis() - backDownAt > 3000) { backLongFired = true; openSettings(); }
             } else if (e.getAction() == KeyEvent.ACTION_UP && !backLongFired) {
-                web.evaluateJavascript("window.tvBack&&window.tvBack()", null);
+                // a short hold (under three seconds) goes straight to the home page
+                if (System.currentTimeMillis() - backDownAt >= 700) web.evaluateJavascript("window.goHome&&window.goHome()", null);
+                else web.evaluateJavascript("window.tvBack&&window.tvBack()", null);
             }
             return true;
         }
