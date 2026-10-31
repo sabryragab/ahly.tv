@@ -47,8 +47,6 @@ https://imn-live.esite-lab.com/hls/iraqia-general.m3u8
 https://imn-live.esite-lab.com/hls/iraqia-news.m3u8
 #EXTINF:-1 tvg-id="AlIraqiaSport.iq@SD" tvg-logo="https://i.imgur.com/DrrlxTO.png" group-title="Sports",Al Iraqia Sport (720p)
 https://imn-live.esite-lab.com/hls/iraqia-sports-1.m3u8
-#EXTINF:-1 tvg-id="AlIttihadTV.lb@SD" tvg-logo="https://i.imgur.com/QMUjPXx.png" group-title="General",Al Ittihad TV (552p) [Not 24/7]
-http://185.105.4.151:8080/_defapp_/ittihad/index.m3u8
 #EXTINF:-1 tvg-id="AlJadeed.lb@SD" tvg-logo="https://i.imgur.com/CfxR8o3.png" group-title="General",Al Jadeed (1080p)
 http://185.9.2.18/chid_391/mono.m3u8
 #EXTINF:-1 tvg-id="AlJanoubTV.iq@SD" tvg-logo="https://i.imgur.com/rxDh6W1.png" group-title="News",Al Janoub TV
@@ -315,6 +313,8 @@ https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/playlist.m3u8
 https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD.m3u8
 #EXTINF:-1 tvg-id="KurdsatNews.iq@SD" tvg-logo="https://i.imgur.com/F3XRwkt.png" group-title="News",Kurdsat News (1080p)
 https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8
+#EXTINF:-1 tvg-id="LanaTV.lb@SD" tvg-logo="https://i.imgur.com/xPoycVY.png" group-title="General",Lana TV (576p)
+https://cdn.streamlane.tv/hls/ltv/master.m3u8
 #EXTINF:-1 tvg-id="LBC.sa@SD" tvg-logo="https://s3.eu-central-1.amazonaws.com/rotana.website/channels/1688402500.webp" group-title="General",LBC (576p)
 http://185.9.2.18/chid_327/index.m3u8
 #EXTINF:-1 tvg-id="LBCInternational.lb@SD" tvg-logo="https://i.imgur.com/h26xtUv.png" group-title="General",LBC International (1080p)
@@ -417,8 +417,6 @@ https://pbc.furrera.ps/musawahd/index.m3u8
 https://afghantv.app/hls2/muslimnetwork/index.m3u8
 #EXTINF:-1 tvg-id="NewsoftheWorld.us@Arabic" tvg-logo="https://i.imgur.com/MfyRQCs.png" group-title="News",News of the World Arabic (720p)
 https://live.nowtelly.com/now_arabic/live/playlist.m3u8
-#EXTINF:-1 tvg-id="NidaeAlIslamRadio.sa@SD" tvg-logo="https://aloula.faulio.com/storage/mediagallery/0f/c5/fullhd_5da380cdfc304fd7d4672a83aeb6c62bc1d3d3e8.png" group-title="Music",Nidae AlIslam Radio (1080p)
-https://live.kwikmotion.com/sbrksanedaradiolive/srpksanedaradio/playlist.m3u8
 #EXTINF:-1 tvg-id="NileDrama.eg@SD" tvg-logo="https://i.imgur.com/FasJFMM.png" group-title="Movies",Nile Drama (576p)
 http://185.9.2.18/chid_352/index.m3u8
 #EXTINF:-1 tvg-id="NourAlSharq.lb@SD" tvg-logo="https://i.imgur.com/EEy2dUr.png" group-title="Religious",Nour Al Sharq (576p)
@@ -491,6 +489,8 @@ https://live.kwikmotion.com/royatvpublic/royatv.smil/playlist.m3u8
 https://rt-arb.rttv.com/dvr/rtarab/playlist.m3u8
 #EXTINF:-1 tvg-id="SafeerTV.uk@SD" tvg-logo="https://image.roku.com/developer_channels/prod/8389e15af8fe49ac7c36d201c24ebf62fbe5b22897c2879ca26ae936e0ed308d.png" group-title="Religious",Safeer TV (1080p)
 https://cdn3.wowza.com/1/YStGZlJRdktzZkdK/VXROZWNW/hls/live/playlist.m3u8
+#EXTINF:-1 tvg-id="Sahara24.mr@HD" tvg-logo="https://i.imgur.com/pnzWYwT.png" group-title="News",Sahara 24 (1080p)
+https://live.saharamedias.net:3317/live/shara24live.m3u8
 #EXTINF:-1 tvg-id="Sat7Arabic.cy@SD" tvg-logo="https://i.imgur.com/BzDjQeQ.png" group-title="Undefined",Sat 7 Arabic (240p)
 https://svs.itworkscdn.net/sat7arabiclive/sat7arabic.smil/playlist_dvr.m3u8
 #EXTINF:-1 tvg-id="Sat7Kids.cy@SD" tvg-logo="https://i.imgur.com/M0ik0i2.png" group-title="Kids",Sat 7 Kids (1080p)
