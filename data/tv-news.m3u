@@ -107,8 +107,6 @@ https://live.paltodaytv.com/paltv/live/playlist_sfm4s.m3u8
 https://live.paltodaytv.com/paltv/live/playlist.m3u8
 #EXTINF:-1 tvg-id="PayamTV.iq@SD" tvg-logo="https://i.imgur.com/qySEibb.png" group-title="News",Payam TV (1080p)
 https://hlspackager.akamaized.net/live/DB/PAYAM_TV/HLS/PAYAM_TV.m3u8
-#EXTINF:-1 tvg-id="RedTVLebanon.lb@HD" tvg-logo="https://i.imgur.com/bWwY885.png" group-title="News",Red TV Lebanon (1080p)
-https://live.kwikmotion.com/redtvlive/redtv.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="RudawTV.iq@SD" tvg-logo="https://i.imgur.com/Zo3IWOn.png" group-title="News",Rudaw TV (1080p)
 https://hlspackager.akamaized.net/live/DB/RUDAW/HLS/RUDAW.m3u8
 #EXTINF:-1 tvg-id="SerajTV.ps@SD" tvg-logo="https://i.imgur.com/1d25a9Q.png" group-title="General",Seraj TV (1080i)
