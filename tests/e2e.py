@@ -198,7 +198,8 @@ def main():
       page.evaluate("store.set('name','أبو يوسف');renderGreet()")
       page.evaluate("cols=8;applyCols();store.set('tabHidden',['radio']);applyTabs()")
       vis = page.evaluate("[...document.querySelectorAll('#tabs .tab')].filter(b=>!b.hidden).length")
-      log(f"themes applied, greeting: {page.locator('#greet').inner_text()[:20]}, visible tabs after hiding radio: {vis}, cols: {page.evaluate(\"getComputedStyle(document.documentElement).getPropertyValue('--cols')\")}")
+      colvar = page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--cols')")
+      log("themes applied, greeting: " + page.locator("#greet").inner_text()[:20] + ", visible tabs after hiding radio: " + str(vis) + ", cols: " + colvar)
       if vis != 7: failed = True
       page.evaluate("themeId='ahly';store.set('tabHidden',[]);applyTabs();applyTheme()")
       page.evaluate("showGuest()")
