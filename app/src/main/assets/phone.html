@@ -44,7 +44,7 @@ button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0
 </head>
 <body>
 <div class="wrap">
-  <div class="top"><button data-p="remote" class="on">الريموت</button><button data-p="iptv">قوايم IPTV</button></div>
+  <div class="top" style="grid-template-columns:1fr 1fr 1fr"><button data-p="remote" class="on">الريموت</button><button data-p="iptv">قوايم IPTV</button><button data-p="img">الشعار والخلفية</button></div>
   <div id="p-remote" style="display:grid;gap:16px">
     <div class="keys"><button data-k="HOME">الرئيسية</button><button data-k="B">رجوع</button><button data-k="PP">تشغيل/إيقاف</button></div>
     <div class="pad">
@@ -54,8 +54,15 @@ button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0
     </div>
     <div class="keys"><button data-k="VDN">صوت −</button><button data-k="MUTE">كتم</button><button data-k="VUP">صوت +</button></div>
     <div class="keys"><button data-k="CU">قناة ▲</button><button data-k="CL">★ مفضلة</button><button data-k="CD">قناة ▼</button></div>
+    <div class="keys"><button data-k="YELLOW">🟡 مشغّل تاني</button><button data-k="GREEN">🟢 مشغّل خارجي</button></div>
     <div class="digits"><button data-k="N1">1</button><button data-k="N2">2</button><button data-k="N3">3</button><button data-k="N4">4</button><button data-k="N5">5</button><button data-k="N6">6</button><button data-k="N7">7</button><button data-k="N8">8</button><button data-k="N9">9</button><button data-k="N0">0</button></div>
     <form class="typer" id="f-type"><input name="t" placeholder="اكتب هنا وابعته للشاشة" autocomplete="off"><button>ابعت</button></form>
+  </div>
+  <div id="p-img" hidden style="display:grid;gap:16px">
+    <div><h1>الشعار والخلفية</h1><p>ارفع صورة من موبايلك تظهر على الشاشة. استخدم أي صورة من عندك.</p></div>
+    <form id="f-logo"><label>شعار النادي (أيقونة فوق)<input name="f" type="file" accept="image/*" required></label><button class="go">رفع الشعار</button></form>
+    <form id="f-bg"><label>خلفية الشاشة الرئيسية<input name="f" type="file" accept="image/*" required></label><button class="go">رفع الخلفية</button></form>
+    <button class="go" id="clr-img" style="background:var(--muted)">رجّع الافتراضي</button>
   </div>
   <div id="p-iptv" hidden style="display:grid;gap:16px">
   <div><h1>ضيف قايمة IPTV للشاشة</h1><p>اللي هتضيفه هنا هيظهر على الشاشة في «القنوات وIPTV» على طول.</p></div>
@@ -90,7 +97,14 @@ button.go{font:inherit;font-weight:700;color:#fff;background:var(--red);border:0
 const $=s=>document.querySelector(s);
 document.querySelectorAll(".top button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".top button").forEach(x=>x.classList.toggle("on",x===b));$("#p-remote").hidden=b.dataset.p!=="remote";$("#p-iptv").hidden=b.dataset.p!=="iptv";if(b.dataset.p==="iptv")load()});
 document.querySelectorAll("[data-k]").forEach(b=>b.addEventListener("click",()=>{fetch("/key?k="+b.dataset.k).catch(()=>{});if(navigator.vibrate)navigator.vibrate(10)}));
-$("#f-type").onsubmit=async e=>{e.preventDefault();const t=e.target.t.value;try{const r=await (await fetch("/text",{method:"POST",body:t})).json();if(r.ok)e.target.reset();else alert(r.error)}catch(err){}};
+async function sendImg(kind,file){if(file.size>5*1024*1024){alert("الصورة كبيرة، اختار أصغر من ٥ ميجا");return}
+  const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(file)});
+  const r=await fetch("/image?kind="+kind,{method:"POST",body:b64});if((await r.json()).ok)alert("تم ✓ بص على الشاشة");else alert("حصلت مشكلة")}
+$("#f-logo").onsubmit=e=>{e.preventDefault();if(e.target.f.files[0])sendImg("logo",e.target.f.files[0])};
+$("#f-bg").onsubmit=e=>{e.preventDefault();if(e.target.f.files[0])sendImg("bg",e.target.f.files[0])};
+$("#clr-img").onclick=async()=>{await fetch("/image?kind=clear",{method:"POST",body:""});alert("رجعت الافتراضي")};
+$("#f-type")&&($("#f-type").onsubmit=async e=>{e.preventDefault();const t=e.target.t.value;try{const r=await (await fetch("/text",{method:"POST",body:t})).json();if(r.ok)e.target.reset();else alert(r.error)}catch(err){}});
+document.querySelectorAll(".top button").forEach(b=>b.addEventListener("click",()=>{["remote","iptv","img"].forEach(k=>{const el=$("#p-"+k);if(el)el.hidden=b.dataset.p!==k})}));
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
   ["url","file","xt"].forEach(t=>$("#f-"+t).hidden=t!==b.dataset.t)});
 function say(t){const m=$("#msg");m.textContent=t;m.hidden=false;m.scrollIntoView({behavior:"smooth",block:"center"})}

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +61,9 @@ public class PlayerActivity extends Activity {
     private final Runnable startPending = this::startCurrent;
     private List<String> tries = new ArrayList<>();
     private long lastSwitch = 0;
+    private int mimeMode = 0;  // 0 auto, 1 force HLS, 2 force TS/progressive
+    private static final String[] MIME_NAMES = {"تلقائي", "HLS", "عادي"};
+    private long lastStall = 0;
 
     private static final Pattern XTREAM = Pattern.compile("^(https?://[^/]+)/(?:live/)?([^/]+)/([^/]+)/(\\d+)(?:\\.(ts|m3u8))?$", Pattern.CASE_INSENSITIVE);
 
@@ -106,7 +110,8 @@ public class PlayerActivity extends Activity {
         osd.setBackground(g);
         title = new TextView(this); title.setTextColor(Color.WHITE); title.setTextSize(30); title.setTypeface(Typeface.DEFAULT_BOLD);
         number = new TextView(this); number.setTextColor(0xFFE3B94A); number.setTextSize(16);
-        TextView hint = new TextView(this); hint.setTextColor(0xFFC9A9AE); hint.setTextSize(14); hint.setText("▲ ▼ تغيير القناة   ·   رجوع للخروج");
+        TextView hint = new TextView(this); hint.setTextColor(0xFFC9A9AE); hint.setTextSize(14);
+        hint.setText("▲ ▼ تغيير القناة   ·   🟡 جرّب مشغّل تاني   ·   🟢 مشغّل خارجي   ·   رجوع للخروج");
         osd.addView(number); osd.addView(title); osd.addView(hint);
         root.addView(osd, new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM));
         setContentView(root);
@@ -121,6 +126,8 @@ public class PlayerActivity extends Activity {
             @Override public void onPlaybackStateChanged(int s) {
                 spinner.setVisibility(s == Player.STATE_BUFFERING ? View.VISIBLE : View.GONE);
                 if (s == Player.STATE_READY) error.setVisibility(View.GONE);
+                h.removeCallbacks(stallWatch);
+                if (s == Player.STATE_BUFFERING) h.postDelayed(stallWatch, 18000);  // frozen mid-stream -> reload once
             }
             @Override public void onPlayerError(PlaybackException e) { tryNext(); }
         });
@@ -128,6 +135,37 @@ public class PlayerActivity extends Activity {
     }
 
     private int dp(int v) { return (int) (v * getResources().getDisplayMetrics().density); }
+
+    private final Runnable stallWatch = () -> {
+        if (player.getPlaybackState() == Player.STATE_BUFFERING && System.currentTimeMillis() - lastStall > 20000) {
+            lastStall = System.currentTimeMillis(); player.seekToDefaultPosition(); player.prepare();
+        }
+    };
+
+    /** cycle the internal decoder hint for the current channel */
+    private void cycleMime() {
+        mimeMode = (mimeMode + 1) % 3;
+        number.setText("مشغّل: " + MIME_NAMES[mimeMode]);
+        showOsd();
+        tries = new ArrayList<>();
+        tries.add(chans.get(idx)[1]);
+        player.stop(); spinner.setVisibility(View.VISIBLE); error.setVisibility(View.GONE); tryNext();
+    }
+
+    /** hand the stream to an external player (VLC, MX Player, …) if one is installed */
+    private void openExternal() {
+        String u = chans.get(idx)[1];
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.parse(u), "video/*");
+        i.putExtra("title", chans.get(idx)[0]);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (i.resolveActivity(getPackageManager()) != null) {
+            startActivity(Intent.createChooser(i, "تشغيل بـ"));
+        } else {
+            number.setText("مفيش مشغّل خارجي متثبّت (VLC أو MX Player)");
+            showOsd();
+        }
+    }
 
     private void showOsd() {
         osd.setVisibility(View.VISIBLE);
@@ -161,13 +199,15 @@ public class PlayerActivity extends Activity {
         boolean forceHls = u.startsWith("hls:");
         if (forceHls) u = u.substring(4);
         MediaItem.Builder mb = new MediaItem.Builder().setUri(Uri.parse(u));
-        if (forceHls || u.toLowerCase().contains("m3u8") || u.contains("type=m3u")) mb.setMimeType(MimeTypes.APPLICATION_M3U8);
+        if (mimeMode == 1 || forceHls || u.toLowerCase().contains("m3u8") || u.contains("type=m3u")) mb.setMimeType(MimeTypes.APPLICATION_M3U8);
+        else if (mimeMode == 2) mb.setMimeType(MimeTypes.VIDEO_MP2T);
         player.setMediaItem(mb.build());
         player.prepare();
     }
 
     private void switchBy(int d) {
         if (live) { showOsd(); return; }
+        mimeMode = 0;
         idx += d;
         idx = (idx % chans.size() + chans.size()) % chans.size();
         title.setText(chans.get(idx)[0]);
@@ -195,6 +235,8 @@ public class PlayerActivity extends Activity {
             case "D": case "CD": switchBy(1); break;
             case "B": case "HOME": finish(); break;
             case "PP": player.setPlayWhenReady(!player.getPlayWhenReady()); break;
+            case "YELLOW": cycleMime(); break;
+            case "GREEN": openExternal(); break;
             default:
                 if (k.startsWith("N") && k.length() == 2) digit(k.charAt(1)); else showOsd();
         }
@@ -229,6 +271,8 @@ public class PlayerActivity extends Activity {
                 showOsd(); return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 player.setPlayWhenReady(!player.getPlayWhenReady()); return true;
+            case KeyEvent.KEYCODE_PROG_YELLOW: cycleMime(); return true;
+            case KeyEvent.KEYCODE_PROG_GREEN: openExternal(); return true;
             default: return super.dispatchKeyEvent(e);
         }
     }

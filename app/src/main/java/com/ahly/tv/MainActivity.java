@@ -295,7 +295,7 @@ public class MainActivity extends Activity {
             }
             if (path.equals("/key")) {
                 String k = q.get("k");
-                if (k == null || !k.matches("[A-Z0-9]{1,5}")) return json(200, "{\"ok\":false}");
+                if (k == null || !k.matches("[A-Z0-9]{1,6}")) return json(200, "{\"ok\":false}");
                 if (k.equals("VUP") || k.equals("VDN") || k.equals("MUTE")) {
                     android.media.AudioManager am = (android.media.AudioManager) getSystemService(Context.AUDIO_SERVICE);
                     int dir = k.equals("VUP") ? android.media.AudioManager.ADJUST_RAISE : k.equals("VDN") ? android.media.AudioManager.ADJUST_LOWER : android.media.AudioManager.ADJUST_TOGGLE_MUTE;
@@ -305,6 +305,14 @@ public class MainActivity extends Activity {
                 PlayerActivity pa = PlayerActivity.current;
                 if (pa != null) { final String kk = k; runOnUiThread(() -> pa.remote(kk)); return json(200, "{\"ok\":true}"); }
                 callPage("window.remoteKey?window.remoteKey('" + k + "'):''");
+                return json(200, "{\"ok\":true}");
+            }
+            if (path.equals("/image") && method.equals("POST")) {
+                String kind = q.get("kind");
+                final String data = new String(body, StandardCharsets.UTF_8);
+                if ("clear".equals(kind)) { callPage("window.onUserLogo&&window.onUserLogo('');window.onUserBg&&window.onUserBg('')"); return json(200, "{\"ok\":true}"); }
+                String fn = "logo".equals(kind) ? "onUserLogo" : "onUserBg";
+                callPage("window." + fn + "&&window." + fn + "(" + JSONObject.quote(data) + ")");
                 return json(200, "{\"ok\":true}");
             }
             if (path.equals("/text") && method.equals("POST")) {

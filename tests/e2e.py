@@ -192,6 +192,15 @@ def main():
       log(f"screensaver after idle: {sv}, closes on key: {not page.locator('#saver').is_visible()}")
       if not sv:
           failed = True
+      # themes + density + tabs
+      for t in ["saudi","zamalek","hilal","nasr","ittihad","light","ramadan","custom"]:
+          page.evaluate(f"themeId='{t}';applyTheme()")
+      page.evaluate("store.set('name','أبو يوسف');renderGreet()")
+      page.evaluate("cols=8;applyCols();store.set('tabHidden',['radio']);applyTabs()")
+      vis = page.evaluate("[...document.querySelectorAll('#tabs .tab')].filter(b=>!b.hidden).length")
+      log(f"themes applied, greeting: {page.locator('#greet').inner_text()[:20]}, visible tabs after hiding radio: {vis}, cols: {page.evaluate(\"getComputedStyle(document.documentElement).getPropertyValue('--cols')\")}")
+      if vis != 7: failed = True
+      page.evaluate("themeId='ahly';store.set('tabHidden',[]);applyTabs();applyTheme()")
       page.evaluate("showGuest()")
       page.wait_for_timeout(3500)
       log(f"guest mode shows: {page.locator('#guest').is_visible()} text: {page.locator('#g-wel').inner_text()}")
