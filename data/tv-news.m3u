@@ -89,6 +89,8 @@ https://kwtkbta.cdn.mangomolo.com/kb/smil:kb.stream.smil/chunklist.m3u8
 https://hlspackager.akamaized.net/live/DB/K24/HLS/K24.m3u8
 #EXTINF:-1 tvg-id="KurdsatNews.iq@SD" tvg-logo="https://i.imgur.com/F3XRwkt.png" group-title="News",Kurdsat News (1080p)
 https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8
+#EXTINF:-1 tvg-id="MaanTV.ps@SD" tvg-logo="https://i.imgur.com/hRFa03k.png" group-title="News",Ma'an TV (720p)
+https://htvmada.mada.ps:4443/maannews/index.m3u8
 #EXTINF:-1 tvg-id="Medi1TVAfrique.ma@SD" tvg-logo="https://i.imgur.com/a20DHnj.png" group-title="News",Medi1TV Afrique (1080p)
 https://cdn.live.easybroadcast.io/abr_corp/83_medi1tv-afrique_tm7tu45/playlist.m3u8
 #EXTINF:-1 tvg-id="Medi1TVArabic.ma@SD" tvg-logo="https://i.imgur.com/3YsZPY6.jpeg" group-title="News",Medi1TV Arabic (1080p)
@@ -127,5 +129,7 @@ https://svs.itworkscdn.net/vdltvlive/vdltv.smil/playlist.m3u8
 https://stream.badinan.xyz/welat/tv/playlist.m3u8
 #EXTINF:-1 tvg-id="AnwarTV2.iq@SD" tvg-logo="https://i.imgur.com/yHZXPcn.png" group-title="News",Anwar TV2 (720p)
 https://cloud.odysee.live/content/f92670235a1ce2bce4cf77671cc4dcc2188baa1d/master.m3u8
+#EXTINF:-1 tvg-id="KolalnasTV.ps@SD" tvg-logo="https://i.imgur.com/OyMxcRG.png" group-title="News",Kolalnas TV
+https://htvint.mada.ps/kolalnas/index.m3u8
 #EXTINF:-1 tvg-id="QBC.qa@HD" tvg-logo="https://www.qbc.news/_next/static/media/logo.0~2x9wpd284~a.svg" group-title="Business",QBC (1080p)
 https://googlecdn1.alkassdigital.net/livestream/qbc4/main.m3u8
