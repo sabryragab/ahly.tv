@@ -1,16 +1,18 @@
-checked 2026-11-08 20:28 UTC
+checked 2026-11-09 06:25 UTC
 tv/eg: 16 listed, 14 ok, 2 geo-blocked kept, 0 dead removed
 tv/sa: 55 listed, 44 ok, 9 geo-blocked kept, 2 dead removed
 tv/religious: 35 listed, 34 ok, 1 geo-blocked kept, 0 dead removed
 tv/news: 73 listed, 65 ok, 3 geo-blocked kept, 5 dead removed
 tv/sports: 19 listed, 9 ok, 9 geo-blocked kept, 1 dead removed
-tv/arabic: 338 listed, 292 ok, 30 geo-blocked kept, 16 dead removed
+tv/arabic: 338 listed, 292 ok, 29 geo-blocked kept, 17 dead removed
 tv/kids: 7 listed, 7 ok, 0 geo-blocked kept, 0 dead removed
 tv/movies: 10 listed, 7 ok, 2 geo-blocked kept, 1 dead removed
 tv/documentary: 5 listed, 4 ok, 1 geo-blocked kept, 0 dead removed
-tv/ae: 21 listed, 15 ok, 3 geo-blocked kept, 3 dead removed
+tv/ae: 21 listed, 16 ok, 3 geo-blocked kept, 2 dead removed
 tv/kw: 11 listed, 10 ok, 1 geo-blocked kept, 0 dead removed
-tv/world: 2166 listed, 1382 ok, 206 geo-blocked kept, 578 dead removed
-radio/quran: 177 listed, 169 working
-radio/EG: SOURCE FAILED (all mirrors)
-radio/SA: 98 listed, 96 working
+tv/world: 2166 listed, 1387 ok, 205 geo-blocked kept, 574 dead removed
+radio/quran: 177 listed, 107 working
+radio/EG: 58 listed, 55 working
+radio/SA: 46 listed, 46 working
+quran library: 31 recitations, audio ok: True
+ahly: 1 next, 1 last
