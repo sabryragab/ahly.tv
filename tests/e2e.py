@@ -208,7 +208,7 @@ def main():
       vis = page.evaluate("[...document.querySelectorAll('#tabs .tab')].filter(b=>!b.hidden).length")
       colvar = page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--cols')")
       log("themes applied, greeting: " + page.locator("#greet").inner_text()[:20] + ", visible tabs after hiding radio: " + str(vis) + ", cols: " + colvar)
-      if vis != 7: failed = True
+      if vis != 8: failed = True
       page.evaluate("themeId='ahly';store.set('tabHidden',[]);applyTabs();applyTheme()")
       page.evaluate("showGuest()")
       page.wait_for_timeout(3500)
