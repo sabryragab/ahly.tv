@@ -1110,8 +1110,11 @@ function parseM3U(txt,filterAr){const out=[];let meta=null;const lines=txt.split
   else if(line[0]!=="#"&&meta){meta.url=line;out.push(meta);meta=null}}
   if(filterAr)return out.filter(c=>/[؀-ۿ]/.test(c.name)||/arab/i.test(c.lang)||/\.(eg|sa|ae|kw|qa|bh|om|jo|lb|ma|dz|tn|iq|sy|ps|ly|sd|ye)(@|$)/i.test(c.id));
   return out}
+const netWait={};window.onNetFetch=function(tok,ok,info){const w=netWait[tok];if(!w)return;delete netWait[tok];clearTimeout(w.t);if(ok)w.res(bridge.readNet(tok));else w.rej(new Error(info||"فشل التحميل"))};
+function nativeGet(u){return new Promise((res,rej)=>{const tok="n"+Date.now();netWait[tok]={res,rej,t:setTimeout(()=>{delete netWait[tok];rej(new Error("السيرفر بطيء جداً (أكتر من دقيقتين)"))},240000)};bridge.fetchPl(tok,u)})}
 async function loadPl(p){if(p.local)return (p.local==="favs"?favs:recent).slice();if(plCache[p.id])return plCache[p.id];let list;
   if(p.file){if(!bridge||!bridge.readFile)throw new Error("الملف موجود على الشاشة بس");list=parseM3U(bridge.readFile(p.id)||"")}
+  else if(bridge&&bridge.fetchPl&&/^https?:/i.test(p.u||"")&&!p.filterAr)list=parseM3U(await nativeGet(p.u),false)
   else list=await firstOk([p.u,p.alt],async r=>{const t=await r.text();if(!/#EXTM3U|#EXTINF/.test(t.slice(0,3000)))throw new Error("الرابط مش قايمة m3u");return parseM3U(t,p.filterAr)});
   plCache[p.id]=list;return list}
 function renderSources(){$("#tv-sources").replaceChildren(...allPl().map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===curPl),text:p.n,onclick(){curPl=p.id;store.set("curPl",curPl);curGroup="الكل";$("#pl-panel").hidden=true;renderSources();renderChannels()}})))}

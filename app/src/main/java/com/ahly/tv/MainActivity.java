@@ -123,6 +123,66 @@ public class MainActivity extends Activity {
             } catch (Exception e) { return ""; }
         }
 
+
+        /** Native playlist download (no CORS, VLC user agent, long timeout, Xtream fallbacks). Calls window.onNetFetch(token, ok, info). */
+        @JavascriptInterface
+        public void fetchPl(final String token, final String url) {
+            new Thread(() -> {
+                String err = "";
+                try {
+                    String txt = netGetText(url, 120000);
+                    String bad = null;
+                    if (txt == null || !(txt.contains("#EXTM3U") || txt.contains("#EXTINF"))) bad = "الرد مش قايمة m3u";
+                    if (bad == null) { writeNet(token, txt); js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",true,'')"); return; }
+                    err = bad;
+                } catch (Exception e) { err = String.valueOf(e.getMessage()); }
+                try {
+                    Uri u = Uri.parse(url);
+                    String user = u.getQueryParameter("username"), pass = u.getQueryParameter("password");
+                    if (user != null && pass != null && url.contains("get.php")) {
+                        String base = u.getScheme() + "://" + u.getAuthority();
+                        String api = base + "/player_api.php?username=" + Uri.encode(user) + "&password=" + Uri.encode(pass);
+                        String info;
+                        try {
+                            JSONObject ui = new JSONObject(netGetText(api, 30000)).optJSONObject("user_info");
+                            if (ui == null) { js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote("السيرفر رفض اليوزر/الباسورد (راجع البيانات)") + ")"); return; }
+                            String st = ui.optString("status"), ex = ui.optString("exp_date"), mx = ui.optString("max_connections"), ac = ui.optString("active_cons");
+                            if (!"Active".equalsIgnoreCase(st)) { js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote("الاشتراك حالته: " + st + " (منتهي أو موقوف)") + ")"); return; }
+                            info = "";
+                        } catch (Exception e) { js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote("السيرفر مش بيرد: " + e.getMessage()) + ")"); return; }
+                        JSONArray cats = new JSONArray(netGetText(api + "&action=get_live_categories", 60000));
+                        Map<String, String> cn = new LinkedHashMap<>();
+                        for (int i = 0; i < cats.length(); i++) { JSONObject c = cats.getJSONObject(i); cn.put(c.optString("category_id"), c.optString("category_name")); }
+                        JSONArray st = new JSONArray(netGetText(api + "&action=get_live_streams", 120000));
+                        StringBuilder sb = new StringBuilder("#EXTM3U\n");
+                        for (int i = 0; i < st.length(); i++) {
+                            JSONObject c = st.getJSONObject(i);
+                            String g = cn.get(c.optString("category_id")); if (g == null) g = "عام";
+                            sb.append("#EXTINF:-1 tvg-id=\"").append(c.optString("epg_channel_id")).append("\" tvg-logo=\"").append(c.optString("stream_icon").replace('"', ' '))
+                              .append("\" group-title=\"").append(g.replace('"', ' ')).append("\",").append(c.optString("name").replace('\n', ' ')).append('\n')
+                              .append(base).append("/live/").append(user).append('/').append(pass).append('/').append(c.optString("stream_id")).append(".m3u8\n");
+                        }
+                        if (st.length() == 0) { js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote("الاشتراك شغال بس مفيش قنوات فيه") + ")"); return; }
+                        writeNet(token, sb.toString());
+                        js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",true,'')");
+                        return;
+                    }
+                } catch (Exception e) { err = err + " / " + e.getMessage(); }
+                js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote(err) + ")");
+            }).start();
+        }
+
+        @JavascriptInterface
+        public String readNet(String token) {
+            try {
+                File f = new File(getCacheDir(), "net-" + token.replaceAll("[^A-Za-z0-9_-]", ""));
+                byte[] b = new byte[(int) f.length()];
+                try (FileInputStream in = new FileInputStream(f)) { int off = 0; while (off < b.length) { int n = in.read(b, off, b.length - off); if (n < 0) break; off += n; } }
+                f.delete();
+                return new String(b, StandardCharsets.UTF_8);
+            } catch (Exception e) { return ""; }
+        }
+
         @JavascriptInterface
         public void deleteFile(String id) { playlistFile(id).delete(); }
 
@@ -252,6 +312,31 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             js("window.onUpdateProgress&&window.onUpdateProgress(-1)");
         }
+    }
+
+
+    private void writeNet(String token, String txt) throws Exception {
+        File f = new File(getCacheDir(), "net-" + token.replaceAll("[^A-Za-z0-9_-]", ""));
+        try (FileOutputStream o = new FileOutputStream(f)) { o.write(txt.getBytes(StandardCharsets.UTF_8)); }
+    }
+
+    private String netGetText(String url, int timeoutMs) throws Exception {
+        String cur = url;
+        for (int hop = 0; hop < 6; hop++) {
+            HttpURLConnection c = (HttpURLConnection) new URL(cur).openConnection();
+            c.setInstanceFollowRedirects(false);
+            c.setConnectTimeout(20000); c.setReadTimeout(timeoutMs);
+            c.setRequestProperty("User-Agent", "VLC/3.0.20 LibVLC/3.0.20");
+            c.setRequestProperty("Accept", "*/*");
+            int code = c.getResponseCode();
+            if (code >= 300 && code < 400) { String loc = c.getHeaderField("Location"); if (loc == null) throw new Exception("HTTP " + code); cur = new URL(new URL(cur), loc).toString(); c.disconnect(); continue; }
+            if (code != 200) throw new Exception("السيرفر رد HTTP " + code);
+            try (InputStream in = c.getInputStream(); ByteArrayOutputStream bo = new ByteArrayOutputStream()) {
+                byte[] buf = new byte[65536]; int n; while ((n = in.read(buf)) > 0) bo.write(buf, 0, n);
+                return new String(bo.toByteArray(), StandardCharsets.UTF_8);
+            } finally { c.disconnect(); }
+        }
+        throw new Exception("تحويلات كتير");
     }
 
     private File playlistFile(String id) {
