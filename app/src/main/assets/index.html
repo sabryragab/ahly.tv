@@ -328,6 +328,89 @@ html{background:var(--base)}
 .dim{position:fixed;top:0;right:0;bottom:0;left:0;background:#000;opacity:0;pointer-events:none;z-index:85;transition:opacity 10s linear}
 .black{position:fixed;top:0;right:0;bottom:0;left:0;background:#000;z-index:95}
 
+/* ---- home v2: wide prayer card with sun arc, four equal cards, apps row ---- */
+.h2{display:grid;grid-gap:1.15vw;grid-template-rows:auto auto auto}
+.hero2{display:grid;grid-template-columns:29vw 1fr;grid-gap:1.6vw;background:linear-gradient(135deg,var(--ahly),var(--ahly-d));border-radius:1.5vw;padding:1.3vw 2.2vw;height:28.5vh;min-height:0}
+.hero2 .hl{display:grid;align-content:center;grid-gap:.25vw;min-width:0;color:#fff}
+.hero2 .lbl{font-size:1.05vw;color:#ffe3e3}
+.hero2 .name{font-family:var(--f-display);font-weight:700;font-size:5vw;line-height:1}
+.hero2 .cd{font-size:2vw;font-weight:700;font-variant-numeric:tabular-nums}
+.hero2 .city{font-size:1vw;color:#ffe3e3}
+.hero2 .iq{font-size:1.05vw;color:#ffe9a8}
+.hero2 .greet{color:#ffe9a8;font-size:1.35vw;margin:0}
+.hero2 .notice{margin-top:.4vw;padding:.4vw .7vw;grid-template-columns:1fr auto;background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.25)}
+.hero2 .notice b{font-size:1vw}.hero2 .notice span{font-size:.85vw;color:#ffe3e3}
+.hero2 .hr{display:grid;grid-template-rows:1fr auto;background:rgba(0,0,0,.22);border-radius:1.1vw;padding:.8vw 1.3vw 1vw;min-width:0;min-height:0}
+.hero2 .arc{width:100%;height:100%;min-height:0}
+.hero2 .prayers{grid-gap:.5vw}
+.hero2 .pr{background:transparent;padding:.4vw .2vw;color:#fff}
+.hero2 .pr .n{color:#ffe3e3;font-size:.9vw}.hero2 .pr .v{font-size:1.55vw}
+.hero2 .pr.is-next{background:#fbf3ef;color:#14040a}.hero2 .pr.is-next .n{color:#14040a;font-weight:700}
+.hero2 .pr.is-past{opacity:.6}
+.quad{display:grid;grid-template-columns:repeat(4,1fr);grid-gap:1.15vw;height:19vh}
+.quad .box,.quad .tile{background:var(--wine);border-radius:1.15vw;padding:1.1vw 1.3vw;display:grid;grid-template-rows:auto 1fr auto;grid-gap:.3vw;align-content:stretch;min-width:0;min-height:0;overflow:hidden;text-align:right}
+.quad .h{display:flex;align-items:center;color:var(--gold);font-size:.95vw}
+.quad .h svg.i{width:1.5vw;height:1.5vw;margin-inline-end:.6vw;flex:none}
+.quad .mid{align-self:center;min-width:0}
+.quad .big{font-family:var(--f-display);font-size:2vw;line-height:1.15}
+.quad .sm{color:var(--mist);font-size:.9vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.quad #wx.box{background:var(--wine);color:var(--chalk)}
+.quad #wx.box:before,.quad #wx.box:after{display:none}
+.quad #wx .h{color:var(--gold)}.quad #wx .big{color:var(--chalk);font-size:3.2vw;line-height:1}.quad #wx .sm,.quad #wx .wx-days{color:var(--mist)}.quad #wx .wx-days b{color:var(--chalk)}
+.quad .wxrow{display:flex;align-items:baseline}.quad .wxrow .sm{margin-inline-start:.8vw;font-size:1.15vw;color:var(--chalk)!important}
+.quad .wx-days{display:grid;grid-template-columns:repeat(3,1fr);font-size:.85vw;text-align:right;margin:0}
+.quad .wx-days b{display:inline;font-weight:400;margin-inline-end:.3vw}
+.quad .match{font-size:1.5vw;font-family:var(--f-display);grid-template-columns:1fr auto 1fr}
+.quad .match img{width:2.4vw;height:2.4vw}
+.quad .match .vs{font-size:1.5vw}
+.quad .ayah{font-size:1.45vw;line-height:1.6;max-height:4.8vw;overflow:hidden}
+.h2 .strip{display:grid;grid-auto-flow:column;grid-auto-columns:11.6vw;grid-gap:1vw;overflow:hidden}
+.h2 .card{padding:.45vw;grid-gap:.3vw}.h2 .card .nm{font-size:.85vw}
+.h2 .card .art{padding-bottom:46%}
+.h2 .sec{grid-gap:.5vw}.h2 .sec h3{font-size:1.05vw}
+/* header: icon buttons */
+.qb.ico{width:2.9vw;height:2.9vw;padding:0;border-radius:50%;justify-content:center}
+.qb.ico svg.i{margin:0;width:1.35vw;height:1.35vw}
+.banner{top:auto!important;right:auto!important;bottom:5vh;left:5vw}
+
+/* ---- IPTV: its own section ---- */
+.ipbar{display:grid;grid-template-columns:1fr auto;grid-gap:1vw;align-items:center}
+.ipbar .l{display:flex;flex-wrap:wrap;align-items:center}
+.ipbar .l>*{margin:0 0 .5vw .6vw}
+.ipbar .sep{width:1px;height:1.8vw;background:var(--line)}
+.ipbar input{background:var(--wine);border:2px solid var(--line);border-radius:2vw;color:var(--chalk);padding:.45vw 1.1vw;width:16vw;font-size:1.05vw}
+.ipbar input:focus{border-color:var(--gold);outline:none}
+#ip{display:grid;grid-template-columns:19vw 1fr 27vw;grid-gap:1.1vw;height:62vh;outline:none;border-radius:1.4vw}
+#ip:focus{box-shadow:none}
+.ipcol{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:1.3vw;padding:.7vw;display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
+#ip.c0:focus .ipcats,#ip.c1:focus .iplist{border-color:var(--gold);box-shadow:0 0 0 .15vw var(--gold)}
+.iprow{display:grid;align-items:center;border-radius:.8vw;padding:0 .9vw;min-height:0;color:var(--mist);cursor:pointer;overflow:hidden}
+.ipcats .iprow{grid-template-columns:1fr auto;grid-gap:.6vw;font-size:1.1vw}
+.ipcats .iprow i{font-style:normal;font-size:.85vw;opacity:.75;font-variant-numeric:tabular-nums}
+.iplist .iprow{grid-template-columns:3.2vw 3.6vw 1fr auto;grid-gap:.9vw;font-size:1.25vw}
+.iprow .no{font-family:var(--f-display);color:var(--gold);font-variant-numeric:tabular-nums;font-size:1.05vw;text-align:center}
+.iprow .lg{width:3.6vw;height:2.4vw;border-radius:.4vw;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.iprow .lg img{max-width:86%;max-height:86%;object-fit:contain}
+.iprow .lg svg.i{color:#8a7a7c;width:1.2vw;height:1.2vw}
+.iprow .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iprow .st{color:var(--gold)}
+.iprow.sel{background:rgba(255,255,255,.1);color:var(--chalk)}
+#ip.c0:focus .ipcats .iprow.sel,#ip.c1:focus .iplist .iprow.sel{background:var(--ahly);color:#fff;font-weight:700}
+#ip.c0:focus .ipcats .iprow.sel i,#ip.c1:focus .iplist .iprow.sel .no{color:#fff;opacity:1}
+.ipempty{align-self:center;justify-self:center;text-align:center;color:var(--mist);line-height:1.9;padding:1vw}
+.ipprev{position:relative;border-radius:1.3vw;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,var(--ahly-d),var(--night));display:grid;grid-template-rows:1fr auto;min-height:0}
+.ipprev .art{display:flex;align-items:center;justify-content:center;min-height:0;position:relative}
+.ipprev .art:before{content:"";position:absolute;width:20vw;height:20vw;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 65%)}
+.ipprev .plate{position:relative;width:15vw;height:9.4vw;border-radius:1vw;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 1.4vw 3vw rgba(0,0,0,.45);overflow:hidden}
+.ipprev .plate img{max-width:80%;max-height:80%;object-fit:contain}
+.ipprev .plate b{font-family:var(--f-display);font-weight:500;color:#3a2a2d;font-size:1.5vw;text-align:center;padding:0 .8vw;line-height:1.3}
+.ipprev .meta{padding:1.1vw 1.4vw 1.3vw;background:linear-gradient(transparent,rgba(0,0,0,.45));display:grid;grid-gap:.35vw}
+.ipprev .t{font-family:var(--f-display);font-size:1.9vw;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ipprev .g{color:var(--gold);font-size:1vw}
+.ipprev .k{color:var(--mist);font-size:.85vw;line-height:1.8}
+.ipprev .k b{color:var(--chalk);font-weight:500;border:1px solid var(--line);border-radius:.4vw;padding:0 .4vw;margin-inline-end:.3vw}
+.ipfoot{display:flex;justify-content:space-between;color:var(--mist);font-size:.9vw}
+
 /* quran */
 .surahs{display:grid;grid-template-columns:repeat(8,1fr);grid-gap:.7vw}
 .surah{background:var(--wine);border-radius:.7vw;padding:.7vw .4vw;text-align:center;display:grid;grid-gap:.2vw}
@@ -364,6 +447,10 @@ html{background:var(--base)}
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5zM12 6.5v13"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.900 1.900 6.500 5.500"/><circle cx="17.500" cy="9" r="2.500"/><path d="M16.500 14.600c2.700.200 4.500 1.900 5 4.900"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.500 12h2.500M19 12h2.500M5.300 5.300l1.800 1.800M16.900 16.900l1.800 1.800M5.300 18.700l1.800-1.800M16.900 7.100l1.800-1.800"/></symbol>
+  <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.500l4 2.900-1.500 4.700h-5L8 10.400z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.500"/><path d="M16 16l4.500 4.500"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></symbol>
   <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 4v6h6"/><path d="M5.5 15a7 7 0 1 0 1.5-7.5L4 10"/></symbol>
 </svg>
@@ -379,9 +466,9 @@ html{background:var(--base)}
     <div></div>
     <div class="right">
       <button class="qb upd" data-nav id="q-update" hidden>تحديث جديد</button>
-      <button class="qb" data-nav id="q-guest">وضع الضيوف</button>
-      <button class="qb" data-nav id="q-wifi"><svg class="i"><use href="#i-wifi"/></svg>الواي فاي</button>
-      <button class="qb" data-nav id="q-set"><svg class="i"><use href="#i-gear"/></svg>الإعدادات</button>
+      <button class="qb ico" data-nav id="q-guest" aria-label="وضع الضيوف"><svg class="i"><use href="#i-users"/></svg></button>
+      <button class="qb ico" data-nav id="q-wifi" aria-label="الواي فاي"><svg class="i"><use href="#i-wifi"/></svg></button>
+      <button class="qb ico" data-nav id="q-set" aria-label="إعدادات الشاشة"><svg class="i"><use href="#i-gear"/></svg></button>
       <div class="clock"><b id="clk">--:--</b><span id="dates"></span></div>
     </div>
   </header>
@@ -392,34 +479,33 @@ html{background:var(--base)}
     <button class="tab" role="tab" data-nav data-view="prayer">مواقيت الصلاة</button>
     <button class="tab" role="tab" data-nav data-view="azkar">الأذكار</button>
     <button class="tab" role="tab" data-nav data-view="quran">القرآن</button>
-    <button class="tab" role="tab" data-nav data-view="tv">القنوات وIPTV</button>
+    <button class="tab" role="tab" data-nav data-view="tv">القنوات</button>
+    <button class="tab" role="tab" data-nav data-view="iptv">IPTV</button>
     <button class="tab" role="tab" data-nav data-view="radio">الراديو</button>
     <button class="tab" role="tab" data-nav data-view="settings">الإعدادات</button>
   </nav>
 
   <!-- HOME -->
   <section class="view" id="v-home">
-    <div class="home">
-      <div class="hcol">
-        <div class="next"><span class="greet" id="greet" hidden></span><span class="lbl" id="nx-lbl">الصلاة القادمة</span><span class="name" id="nx-name">—</span><span class="cd" id="nx-cd">--:--:--</span><span class="iq" id="nx-iq" hidden></span><span class="city" id="nx-city"></span>
+    <div class="h2">
+      <div class="hero2">
+        <div class="hl"><span class="greet" id="greet" hidden></span><span class="lbl" id="nx-lbl">الصلاة القادمة</span><span class="name" id="nx-name">—</span><span class="cd" id="nx-cd">--:--:--</span><span class="iq" id="nx-iq" hidden></span><span class="city" id="nx-city"></span>
           <div class="notice" id="notice" hidden><div><b id="notice-t"></b> <span id="notice-s"></span></div><span id="notice-act"></span></div></div>
-        <div class="prayers" id="home-prayers"></div>
-        <div class="sec"><h3>تطبيقاتي وآخر القنوات</h3><div class="strip"><div id="my-apps" class="contents"></div><div id="recent" class="contents"></div></div><span id="recent-sec" hidden></span></div>
-      </div>
-      <div class="hcol">
-        <div class="side">
-          <button class="tile gold" data-nav id="t-azkar"><span class="ic"><svg class="i"><use href="#i-moon"/></svg></span><span class="t" id="t-azkar-t">أذكار الصباح</span><span class="s">قراءة واستماع</span></button>
-          <button class="tile" data-nav data-go="quran"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span class="t">القرآن الكريم</span><span class="s" id="t-quran">اختار القارئ والسورة</span></button>
-          <button class="tile" data-nav data-go="tv"><span class="ic"><svg class="i"><use href="#i-tv"/></svg></span><span class="t">القنوات</span><span class="s" id="t-lastch">IPTV وقنوات مفتوحة</span></button>
-          <button class="tile" data-nav data-go="radio"><span class="ic"><svg class="i"><use href="#i-radio"/></svg></span><span class="t">الراديو</span><span class="s" id="t-lastrd">قرآن وإذاعات</span></button>
+        <div class="hr">
+          <svg class="arc" viewBox="0 0 760 150" preserveAspectRatio="none" aria-hidden="true"><path d="M 20 140 Q 380 -90 740 140" fill="none" stroke="#ffe9a8" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/><circle id="arc-now" cx="740" cy="140" r="11" fill="#ffe9a8" stroke="rgba(0,0,0,.5)" stroke-width="3"/></svg>
+          <div class="prayers" id="home-prayers"></div>
         </div>
-        <div class="info">
-          <div class="box" id="wx"><span class="h">الطقس</span><div class="wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-days" id="wx-days"></div></div>
-          <div class="box" id="ahly"><span class="h" id="ahly-h">الأهلي</span><div id="ahly-b" class="sm">جاري التحميل…</div></div>
-        </div>
-        <div class="box ayahbox"><span class="h" id="ayah-h">آية اليوم</span><div class="ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
       </div>
+      <div class="quad">
+        <button class="tile" data-nav id="t-azkar"><span class="h"><svg class="i"><use href="#i-moon"/></svg>الأذكار</span><span class="mid big" id="t-azkar-t">أذكار الصباح</span><span class="sm" id="t-azkar-s">قراءة واستماع</span></button>
+        <div class="box" id="wx"><span class="h"><svg class="i"><use href="#i-sun"/></svg>الطقس</span><div class="mid wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-days" id="wx-days"></div></div>
+        <div class="box" id="ahly"><span class="h"><svg class="i"><use href="#i-ball"/></svg><span id="ahly-h">أهم ماتش</span></span><div class="mid" id="ahly-b"><span class="sm">جاري التحميل…</span></div><span class="sm" id="ahly-s"></span></div>
+        <div class="box"><span class="h"><svg class="i"><use href="#i-book"/></svg><span id="ayah-h">آية اليوم</span></span><div class="mid ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
+      </div>
+      <div class="sec"><h3>تطبيقاتي وآخر القنوات</h3><div class="strip"><div id="my-apps" class="contents"></div><div id="recent" class="contents"></div></div><span id="recent-sec" hidden></span></div>
     </div>
+    <span hidden id="t-quran"></span><span hidden id="t-lastch"></span><span hidden id="t-lastrd"></span>
+    <span hidden id="ahly0"><span id="ahly-h0"></span><span id="ahly-b0"></span></span>
   </section>
 
   <!-- APPS -->
@@ -489,6 +575,22 @@ html{background:var(--base)}
     </div>
     <div class="seg wrap" id="tv-groups"></div>
     <div class="grid" id="tv-grid"></div>
+  </section>
+
+  <!-- IPTV -->
+  <section class="view" id="v-iptv" hidden>
+    <div class="ipbar">
+      <div class="l" id="ip-top"></div>
+      <div class="row"><input id="ip-q" data-nav placeholder="بحث عن قناة" autocomplete="off"><button class="btn ghost" data-nav id="ip-add"><svg class="i"><use href="#i-phone"/></svg>إضافة قايمة</button></div>
+    </div>
+    <div id="ip" class="c1" data-nav tabindex="0">
+      <div class="ipcol ipcats" id="ip-cats"></div>
+      <div class="ipcol iplist" id="ip-list"></div>
+      <div class="ipprev"><div class="art"><div class="plate" id="ip-plate"></div></div>
+        <div class="meta"><div class="g" id="ip-g"></div><div class="t" id="ip-t">—</div>
+          <div class="k"><b>OK</b>تشغيل <b>OK مطوّل</b>مفضلة <b>▲▼</b>تنقل <b>CH±</b>صفحة <b>٠-٩</b>رقم القناة</div></div></div>
+    </div>
+    <div class="ipfoot"><span id="ip-count"></span><span id="ip-pl"></span></div>
   </section>
 
   <!-- RADIO -->
@@ -666,7 +768,7 @@ function dates(d){let g="";try{g=new Intl.DateTimeFormat("ar-EG",{timeZone:city.
 let today={},tomorrow={},adhanOn=store.get("adhanOn",true),fired=store.get("fired",{}),lastDay="";
 function compute(){const now=new Date();today=prayerTimes(city,now);tomorrow=prayerTimes(city,now,1)}
 function nextPrayer(now){for(const k of ORDER){if(k==="sunrise")continue;if(today[k]>now)return{k,ms:today[k]}}return{k:"fajr",ms:tomorrow.fajr}}
-function renderStrip(box,now){const nx=nextPrayer(now);box.replaceChildren(...ORDER.map(k=>el("div",{class:"pr"+(today[k]===nx.ms?" is-next":today[k]<now?" is-past":"")},el("div",{class:"n",text:PNAMES[k]}),el("div",{class:"v",text:fmtTime(today[k])}))))}
+function renderStrip(box,now){const nx=nextPrayer(now);box.replaceChildren(...ORDER.map(k=>el("div",{class:"pr"+(k===nx.k?" is-next":today[k]<now?" is-past":"")},el("div",{class:"n",text:PNAMES[k]}),el("div",{class:"v",text:fmtTime(today[k])}))))}
 function renderPrayers(){const now=Date.now();renderStrip($("#home-prayers"),now);renderStrip($("#prayer-full"),now);
   $("#pr-sub").textContent=city.n+" · "+(city.m===UQ?"تقويم أم القرى":"الهيئة المصرية العامة للمساحة");$("#nx-city").textContent="بتوقيت "+city.n}
 function renderCities(){$("#cities").replaceChildren(...CITIES.map(c=>el("button",{class:"chip","data-nav":"","aria-pressed":String(c.id===city.id),text:c.n,onclick(){city=c;store.set("city",c.id);lastDay="";tick();loadWeather();renderCities();focusSel("#cities [aria-pressed=true]")}})))}
@@ -683,7 +785,7 @@ function tickInner(){const now=new Date(),ms=now.getTime();const s=cityYMD(city.
   // iqama countdown on the prayer card
   let iqTxt="";if(iqOn){for(const k of ORDER){if(k==="sunrise")continue;const iqAt=today[k]+(city.m===UQ?IQ:IQ_EG)[k]*6e4;if(ms>=today[k]&&ms<iqAt){const r=Math.ceil((iqAt-ms)/1000);iqTxt="إقامة "+PNAMES[k]+" بعد "+arNum(Math.floor(r/60))+":"+arNum(r%60,2)}}}
   $("#nx-iq").hidden=!iqTxt;$("#nx-iq").textContent=iqTxt;
-  if(now.getSeconds()%20===0){renderNotice(now,ms);renderSky(ms);renderGreet()}
+  if(now.getSeconds()%20===0){renderNotice(now,ms);renderSky(ms);renderGreet();renderArc(ms)}
   {const h=hijri(now)||{};if(((h.m===10&&h.d===1)||(h.m===12&&h.d===10))&&ms>=today.sunrise&&ms<today.sunrise+60e3&&!fired["eid:"+dk]){fired["eid:"+dk]=1;store.set("fired",fired);if($("#radio").paused&&!inPlayer)playTakbir()}}
   if(matchInfo&&matchInfo.when){const kt=matchInfo.when.getTime(),key="m:"+kt;
     if(kt-ms>0&&kt-ms<=15*6e4&&!fired["pre"+key]){fired["pre"+key]=1;store.set("fired",fired);notify("ماتش الأهلي ضد "+matchInfo.opp+" بعد "+arNum(Math.ceil((kt-ms)/6e4))+" دقيقة ⚽")}
@@ -797,24 +899,93 @@ function wxText(c){if(c===0)return"صحو";if(c<=2)return"غائم جزئياً"
 async function loadWeather(){try{const r=await fetchT("https://api.open-meteo.com/v1/forecast?latitude="+city.lat+"&longitude="+city.lng+"&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4",15000);
   const j=await r.json(),c=j.current,d=j.daily;wxNow=arNum(Math.round(c.temperature_2m))+"° "+wxText(c.weather_code);
   setWxClass(c.weather_code);$("#wx-now").textContent=arNum(Math.round(c.temperature_2m))+"°";$("#wx-t").textContent=wxText(c.weather_code)+" · "+city.n;
-  $("#wx-days").replaceChildren(...[1,2,3].map(i=>{const dt=new Date(d.time[i]+"T12:00:00Z");return el("div",{},el("b",{text:new Intl.DateTimeFormat("ar-EG",{weekday:"long",timeZone:"UTC"}).format(dt)}),arNum(Math.round(d.temperature_2m_max[i]))+"° / "+arNum(Math.round(d.temperature_2m_min[i]))+"°")}))}
+  $("#wx-days").replaceChildren(...[1,2,3].map(i=>{const dt=new Date(d.time[i]+"T12:00:00Z");return el("div",{},el("b",{text:new Intl.DateTimeFormat("ar-EG",{weekday:"long",timeZone:"UTC"}).format(dt)}),arNum(Math.round(d.temperature_2m_max[i]))+"°")}))}
   catch(e){$("#wx-t").textContent="الطقس مش متاح دلوقتي"}}
 
 /* ---------- Al Ahly matches (refreshed every 4 hours on GitHub) ---------- */
-const TEAM_AR={"Al Ahly":"الأهلي","Zamalek":"الزمالك","Pyramids":"بيراميدز","Al Masry":"المصري","Ismaily":"الإسماعيلي"};
+const TEAM_AR={"Al Ahly":"الأهلي","Zamalek":"الزمالك","Pyramids":"بيراميدز","Al Masry":"المصري","Ismaily":"الإسماعيلي","El Gouna":"الجونة","Al Ittihad Alexandria":"الاتحاد السكندري","Ceramica Cleopatra":"سيراميكا كليوباترا","ENPPI":"إنبي","Smouha":"سموحة","Al-Mokawloon al-Arab":"المقاولون العرب","Modern Sport":"مودرن سبورت","ZED":"زد","National Bank of Egypt":"البنك الأهلي","Pharco":"فاركو","Tala'ea El-Gaish":"طلائع الجيش","Ghazl El Mahalla":"غزل المحلة","Petrojet":"بتروجت","Haras El Hodood":"حرس الحدود",
+ "Al-Hilal":"الهلال","Al-Nassr":"النصر","Al-Ittihad":"الاتحاد","Al-Ahli":"الأهلي السعودي","Al-Shabab":"الشباب","Al-Ettifaq":"الاتفاق","Al-Taawoun":"التعاون","Al-Fateh":"الفتح","Al-Khaleej":"الخليج","Al-Qadsiah":"القادسية","Al-Fayha":"الفيحاء","Al-Riyadh":"الرياض","Damac":"ضمك","Al-Okhdood":"الأخدود","Al-Kholood":"الخلود","Neom":"نيوم","Al-Najma":"النجمة","Al-Hazem":"الحزم",
+ "Real Madrid":"ريال مدريد","Barcelona":"برشلونة","Atletico Madrid":"أتلتيكو مدريد","Villarreal":"فياريال","Sevilla":"إشبيلية","Liverpool":"ليفربول","Manchester City":"مانشستر سيتي","Manchester United":"مانشستر يونايتد","Arsenal":"أرسنال","Chelsea":"تشيلسي","Tottenham":"توتنهام","Newcastle":"نيوكاسل","Fulham":"فولهام","Aston Villa":"أستون فيلا",
+ "Bayern Munich":"بايرن ميونخ","Borussia Dortmund":"دورتموند","Paris SG":"باريس سان جيرمان","Marseille":"مارسيليا","Juventus":"يوفنتوس","Inter":"إنتر","AC Milan":"ميلان","Napoli":"نابولي","Roma":"روما","RS Berkane":"نهضة بركان","Esperance de Tunis":"الترجي","Wydad AC":"الوداد","Mamelodi Sundowns":"صن داونز"};
 const tn=n=>"\u2068"+(TEAM_AR[n]||n||"")+"\u2069";
-const LG_AR={"Egyptian Premier League":"الدوري المصري","CAF Champions League":"دوري أبطال أفريقيا","CAF Confederation Cup":"كأس الكونفدرالية","Egypt Cup":"كأس مصر","Egyptian Super Cup":"السوبر المصري","FIFA Club World Cup":"كأس العالم للأندية","FIFA Intercontinental Cup":"كأس القارات للأندية"};
+const LG_AR={"Egyptian Premier League":"الدوري المصري","CAF Champions League":"دوري أبطال أفريقيا","CAF Confederation Cup":"كأس الكونفدرالية","Egypt Cup":"كأس مصر","Egyptian Super Cup":"السوبر المصري","FIFA Club World Cup":"كأس العالم للأندية","FIFA Intercontinental Cup":"كأس القارات للأندية","Saudi-Arabian Pro League":"دوري روشن السعودي","English Premier League":"الدوري الإنجليزي","Spanish La Liga":"الدوري الإسباني","UEFA Champions League":"دوري أبطال أوروبا","Italian Serie A":"الدوري الإيطالي","German Bundesliga":"الدوري الألماني","French Ligue 1":"الدوري الفرنسي"};
 const lg=n=>LG_AR[n]||n||"";
 function teamCol(name,badge){const d=el("div",{});if(badge){const im=el("img",{alt:"",src:badge+"/tiny"});im.onerror=()=>{im.onerror=()=>im.remove();im.src=badge};d.append(im)}d.append(el("div",{text:tn(name)}));return d}
-async function loadAhly(){try{const j=await (await fetchT(DATA+"ahly.json",15000)).json();const n=(j.next||[])[0],l=(j.last||[])[0],b=$("#ahly-b");
-  if(n){$("#ahly-h").textContent="ماتش الأهلي الجاي · "+lg(n.league);const when=n.ts?new Date(n.ts.replace(/\+00:00$/,"")+"Z"):null;
+async function loadAhly(){try{const j=await (await fetchT(DATA+"ahly.json",15000)).json();const n=(j.next||[])[0],l=(j.last||[])[0],b=$("#ahly-b0");
+  if(n){$("#ahly-h0").textContent="ماتش الأهلي الجاي · "+lg(n.league);const when=n.ts?new Date(n.ts.replace(/\+00:00$/,"")+"Z"):null;
     matchInfo={when:when,opp:tn(n.home==="Al Ahly"?n.away:n.home),league:n.league};
     b.replaceChildren(el("div",{class:"match"},teamCol(n.home,n.hb),el("div",{class:"vs",text:when?new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(when):"ضد"}),teamCol(n.away,n.ab)),
       el("div",{class:"sm",style:"text-align:center;margin-top:.3vw",text:when?new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(when):(n.date||"")}),
       l?el("div",{class:"sm",style:"text-align:center",text:"آخر ماتش: "+tn(l.home)+" "+arNum(+l.hs||0)+" - "+arNum(+l.as||0)+" "+tn(l.away)}):null)}
   if(l&&l.hs!=null&&!fired["res:"+l.date+l.home]){const ld=new Date(l.date+"T12:00:00Z");if(Date.now()-ld.getTime()<36*36e5){fired["res:"+l.date+l.home]=1;store.set("fired",fired);notify("انتهى: "+tn(l.home)+" "+arNum(+l.hs||0)+" - "+arNum(+l.as||0)+" "+tn(l.away))}}
-  if(!n&&l){$("#ahly-h").textContent="آخر ماتش للأهلي";b.replaceChildren(el("div",{class:"match"},teamCol(l.home,l.hb),el("div",{class:"vs",text:arNum(+l.hs||0)+" - "+arNum(+l.as||0)}),teamCol(l.away,l.ab)))}
-  if(!n&&!l){$("#ahly").hidden=true}}catch(e){$("#ahly-b").textContent="مش متاح دلوقتي"}}
+  if(!n&&l){$("#ahly-h0").textContent="آخر ماتش للأهلي";b.replaceChildren(el("div",{class:"match"},teamCol(l.home,l.hb),el("div",{class:"vs",text:arNum(+l.hs||0)+" - "+arNum(+l.as||0)}),teamCol(l.away,l.ab)))}
+  if(!n&&!l){$("#ahly0").hidden=true}}catch(e){$("#ahly-b0").textContent="مش متاح دلوقتي"}}
+
+/* ---------- the day's top match (data refreshed every 20 minutes on GitHub) ---------- */
+function ymdKey(d){const x=cityYMD(city.tz,d);return x.y+"-"+x.m+"-"+x.d}
+function pickTop(list,now){const ms=now.getTime(),L=list.map(m=>Object.assign({},m,{when:new Date(String(m.ts).replace(/\+00:00$/,"").replace(/Z$/,"")+"Z")})).filter(m=>!isNaN(m.when)&&ms<m.when.getTime()+2.2*36e5);
+  if(!L.length)return null;const by=(a,b)=>b.score-a.score||a.when-b.when;
+  const today=L.filter(m=>ymdKey(m.when)===ymdKey(now)).sort(by);if(today.length)return{m:today[0],today:true};
+  const soon=L.filter(m=>m.when.getTime()-ms<3*864e5).sort(by);if(soon.length)return{m:soon[0],today:false};
+  return{m:L.sort((a,b)=>a.when-b.when)[0],today:false}}
+async function loadTop(){try{const j=await (await fetchT(DATA+"match.json",15000)).json();const now=new Date(),r=pickTop(j.matches||[],now);
+  if(!r){$("#ahly-b").replaceChildren(el("span",{class:"sm",text:"مفيش ماتشات كبيرة قريب"}));$("#ahly-s").textContent="";return}
+  const m=r.m,live=now>=m.when;$("#ahly-h").textContent=(r.today?(live?"شغال دلوقتي":"أهم ماتش النهارده"):"أهم ماتش قادم")+" · "+lg(m.league);
+  $("#ahly-b").replaceChildren(el("div",{class:"match"},teamCol(m.home,m.hb),el("div",{class:"vs",text:new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(m.when)}),teamCol(m.away,m.ab)));
+  const d=Math.round((new Date(ymdKey(m.when).replace(/-(\d)\b/g,"-0$1")+"T00:00:00Z")-new Date(ymdKey(now).replace(/-(\d)\b/g,"-0$1")+"T00:00:00Z"))/864e5);
+  $("#ahly-s").textContent=d<=0?"النهارده":d===1?"بكرة":new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(m.when)}
+  catch(e){$("#ahly-b").replaceChildren(el("span",{class:"sm",text:"مش متاح دلوقتي"}))}}
+/* sun position on the home arc: fajr at the right end, isha at the left */
+function renderArc(ms){const c=$("#arc-now");if(!c||!today.fajr)return;let t=(ms-today.fajr)/(today.isha-today.fajr);t=Math.max(0,Math.min(1,t));const u=1-t;
+  const x=u*u*740+2*u*t*380+t*t*20,y=u*u*140+2*u*t*(-90)+t*t*140;c.setAttribute("cx",x.toFixed(1));c.setAttribute("cy",y.toFixed(1));c.setAttribute("opacity",(ms<today.fajr||ms>today.isha)?".45":"1")}
+
+/* ---------- IPTV section: playlists, categories, virtual channel list ---------- */
+const IP={pl:store.get("ipPl",""),sec:"live",items:[],cats:[],cat:0,list:[],idx:0,col:1,q:"",loading:false,err:""};
+const IP_ROWS=9,IP_CROWS=11;
+const kindOf=c=>/\/series\//i.test(c.url)?"series":(/\/movie\//i.test(c.url)||/\.(mp4|mkv|avi)(\?|$)/i.test(c.url))?"movie":"live";
+function ipCompute(keepCat){const all=IP.items.filter(c=>c.kind===IP.sec);const counts={},order=[];all.forEach(c=>{if(counts[c.group]==null){counts[c.group]=0;order.push(c.group)}counts[c.group]++});
+  const favN=all.filter(isFav).length,prev=keepCat&&IP.cats[IP.cat]?IP.cats[IP.cat].n:null;
+  IP.cats=[{n:"الكل",c:all.length,all:1}].concat(favN?[{n:"★ المفضلة",c:favN,fav:1}]:[],order.map(g=>({n:g,c:counts[g]})));
+  IP.cat=prev?Math.max(0,IP.cats.findIndex(x=>x.n===prev)):0;ipFilter()}
+function ipFilter(){const ct=IP.cats[IP.cat]||{all:1},q=IP.q.trim().toLowerCase();let L=IP.items.filter(c=>c.kind===IP.sec);
+  if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);else if(ct.fav)L=L.filter(isFav);else if(!ct.all)L=L.filter(c=>c.group===ct.n);
+  IP.list=L;IP.idx=Math.min(IP.idx,Math.max(0,L.length-1));if(view==="iptv")channels=L;ipRender()}
+function win(n,idx,rows){let st=Math.max(0,Math.min(idx-Math.floor(rows/2),n-rows));return st<0?0:st}
+function ipRender(){const top=$("#ip-top"),secs=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]].filter(x=>x[0]==="live"||IP.items.some(c=>c.kind===x[0]));
+  top.replaceChildren(...userPl.map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===IP.pl),text:p.n,onclick(){ipOpen(p.id)}})),
+    ...(secs.length>1?[el("span",{class:"sep"})].concat(secs.map(x=>el("button",{class:"chip","data-nav":"","aria-pressed":String(x[0]===IP.sec),text:x[1],onclick(){IP.sec=x[0];IP.idx=0;ipCompute()}}))):[]));
+  const ce=$("#ip-cats"),le=$("#ip-list");$("#ip").className="c"+IP.col;
+  if(!userPl.length){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("br"),"دوس «إضافة قايمة» وصوّر الكود من موبايلك،",el("br"),"والزق رابط m3u أو اكتب بيانات Xtream."));ipPrev(null);$("#ip-count").textContent="";$("#ip-pl").textContent="";return}
+  if(IP.loading||IP.err){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},IP.loading?"جاري تحميل القايمة…":el("b",{text:"مقدرتش أحمّل القايمة"}),IP.err?el("br"):null,IP.err||"",IP.err?el("br"):null,IP.err?"دوس OK للمحاولة تاني":""));ipPrev(null);return}
+  const cs=win(IP.cats.length,IP.cat,IP_CROWS);ce.replaceChildren(...IP.cats.slice(cs,cs+IP_CROWS).map((c,i)=>{const r=el("div",{class:"iprow"+(cs+i===IP.cat?" sel":"")},el("span",{class:"nm",text:c.n}),el("i",{text:arNum(c.c)}));
+    r.onclick=()=>{IP.col=0;IP.cat=cs+i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter();focusEl($("#ip"))};return r}));
+  if(!IP.list.length){le.replaceChildren(el("div",{class:"ipempty",text:IP.q?"مفيش قناة بالاسم ده":"القسم ده فاضي"}))}
+  else{const ls=win(IP.list.length,IP.idx,IP_ROWS);le.replaceChildren(...IP.list.slice(ls,ls+IP_ROWS).map((c,i)=>{const lgx=el("span",{class:"lg"});
+    if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>{im.remove();lgx.append(icon("i-tv"))};lgx.append(im)}else lgx.append(icon("i-tv"));
+    const r=el("div",{class:"iprow"+(ls+i===IP.idx?" sel":"")},el("span",{class:"no",text:arNum(ls+i+1)}),lgx,el("span",{class:"nm",text:cleanName(c.name)}),isFav(c)?el("span",{class:"st",text:"★"}):null);
+    r.onclick=()=>{const was=IP.idx===ls+i&&IP.col===1;IP.col=1;IP.idx=ls+i;ipRender();focusEl($("#ip"));if(was)ipPlay()};return r}))}
+  ipPrev(IP.list[IP.idx]);const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=p?p.n:"";
+  $("#ip-count").textContent=IP.list.length?(arNum(IP.idx+1)+" من "+arNum(IP.list.length)+(IP.q?" · نتيجة البحث":" · "+(IP.cats[IP.cat]||{n:""}).n)):""}
+function ipPrev(c){const pl=$("#ip-plate");if(!c){pl.replaceChildren(icon("i-tv"));$("#ip-t").textContent="—";$("#ip-g").textContent="";return}
+  const nm=cleanName(c.name);pl.replaceChildren(el("b",{text:nm}));if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onload=()=>{if(im.naturalWidth>=40)pl.replaceChildren(im)};}
+  $("#ip-t").textContent=nm;$("#ip-g").textContent=c.group||""}
+async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=userPl.length?userPl[0].id:"";store.set("ipPl",IP.pl);IP.err="";IP.q="";$("#ip-q").value="";
+  if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];ipRender();const p=userPl.find(x=>x.id===IP.pl);
+  try{const L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)});if(IP.pl!==p.id)return;IP.items=L;IP.loading=false;IP.sec="live";IP.idx=0;IP.col=1;ipCompute()}
+  catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
+function ipPlay(){if(!IP.list.length)return;channels=IP.list;playChannel(IP.idx)}
+function ipKey(k){if(IP.err&&k==="C"){ipOpen();return true}if(!userPl.length||IP.loading)return k!=="U";
+  const inC=IP.col===0,n=inC?IP.cats.length:IP.list.length,page=inC?IP_CROWS:IP_ROWS;let i=inC?IP.cat:IP.idx;
+  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0)return false;const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));
+    if(inC){if(i!==IP.cat){IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter()}}else{IP.idx=i;ipRender()}return true}
+  if(k==="R"){if(!inC){IP.col=0;ipRender()}return true}
+  if(k==="L"){if(inC){IP.col=1;ipRender()}return true}
+  if(k==="C"){if(inC){IP.col=1;ipRender()}else ipPlay();return true}
+  if(k==="CL"||k==="RED"){const c=IP.list[IP.idx];if(c&&!inC){toggleFav(c);ipCompute(true)}return true}
+  return false}
+$("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.idx=0;IP.col=1;ipFilter()});
+$("#ip-add").onclick=openAddPanel;
+$("#ip").addEventListener("wheel",e=>{e.preventDefault();ipKey(e.deltaY>0?"D":"U")},{passive:false});
 
 /* ---------- screensaver ---------- */
 let saverDelay=store.get("saverDelay",10),lastInput=Date.now(),inPlayer=false,saverPos=0;
@@ -922,7 +1093,7 @@ const FREE=[
  {id:"free-world",n:"قنوات عالمية",u:DATA+"tv-world.m3u"}];
 let userPl=store.get("playlists",[]);
 let favs=store.get("favs",[]),recent=store.get("recent",[]);
-const allPl=()=>(favs.length?[{id:"fav",n:"★ المفضلة",local:"favs"}]:[]).concat(recent.length?[{id:"recent",n:"شاهدت مؤخراً",local:"recent"}]:[],userPl,FREE);
+const allPl=()=>(favs.length?[{id:"fav",n:"★ المفضلة",local:"favs"}]:[]).concat(recent.length?[{id:"recent",n:"شاهدت مؤخراً",local:"recent"}]:[],FREE);
 const chKey=c=>c.url;
 function isFav(c){return favs.some(f=>f.url===c.url)}
 function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة"});toast("★ اتضافت للمفضلة")}
@@ -943,8 +1114,7 @@ async function loadPl(p){if(p.local)return (p.local==="favs"?favs:recent).slice(
   if(p.file){if(!bridge||!bridge.readFile)throw new Error("الملف موجود على الشاشة بس");list=parseM3U(bridge.readFile(p.id)||"")}
   else list=await firstOk([p.u,p.alt],async r=>{const t=await r.text();if(!/#EXTM3U|#EXTINF/.test(t.slice(0,3000)))throw new Error("الرابط مش قايمة m3u");return parseM3U(t,p.filterAr)});
   plCache[p.id]=list;return list}
-function renderSources(){$("#tv-sources").replaceChildren(...allPl().map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===curPl),text:p.n,onclick(){curPl=p.id;store.set("curPl",curPl);curGroup="الكل";$("#pl-panel").hidden=true;renderSources();renderChannels()}})),
-  el("button",{class:"chip add","data-nav":"",id:"pl-open",text:"+ إضافة قايمة IPTV",onclick:openAddPanel}))}
+function renderSources(){$("#tv-sources").replaceChildren(...allPl().map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===curPl),text:p.n,onclick(){curPl=p.id;store.set("curPl",curPl);curGroup="الكل";$("#pl-panel").hidden=true;renderSources();renderChannels()}})))}
 async function renderChannels(){const grid=$("#tv-grid");const p=allPl().find(x=>x.id===curPl)||FREE[0];
   grid.replaceChildren(el("div",{class:"state",text:"جاري تحميل القنوات…"}));$("#tv-groups").replaceChildren();
   try{const list=await loadPl(p);const groups=["الكل"];const seen={};list.forEach(c=>{if(!seen[c.group]){seen[c.group]=1;groups.push(c.group)}});
@@ -974,23 +1144,23 @@ function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=se
 function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
 
-window.onPlayerClosed=function(i){inPlayer=false;lastInput=Date.now();chIdx=i;const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
+window.onPlayerClosed=function(i){inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){if(channels===IP.list){IP.idx=Math.min(i,Math.max(0,IP.list.length-1));IP.col=1;ipRender()}focusEl($("#ip"));return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[i])focusEl(tiles[i])};
 
 /* add playlist from phone */
 function phoneUrl(){const ip=bridge&&bridge.ip?bridge.ip():"";return ip?("http://"+ip+":8765"):""}
-function openAddPanel(){$("#pl-panel").hidden=false;const u=phoneUrl();$("#addr").textContent=u||"افتح التطبيق على الشاشة عشان يظهر الرابط";
+function openAddPanel(){if(view!=="iptv")show("iptv");$("#pl-panel").hidden=false;$("#ip").hidden=true;const u=phoneUrl();$("#addr").textContent=u||"افتح التطبيق على الشاشة عشان يظهر الرابط";
   const q=$("#qr");q.replaceChildren();if(u&&window.qrcode){try{const qr=qrcode(0,"M");qr.addData(u);qr.make();q.innerHTML=qr.createSvgTag({cellSize:6,margin:0,scalable:true})}catch(e){}}
   if(!u)q.replaceChildren(icon("i-phone"));renderPlLists();focusSel("#pl-close")}
-$("#pl-close").onclick=()=>{$("#pl-panel").hidden=true;focusSel("#tv-sources [aria-pressed=true]")};
-$("#set-addpl").onclick=()=>{show("tv");openAddPanel()};
+$("#pl-close").onclick=()=>{$("#pl-panel").hidden=true;$("#ip").hidden=false;focusEl($("#ip"))};
+$("#set-addpl").onclick=()=>{show("iptv");openAddPanel()};
 function renderPlLists(){for(const id of ["#pl-list","#pl-list2"]){const box=$(id);box.replaceChildren(...(userPl.length?userPl.map(p=>el("div",{class:"pl"},el("span",{text:p.n+(p.file?" · ملف":"")}),
   el("button",{class:"btn ghost","data-nav":"",text:"حذف",onclick(){userPl=userPl.filter(x=>x.id!==p.id);store.set("playlists",userPl);if(bridge&&p.file&&bridge.deleteFile)bridge.deleteFile(p.id);if(curPl===p.id)curPl="free-eg";delete plCache[p.id];renderPlLists();renderSources()}}))):[el("div",{class:"muted",text:"مفيش قوايم مضافة لسه."})]))}}
 window.onPhoneAdd=function(p){ // called by the app when the phone page sends a playlist
   const item={id:p.id||("u"+Date.now()),n:p.name||"IPTV",u:p.url||"",file:!!p.file};userPl=userPl.filter(x=>x.id!==item.id);userPl.unshift(item);store.set("playlists",userPl);
-  curPl=item.id;store.set("curPl",curPl);delete plCache[item.id];curGroup="الكل";show("tv");$("#pl-panel").hidden=true;renderSources();renderChannels();renderPlLists();toast("اتضافت «"+item.n+"» من الموبايل");return "ok"};
+  delete plCache[item.id];show("iptv");$("#pl-panel").hidden=true;$("#ip").hidden=false;ipOpen(item.id);renderPlLists();toast("اتضافت «"+item.n+"» من الموبايل");return "ok"};
 window.listPlaylists=()=>JSON.stringify(userPl.map(p=>({id:p.id,n:p.n,file:!!p.file})));
-window.deletePlaylist=id=>{const p=userPl.find(x=>x.id===id);userPl=userPl.filter(x=>x.id!==id);store.set("playlists",userPl);if(p&&p.file&&bridge&&bridge.deleteFile)bridge.deleteFile(id);if(curPl===id)curPl="free-eg";renderPlLists();renderSources();return "ok"};
+window.deletePlaylist=id=>{const p=userPl.find(x=>x.id===id);userPl=userPl.filter(x=>x.id!==id);store.set("playlists",userPl);if(p&&p.file&&bridge&&bridge.deleteFile)bridge.deleteFile(id);if(curPl===id)curPl="free-eg";renderPlLists();renderSources();if(IP.pl===id){IP.pl="";if(view==="iptv")ipOpen()}return "ok"};
 
 /* ---------- radio ---------- */
 const RB=(h,cc)=>"https://"+h+".api.radio-browser.info/json/stations/search?countrycode="+cc+"&hidebroken=true&order=clickcount&reverse=true&limit=150";
@@ -1100,6 +1270,8 @@ let view="home",tabT;const loaded={};
 function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===v)));
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
+  else if(v==="tv"&&loaded.tv&&$("#tv-grid .card")){const p=allPl().find(x=>x.id===curPl);if(p)loadPl(p).then(L=>{channels=curGroup==="الكل"?L:L.filter(c=>c.group===curGroup)}).catch(()=>{})}
+  if(v==="iptv"){$("#v-iptv").insertBefore($("#pl-panel"),$("#ip"));if(!loaded.ip){loaded.ip=1;ipOpen()}else{channels=IP.list;ipRender()}}
   if(v==="radio"&&!loaded.rd){loaded.rd=1;renderRdSources();renderRadio()}
   if(v==="azkar"&&!loaded.zk){loaded.zk=1;zkLoad();renderZk()}
   if(v==="azkar")setTimeout(()=>fitText($("#zk-text")),50);
@@ -1130,6 +1302,8 @@ window.tvKey=function(k){
   if(!$("#guest").hidden){lastInput=Date.now();return "ok"}
   if(hideSaver())return "ok";
   if(k.charAt(0)==="N"&&k.length===2){typeDigit(k.charAt(1));return "ok"}
+  if(k==="MENU"){focusView();return "ok"}
+  if(document.activeElement&&document.activeElement.id==="ip"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden){if(ipKey(k))return "ok";if(k==="D"||k==="CL"||k==="RED")return "ok"}
   if(k==="CL"||k==="RED"){const cur=document.activeElement;if(cur&&cur._ch){toggleFav(cur._ch);return "ok"}if(cur&&cur.dataset&&cur.dataset.pkg){togglePin(cur.dataset.pkg);return "ok"}if(k==="RED")return "ok";k="C"}
   if(!document.activeElement||document.activeElement===document.body){if(!$("#adhan").hidden)focusSel("#adhan-close");else focusView();if(k!=="C")return "ok"}
   if(!$("#adhan").hidden){if(k==="C")closeAdhan();return "ok"}
@@ -1226,7 +1400,7 @@ let cols=store.get("cols",6);
 function applyCols(){document.documentElement.style.setProperty("--cols",cols)}
 function renderCols(){$("#cols-opts").replaceChildren(...[4,6,8].map(n=>el("button",{class:"chip","data-nav":"","aria-pressed":String(n===cols),text:arNum(n),onclick(){cols=n;store.set("cols",n);applyCols();renderCols()}})))}
 /* tab manager: order + hidden */
-const ALL_TABS=[["home","الرئيسية"],["apps","التطبيقات"],["prayer","مواقيت الصلاة"],["azkar","الأذكار"],["quran","القرآن"],["tv","القنوات وIPTV"],["radio","الراديو"],["settings","الإعدادات"]];
+const ALL_TABS=[["home","الرئيسية"],["apps","التطبيقات"],["prayer","مواقيت الصلاة"],["azkar","الأذكار"],["quran","القرآن"],["tv","القنوات"],["iptv","IPTV"],["radio","الراديو"],["settings","الإعدادات"]];
 function tabOrder(){let o=store.get("tabOrder",null)||ALL_TABS.map(t=>t[0]);ALL_TABS.forEach(t=>{if(o.indexOf(t[0])<0)o.push(t[0])});return o}
 function tabHidden(){return store.get("tabHidden",[])}
 function applyTabs(){const order=tabOrder(),hidden=tabHidden(),nav=$("#tabs"),byId={};
@@ -1257,7 +1431,7 @@ window.goHome=function(){hideNowPlaying();hideGuest();if(!$("#player").hidden)cl
 /* ---------- boot ---------- */
 renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
-applyTheme();applyCols();applyTabs();applyUserBg();renderGreet();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();
-setInterval(loadWeather,30*6e4);setInterval(loadAhly,10*6e4);setInterval(renderAyah,60*6e4);
+applyTheme();applyCols();applyTabs();applyUserBg();renderGreet();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();loadTop();renderArc(Date.now());
+setInterval(loadWeather,30*6e4);setInterval(loadAhly,10*6e4);setInterval(loadTop,10*6e4);setInterval(renderAyah,60*6e4);
 tick();renderNotice(new Date(),Date.now());renderSky(Date.now());findHaram();setInterval(tick,1000);setTimeout(focusView,300);
 </script>

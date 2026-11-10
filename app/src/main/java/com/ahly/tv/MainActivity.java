@@ -426,6 +426,7 @@ public class MainActivity extends Activity {
             case KeyEvent.KEYCODE_CHANNEL_DOWN:
             case KeyEvent.KEYCODE_PAGE_DOWN: return "CD";
             case KeyEvent.KEYCODE_PROG_RED: return "RED";
+            case KeyEvent.KEYCODE_MENU: return "MENU";
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PAUSE: return "PP";

@@ -19,7 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.TrackSelectionOverride;
+import androidx.media3.common.Tracks;
+import androidx.media3.common.VideoSize;
+import androidx.media3.datasource.DefaultDataSource;
+import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.extractor.DefaultExtractorsFactory;
+import androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory;
 import androidx.media3.common.MimeTypes;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
@@ -64,6 +74,9 @@ public class PlayerActivity extends Activity {
     private int mimeMode = 0;  // 0 auto, 1 force HLS, 2 force TS/progressive
     private static final String[] MIME_NAMES = {"تلقائي", "HLS", "عادي"};
     private long lastStall = 0;
+    private PlayerView pv;
+    private int aspect = 0, prevIdx = -1, audioIdx = 0;
+    private static final String[] ASPECT_NAMES = {"الحجم: أصلي", "الحجم: ملء الشاشة", "الحجم: تكبير"};
 
     private static final Pattern XTREAM = Pattern.compile("^(https?://[^/]+)/(?:live/)?([^/]+)/([^/]+)/(\\d+)(?:\\.(ts|m3u8))?$", Pattern.CASE_INSENSITIVE);
 
@@ -85,7 +98,7 @@ public class PlayerActivity extends Activity {
 
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(Color.BLACK);
-        PlayerView pv = new PlayerView(this);
+        pv = new PlayerView(this);
         pv.setUseController(false);
         pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
         pv.setKeepContentOnPlayerReset(false);
@@ -111,7 +124,7 @@ public class PlayerActivity extends Activity {
         title = new TextView(this); title.setTextColor(Color.WHITE); title.setTextSize(30); title.setTypeface(Typeface.DEFAULT_BOLD);
         number = new TextView(this); number.setTextColor(0xFFE3B94A); number.setTextSize(16);
         TextView hint = new TextView(this); hint.setTextColor(0xFFC9A9AE); hint.setTextSize(14);
-        hint.setText("▲ ▼ تغيير القناة   ·   🟡 جرّب مشغّل تاني   ·   🟢 مشغّل خارجي   ·   رجوع للخروج");
+        hint.setText("▲▼ القناة   ·   ◀ القناة السابقة   ·   ▶ حجم الصورة   ·   أرقام: رقم القناة   ·   أصفر: مشغّل تاني   ·   أخضر: مشغّل خارجي   ·   أزرق: لغة الصوت");
         osd.addView(number); osd.addView(title); osd.addView(hint);
         root.addView(osd, new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM));
         setContentView(root);
@@ -119,7 +132,16 @@ public class PlayerActivity extends Activity {
         // start quickly: small buffer before playback begins
         DefaultLoadControl lc = new DefaultLoadControl.Builder()
                 .setBufferDurationsMs(8000, 30000, 700, 1500).build();
-        player = new ExoPlayer.Builder(this).setLoadControl(lc).build();
+        // IPTV servers: follow http<->https redirects, identify like a common player, tolerate rough TS streams,
+        // and fall back to another decoder when the TV's first choice fails
+        DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
+                .setAllowCrossProtocolRedirects(true).setUserAgent("VLC/3.0.20 LibVLC/3.0.20")
+                .setConnectTimeoutMs(12000).setReadTimeoutMs(15000);
+        DefaultExtractorsFactory ex = new DefaultExtractorsFactory()
+                .setTsExtractorFlags(DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES | DefaultTsPayloadReaderFactory.FLAG_DETECT_ACCESS_UNITS);
+        player = new ExoPlayer.Builder(this, new DefaultRenderersFactory(this).setEnableDecoderFallback(true))
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(new DefaultDataSource.Factory(this, http), ex))
+                .setLoadControl(lc).build();
         pv.setPlayer(player);
         player.setPlayWhenReady(true);
         player.addListener(new Player.Listener() {
@@ -130,6 +152,7 @@ public class PlayerActivity extends Activity {
                 if (s == Player.STATE_BUFFERING) h.postDelayed(stallWatch, 18000);  // frozen mid-stream -> reload once
             }
             @Override public void onPlayerError(PlaybackException e) { tryNext(); }
+            @Override public void onVideoSizeChanged(VideoSize v) { if (v.height > 0 && numBuf.isEmpty()) number.setText((idx + 1) + " / " + chans.size() + "   ·   " + v.height + "p"); }
         });
         startCurrent();
     }
@@ -205,9 +228,32 @@ public class PlayerActivity extends Activity {
         player.prepare();
     }
 
+    private void cycleAspect() {
+        aspect = (aspect + 1) % 3;
+        pv.setResizeMode(aspect == 0 ? AspectRatioFrameLayout.RESIZE_MODE_FIT : aspect == 1 ? AspectRatioFrameLayout.RESIZE_MODE_FILL : AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+        number.setText(ASPECT_NAMES[aspect]); showOsd();
+    }
+
+    private void recall() {
+        if (live || prevIdx < 0 || prevIdx == idx) { showOsd(); return; }
+        int go = prevIdx; switchBy(go - idx);
+    }
+
+    private void nextAudio() {
+        List<Tracks.Group> a = new ArrayList<>();
+        for (Tracks.Group g : player.getCurrentTracks().getGroups()) if (g.getType() == C.TRACK_TYPE_AUDIO) a.add(g);
+        if (a.size() < 2) { number.setText("القناة دي فيها لغة صوت واحدة"); showOsd(); return; }
+        audioIdx = (audioIdx + 1) % a.size();
+        player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon()
+                .setOverrideForType(new TrackSelectionOverride(a.get(audioIdx).getMediaTrackGroup(), 0)).build());
+        String lang = a.get(audioIdx).getMediaTrackGroup().getFormat(0).language;
+        number.setText("الصوت " + (audioIdx + 1) + " من " + a.size() + (lang != null ? " (" + lang + ")" : "")); showOsd();
+    }
+
     private void switchBy(int d) {
         if (live) { showOsd(); return; }
-        mimeMode = 0;
+        mimeMode = 0; audioIdx = 0;
+        if (d != 0) prevIdx = idx;
         idx += d;
         idx = (idx % chans.size() + chans.size()) % chans.size();
         title.setText(chans.get(idx)[0]);
@@ -236,6 +282,9 @@ public class PlayerActivity extends Activity {
             case "B": case "HOME": finish(); break;
             case "PP": player.setPlayWhenReady(!player.getPlayWhenReady()); break;
             case "YELLOW": cycleMime(); break;
+            case "L": recall(); break;
+            case "R": cycleAspect(); break;
+            case "BLUE": nextAudio(); break;
             case "GREEN": openExternal(); break;
             default:
                 if (k.startsWith("N") && k.length() == 2) digit(k.charAt(1)); else showOsd();
@@ -267,8 +316,13 @@ public class PlayerActivity extends Activity {
                 switchBy(-1); return true;
             case KeyEvent.KEYCODE_DPAD_DOWN: case KeyEvent.KEYCODE_CHANNEL_DOWN: case KeyEvent.KEYCODE_PAGE_DOWN:
                 switchBy(1); return true;
-            case KeyEvent.KEYCODE_DPAD_CENTER: case KeyEvent.KEYCODE_ENTER: case KeyEvent.KEYCODE_DPAD_LEFT: case KeyEvent.KEYCODE_DPAD_RIGHT: case KeyEvent.KEYCODE_INFO:
+            case KeyEvent.KEYCODE_DPAD_LEFT: case KeyEvent.KEYCODE_LAST_CHANNEL: recall(); return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT: case KeyEvent.KEYCODE_TV_ZOOM_MODE: cycleAspect(); return true;
+            case KeyEvent.KEYCODE_PROG_BLUE: case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK: nextAudio(); return true;
+            case KeyEvent.KEYCODE_DPAD_CENTER: case KeyEvent.KEYCODE_ENTER: case KeyEvent.KEYCODE_INFO: case KeyEvent.KEYCODE_MENU:
                 showOsd(); return true;
+            case KeyEvent.KEYCODE_MEDIA_PLAY: player.setPlayWhenReady(true); return true;
+            case KeyEvent.KEYCODE_MEDIA_PAUSE: case KeyEvent.KEYCODE_MEDIA_STOP: player.setPlayWhenReady(false); showOsd(); return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 player.setPlayWhenReady(!player.getPlayWhenReady()); return true;
             case KeyEvent.KEYCODE_PROG_YELLOW: cycleMime(); return true;

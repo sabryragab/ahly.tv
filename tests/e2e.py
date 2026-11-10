@@ -97,19 +97,27 @@ def main():
       page.locator("#tv-sources .chip").first.click()
       wait_tiles(page, "#tv-grid")
       page.screenshot(path="shot-tv.png")
-      # playlist sent from the phone page
-      page.evaluate("onPhoneAdd({id:'utest',name:'قايمة من الموبايل',url:'https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-sa.m3u'})")
-      page.wait_for_timeout(300)
-      n = wait_tiles(page, "#tv-grid")
-      log(f"playlist added from phone: {n} channels, chip: {page.locator('#tv-sources .chip').first.inner_text()}")
+      # IPTV section: playlist sent from the phone page, remote keys, playback
+      page.evaluate("onPhoneAdd({id:'utest',name:'قايمة من الموبايل',url:'https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-arabic.m3u'})")
+      page.wait_for_timeout(4000)
+      n = page.evaluate("IP.list.length")
+      log("iptv: playlist from phone loaded " + str(n) + " channels in " + str(page.evaluate("IP.cats.length")) + " categories, view: " + page.evaluate("view"))
       if n <= 0:
           failed = True
-      page.evaluate("deletePlaylist('utest')")
-      page.locator("#pl-open").click()
+      st = page.evaluate("(()=>{focusEl(document.querySelector('#ip'));tvKey('D');tvKey('D');tvKey('CD');const a=[IP.idx];tvKey('R');tvKey('D');a.push(IP.col,IP.cat,IP.list.length);tvKey('L');tvKey('CL');a.push(favs.length);tvKey('CL');return a.join(',')})()")
+      log("iptv remote (idx after D,D,page | col,cat,listLen after RIGHT,D | favs after long OK): " + st)
+      page.evaluate("IP.cat=0;IP.idx=0;ipFilter()")
+      page.screenshot(path="shot-iptv.png")
+      page.evaluate("tvKey('C')")
+      okp = media_plays(page, "#video")
+      log("iptv: OK plays the selected channel: " + str(okp))
+      page.evaluate("closePlayer()")
+      page.evaluate("document.querySelector('#ip-add').click()")
       page.wait_for_timeout(300)
       log(f"add-from-phone panel shows: {page.locator('#pl-panel').is_visible()}")
       page.screenshot(path="shot-add.png")
       page.evaluate("document.querySelector('#pl-close').click()")
+      page.evaluate("deletePlaylist('utest')")
 
       # Radio lists
       page.evaluate("show('radio')")
@@ -182,7 +190,7 @@ def main():
       page.evaluate("show('home')")
       page.wait_for_timeout(2500)
       log(f"weather: {page.locator('#wx-now').inner_text()} {page.locator('#wx-t').inner_text()}")
-      log(f"ahly card: {page.locator('#ahly').inner_text().replace(chr(10),' ')[:120]}")
+      log("top match card: " + page.locator('#ahly').inner_text().replace(chr(10),' ')[:120])
       log(f"verse/hadith: {page.locator('#ayah').inner_text()[:60]}")
       page.evaluate("lastInput=Date.now()-11*60000")
       page.wait_for_timeout(1600)
