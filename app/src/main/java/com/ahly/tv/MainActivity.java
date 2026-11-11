@@ -46,9 +46,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
 public class MainActivity extends Activity {
     private WebView web;
+    private FrameLayout root;
+    private Preview preview;
     private long lastMove = 0;
     private long backDownAt = 0;
     private boolean backLongFired = false;
@@ -198,12 +201,28 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void ttsStop() { if (tts != null) tts.stop(); }
 
+        /** Live preview inside the IPTV screen: the page sends the CSS rectangle and the width of the page in CSS pixels. */
+        @JavascriptInterface
+        public void previewPlay(String url, double x, double y, double w, double h, double pageW) {
+            final double sc = web.getWidth() / Math.max(1.0, pageW);
+            runOnUiThread(() -> previewObj().play(url, (int) (x * sc), (int) (y * sc), (int) (w * sc), (int) (h * sc)));
+        }
+
+        @JavascriptInterface
+        public void previewRect(double x, double y, double w, double h, double pageW) {
+            final double sc = web.getWidth() / Math.max(1.0, pageW);
+            runOnUiThread(() -> { if (preview != null) preview.layout((int) (x * sc), (int) (y * sc), (int) (w * sc), (int) (h * sc)); });
+        }
+
+        @JavascriptInterface
+        public void previewStop() { runOnUiThread(() -> { if (preview != null) preview.stop(); }); }
+
         /** Opens the native full-screen player with the visible channel list. */
         @JavascriptInterface
         public void playChannels(String json, int index) {
             PlayerActivity.channelsJson = json;
             PlayerActivity.lastIndex = -1;
-            runOnUiThread(() -> startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", index)));
+            runOnUiThread(() -> { if (preview != null) preview.stop(); startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", index)); });
         }
 
         /** Live broadcast (the Haram at adhan time); closes itself after autoMin minutes. */
@@ -211,7 +230,7 @@ public class MainActivity extends Activity {
         public void playLive(String json, int autoMin) {
             PlayerActivity.channelsJson = json;
             PlayerActivity.lastIndex = -1;
-            runOnUiThread(() -> startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", 0).putExtra("live", true).putExtra("auto", autoMin)));
+            runOnUiThread(() -> { if (preview != null) preview.stop(); startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", 0).putExtra("live", true).putExtra("auto", autoMin)); });
         }
 
         @JavascriptInterface
@@ -253,6 +272,17 @@ public class MainActivity extends Activity {
 
     private int currentVersion() {
         try { return getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (Exception e) { return 0; }
+    }
+
+    private Preview previewObj() {
+        if (preview == null) preview = new Preview(this, root, st -> js("window.onPreviewState&&window.onPreviewState('" + st + "')"));
+        return preview;
+    }
+
+    @Override
+    protected void onPause() {
+        if (preview != null) preview.stop();
+        super.onPause();
     }
 
     private void js(String code) { runOnUiThread(() -> web.evaluateJavascript(code, null)); }
@@ -474,7 +504,9 @@ public class MainActivity extends Activity {
         web.setFocusable(true);
         web.setFocusableInTouchMode(true);
         web.requestFocus();
-        setContentView(web);
+        root = new FrameLayout(this);
+        root.addView(web, new FrameLayout.LayoutParams(-1, -1));
+        setContentView(root);
         phoneServer = new PhoneServer(8765, this::handlePhone);
         phoneServer.start();
         tts = new TextToSpeech(this, status -> {

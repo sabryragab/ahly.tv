@@ -410,7 +410,7 @@ html{background:var(--base)}
 .ipbar .sep{width:1px;height:1.8vw;background:var(--line)}
 .ipbar input{background:var(--wine);border:2px solid var(--line);border-radius:2vw;color:var(--chalk);padding:.45vw 1.1vw;width:16vw;font-size:1.05vw}
 .ipbar input:focus{border-color:var(--gold);outline:none}
-#ip{display:grid;grid-template-columns:19vw 1fr 27vw;grid-gap:1.1vw;height:62vh;outline:none;border-radius:1.4vw}
+#ip{display:grid;grid-template-columns:16vw 1fr 40vw;grid-gap:1.1vw;height:60vh;outline:none;border-radius:1.4vw}
 #ip:focus{box-shadow:none}
 .ipcol{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:1.3vw;padding:.7vw;display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
 #ip.c0:focus .ipcats,#ip.c1:focus .iplist{border-color:var(--gold);box-shadow:0 0 0 .15vw var(--gold)}
@@ -428,13 +428,25 @@ html{background:var(--base)}
 #ip.c0:focus .ipcats .iprow.sel,#ip.c1:focus .iplist .iprow.sel{background:var(--ahly);color:#fff;font-weight:700}
 #ip.c0:focus .ipcats .iprow.sel i,#ip.c1:focus .iplist .iprow.sel .no{color:#fff;opacity:1}
 .ipempty{align-self:center;justify-self:center;text-align:center;color:var(--mist);line-height:1.9;padding:1vw}
-.ipprev{position:relative;border-radius:1.3vw;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,var(--ahly-d),var(--night));display:grid;grid-template-rows:1fr auto;min-height:0}
+.ipprev{position:relative;border-radius:1.1vw;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,var(--ahly-d),var(--night));display:grid;grid-template-rows:auto 1fr;min-height:0}
+.ipcats{grid-template-rows:auto 1fr;grid-auto-rows:auto}
+.catlist{display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
+.ipseg{display:grid;grid-template-columns:repeat(3,1fr);grid-gap:.3vw;margin-bottom:.4vw}
+.ipseg .sg{text-align:center;padding:.45vw .2vw;border-radius:.7vw;color:var(--mist);font-size:.95vw;background:rgba(255,255,255,.05);cursor:pointer;line-height:1.25}
+.ipseg .sg i{display:block;font-style:normal;font-size:.75vw;opacity:.75}
+.ipseg .sg.on{background:rgba(255,255,255,.14);color:var(--chalk);font-weight:700}
+#ip.c2:focus .ipseg .sg.on{background:var(--ahly);color:#fff;box-shadow:0 0 0 .15vw var(--gold)}
+#ip.c2:focus .ipseg .sg.on i{opacity:1}
+.ipprev .vid{position:relative;width:100%;height:22.5vw;background:radial-gradient(circle at 50% 40%,var(--ahly-d),#07040a);display:flex;align-items:center;justify-content:center}
+.ipprev .vid .vst{position:absolute;bottom:.7vw;right:0;left:0;text-align:center;color:var(--mist);font-size:.95vw}
+.ipprev .okb{justify-self:start;color:var(--chalk);font-size:1.15vw;margin:.2vw 0}
+.ipprev .okb b{background:var(--ahly);color:#fff;border-radius:.5vw;padding:.1vw .8vw;margin-inline-end:.4vw}
 .ipprev .art{display:flex;align-items:center;justify-content:center;min-height:0;position:relative}
 .ipprev .art:before{content:"";position:absolute;width:20vw;height:20vw;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 65%)}
-.ipprev .plate{position:relative;width:15vw;height:9.4vw;border-radius:1vw;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 1.4vw 3vw rgba(0,0,0,.45);overflow:hidden}
+.ipprev .plate{position:relative;width:11vw;height:7vw;border-radius:1vw;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 1.4vw 3vw rgba(0,0,0,.45);overflow:hidden}
 .ipprev .plate img{max-width:80%;max-height:80%;object-fit:contain}
 .ipprev .plate b{font-family:var(--f-display);font-weight:500;color:#3a2a2d;font-size:1.5vw;text-align:center;padding:0 .8vw;line-height:1.3}
-.ipprev .meta{padding:1.1vw 1.4vw 1.3vw;background:linear-gradient(transparent,rgba(0,0,0,.45));display:grid;grid-gap:.35vw}
+.ipprev .meta{padding:1.1vw 1.4vw 1.3vw;display:grid;grid-gap:.35vw;align-content:start}
 .ipprev .t{font-family:var(--f-display);font-size:1.9vw;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ipprev .g{color:var(--gold);font-size:1vw}
 .ipprev .k{color:var(--mist);font-size:.85vw;line-height:1.8}
@@ -614,11 +626,12 @@ html{background:var(--base)}
       <div class="row"><input id="ip-q" data-nav placeholder="بحث عن قناة" autocomplete="off"><button class="btn ghost" data-nav id="ip-add"><svg class="i"><use href="#i-phone"/></svg>إضافة قايمة</button></div>
     </div>
     <div id="ip" class="c1" data-nav tabindex="0">
-      <div class="ipcol ipcats" id="ip-cats"></div>
+      <div class="ipcol ipcats"><div class="ipseg" id="ip-seg"></div><div class="catlist" id="ip-cats"></div></div>
       <div class="ipcol iplist" id="ip-list"></div>
-      <div class="ipprev"><div class="art"><div class="plate" id="ip-plate"></div></div>
+      <div class="ipprev"><div class="vid" id="ip-vid"><div class="plate" id="ip-plate"></div><div class="vst" id="ip-st"></div></div>
         <div class="meta"><div class="g" id="ip-g"></div><div class="t" id="ip-t">—</div>
-          <div class="k"><b>OK</b>تشغيل <b>OK مطوّل</b>مفضلة <b>▲▼</b>تنقل <b>CH±</b>صفحة <b>٠-٩</b>رقم القناة</div></div></div>
+          <div class="okb" id="ip-ok"><b>OK</b> شاشة كاملة</div>
+          <div class="k"><b>OK مطوّل</b>مفضلة <b>▲▼</b>تنقل <b>CH±</b>صفحة <b>٠-٩</b>رقم القناة</div></div></div>
     </div>
     <div class="ipfoot"><span id="ip-count"></span><span id="ip-pl"></span></div>
   </section>
@@ -992,7 +1005,7 @@ function renderArc(ms){const c=$("#arc-now");if(!c||!today.fajr)return;let t=(ms
 
 /* ---------- IPTV section: playlists, categories, virtual channel list ---------- */
 const IP={pl:store.get("ipPl",""),sec:"live",items:[],cats:[],cat:0,list:[],idx:0,col:1,q:"",loading:false,err:""};
-const IP_ROWS=9,IP_CROWS=11;
+const IP_ROWS=9,IP_CROWS=9;
 const kindOf=c=>{const u=c.url||"",g=c.group||"";if(/\/series\//i.test(u))return"series";if(/\/movie\//i.test(u)||/\.(mp4|mkv|avi|mov)(\?|$)/i.test(u))return"movie";
   if(!/\.(m3u8|ts)(\?|$)/i.test(u)){if(/series|مسلسل|season|موسم|\bS\d{1,2}\b/i.test(g))return"series";if(/\bvod\b|movies?\b|films?\b|أفلام|افلام|سينما|cinema/i.test(g))return"movie"}return"live"};
 function ipCompute(keepCat){const all=IP.items.filter(c=>c.kind===IP.sec);const counts={},order=[];all.forEach(c=>{if(counts[c.group]==null){counts[c.group]=0;order.push(c.group)}counts[c.group]++});
@@ -1003,12 +1016,14 @@ function ipFilter(){const ct=IP.cats[IP.cat]||{all:1},q=IP.q.trim().toLowerCase(
   if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);else if(ct.fav)L=L.filter(isFav);else if(!ct.all)L=L.filter(c=>c.group===ct.n);
   IP.list=L;IP.idx=Math.min(IP.idx,Math.max(0,L.length-1));if(view==="iptv")channels=L;ipRender()}
 function win(n,idx,rows){let st=Math.max(0,Math.min(idx-Math.floor(rows/2),n-rows));return st<0?0:st}
-function ipRender(){const top=$("#ip-top"),secs=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]];
-  top.replaceChildren(...userPl.map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===IP.pl),text:p.n,onclick(){ipOpen(p.id)}})),
-    ...(IP.items.length?[el("span",{class:"sep"})].concat(secs.map(x=>{const n=IP.items.filter(c=>c.kind===x[0]).length;return el("button",{class:"chip","data-nav":"","aria-pressed":String(x[0]===IP.sec),text:x[1]+" "+arNum(n),onclick(){IP.sec=x[0];IP.idx=0;IP.col=1;ipCompute()}})})):[]));
+const IP_SECS=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]];
+function ipSetSec(k){if(IP.sec===k)return;IP.sec=k;IP.idx=0;IP.q="";$("#ip-q").value="";ipStopPreview();ipCompute()}
+function ipRender(){const top=$("#ip-top");
+  top.replaceChildren(...userPl.map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===IP.pl),text:p.n,onclick(){ipOpen(p.id)}})));
   const ce=$("#ip-cats"),le=$("#ip-list");$("#ip").className="c"+IP.col;
-  if(!userPl.length){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("br"),"دوس «إضافة قايمة» وصوّر الكود من موبايلك،",el("br"),"والزق رابط m3u أو اكتب بيانات Xtream."));ipPrev(null);$("#ip-count").textContent="";$("#ip-pl").textContent="";return}
-  if(IP.loading||IP.err){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},IP.loading?"جاري تحميل القايمة…":el("b",{text:"مقدرتش أحمّل القايمة"}),IP.err?el("br"):null,IP.err||"",IP.err?el("br"):null,IP.err?"دوس OK للمحاولة تاني":""));ipPrev(null);return}
+  $("#ip-seg").replaceChildren(...(IP.items.length&&!IP.loading&&!IP.err?IP_SECS.map(x=>{const n=IP.items.filter(c=>c.kind===x[0]).length;return el("div",{class:"sg"+(x[0]===IP.sec?" on":""),onclick(){ipSetSec(x[0]);IP.col=1;ipRender();focusEl($("#ip"))}},x[1],el("i",{text:arNum(n)}))}):[]));
+  if(!userPl.length){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("br"),"دوس «إضافة قايمة» وصوّر الكود من موبايلك،",el("br"),"والزق رابط m3u أو اكتب بيانات Xtream."));ipPrev(null);ipStopPreview();$("#ip-count").textContent="";$("#ip-pl").textContent="";return}
+  if(IP.loading||IP.err){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},IP.loading?"جاري تحميل القايمة…":el("b",{text:"مقدرتش أحمّل القايمة"}),IP.err?el("br"):null,IP.err||"",IP.err?el("br"):null,IP.err?"دوس OK للمحاولة تاني":""));ipPrev(null);ipStopPreview();return}
   const cs=win(IP.cats.length,IP.cat,IP_CROWS);ce.replaceChildren(...IP.cats.slice(cs,cs+IP_CROWS).map((c,i)=>{const r=el("div",{class:"iprow"+(cs+i===IP.cat?" sel":"")},el("span",{class:"nm",text:c.n}),el("i",{text:arNum(c.c)}));
     r.onclick=()=>{IP.col=0;IP.cat=cs+i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter();focusEl($("#ip"))};return r}));
   if(!IP.list.length){le.replaceChildren(el("div",{class:"ipempty",text:IP.q?"مفيش قناة بالاسم ده":(IP.sec==="live"?"القسم ده فاضي":"مفيش "+(IP.sec==="movie"?"أفلام":"مسلسلات")+" في القايمة دي. الأفلام والمسلسلات بتيجي مع روابط الاشتراك بصيغة m3u_plus.")}))}
@@ -1017,7 +1032,7 @@ function ipRender(){const top=$("#ip-top"),secs=[["live","مباشر"],["movie",
     const r=el("div",{class:"iprow"+(ls+i===IP.idx?" sel":"")},el("span",{class:"no",text:arNum(ls+i+1)}),lgx,el("span",{class:"nm",text:cleanName(c.name)}),isFav(c)?el("span",{class:"st",text:"★"}):null);
     r.onclick=()=>{const was=IP.idx===ls+i&&IP.col===1;IP.col=1;IP.idx=ls+i;ipRender();focusEl($("#ip"));if(was)ipPlay()};return r}))}
   ipPrev(IP.list[IP.idx]);const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=p?p.n:"";
-  $("#ip-count").textContent=IP.list.length?(arNum(IP.idx+1)+" من "+arNum(IP.list.length)+(IP.q?" · نتيجة البحث":" · "+(IP.cats[IP.cat]||{n:""}).n)):""}
+  $("#ip-count").textContent=IP.list.length?(arNum(IP.idx+1)+" من "+arNum(IP.list.length)+(IP.q?" · نتيجة البحث":" · "+(IP.cats[IP.cat]||{n:""}).n)):"";ipPreviewSoon()}
 function ipPrev(c){const pl=$("#ip-plate");if(!c){pl.replaceChildren(icon("i-tv"));$("#ip-t").textContent="—";$("#ip-g").textContent="";return}
   const nm=cleanName(c.name);pl.replaceChildren(el("b",{text:nm}));if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onload=()=>{if(im.naturalWidth>=40)pl.replaceChildren(im)};}
   $("#ip-t").textContent=nm;$("#ip-g").textContent=c.group||""}
@@ -1025,10 +1040,14 @@ async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=
   if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];ipRender();const p=userPl.find(x=>x.id===IP.pl);
   try{const L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)});if(IP.pl!==p.id)return;IP.items=L;IP.loading=false;IP.sec="live";IP.idx=0;IP.col=1;ipCompute()}
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
-function ipPlay(){if(!IP.list.length)return;channels=IP.list;playChannel(IP.idx)}
+function ipPlay(){if(!IP.list.length)return;ipStopPreview();channels=IP.list;playChannel(IP.idx)}
 function ipKey(k){if(IP.err&&k==="C"){ipOpen();return true}if(!userPl.length||IP.loading)return k!=="U";
+  if(IP.col===2){const o=IP_SECS.map(x=>x[0]);let j=o.indexOf(IP.sec);
+    if(k==="L"||k==="R"){j=Math.max(0,Math.min(o.length-1,j+(k==="L"?1:-1)));ipSetSec(o[j]);ipRender();return true}
+    if(k==="D"||k==="C"){IP.col=0;ipRender();return true}
+    return k!=="U"}
   const inC=IP.col===0,n=inC?IP.cats.length:IP.list.length,page=inC?IP_CROWS:IP_ROWS;let i=inC?IP.cat:IP.idx;
-  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0)return false;const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));
+  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0){if(inC&&IP.items.length){IP.col=2;ipRender();return true}return false}const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));
     if(inC){if(i!==IP.cat){IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter()}}else{IP.idx=i;ipRender()}return true}
   if(k==="R"){if(!inC){IP.col=0;ipRender()}return true}
   if(k==="L"){if(inC){IP.col=1;ipRender()}return true}
@@ -1038,6 +1057,23 @@ function ipKey(k){if(IP.err&&k==="C"){ipOpen();return true}if(!userPl.length||IP
 $("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.idx=0;IP.col=1;ipFilter()});
 $("#ip-add").onclick=openAddPanel;
 $("#ip").addEventListener("wheel",e=>{e.preventDefault();ipKey(e.deltaY>0?"D":"U")},{passive:false});
+
+
+/* ---------- live preview inside the IPTV screen (native player on top of the page) ---------- */
+const hasPrev=()=>!!(bridge&&bridge.previewPlay);
+let ipPT=0;
+function ipVidRect(){const r=$("#ip-vid").getBoundingClientRect();return[r.left,r.top,r.width,r.height,innerWidth]}
+function ipStopPreview(){clearTimeout(ipPT);if(IP.pv){IP.pv="";if(hasPrev())bridge.previewStop();ipStatus("")}}
+function ipStatus(t){const e=$("#ip-st");if(e)e.textContent=t||""}
+function ipOverlays(){return !$("#adhan").hidden||!$("#nowp").hidden||!$("#guest").hidden||!$("#saver").hidden||!$("#player").hidden||!$("#pl-panel").hidden||!$("#black").hidden}
+function ipPreviewSoon(){clearTimeout(ipPT);if(!hasPrev())return;
+  const c=IP.list[IP.idx];if(view!=="iptv"||!c||IP.sec!=="live"||IP.loading||IP.err){ipStopPreview();return}
+  if(IP.col!==1)return;if(IP.pv===c.url)return;
+  ipStatus("جاري التشغيل…");ipPT=setTimeout(()=>{if(view!=="iptv"||IP.col!==1||ipOverlays())return;const c2=IP.list[IP.idx];if(!c2||c2.url!==c.url)return;
+    try{$("#radio").pause()}catch(e){}IP.pv=c.url;const r=ipVidRect();bridge.previewPlay(c.url,r[0],r[1],r[2],r[3],r[4])},650)}
+window.onPreviewState=function(s){if(!IP.pv)return;ipStatus(s==="playing"?"":s==="error"?"القناة دي مش بتشتغل دلوقتي، جرّب غيرها":"جاري التشغيل…")};
+window.addEventListener("scroll",()=>{if(IP.pv&&hasPrev()){const r=ipVidRect();bridge.previewRect(r[0],r[1],r[2],r[3],r[4])}},{passive:true});
+setInterval(()=>{if(IP.pv&&(view!=="iptv"||ipOverlays()||document.hidden))ipStopPreview()},700);
 
 /* ---------- screensaver ---------- */
 let saverDelay=store.get("saverDelay",10),lastInput=Date.now(),inPlayer=false,saverPos=0;
@@ -1199,7 +1235,7 @@ function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=se
 function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
 
-window.onPlayerClosed=function(i){inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){if(channels===IP.list){IP.idx=Math.min(i,Math.max(0,IP.list.length-1));IP.col=1;ipRender()}focusEl($("#ip"));return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
+window.onPlayerClosed=function(i){IP.pv="";inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){if(channels===IP.list){IP.idx=Math.min(i,Math.max(0,IP.list.length-1));IP.col=1;ipRender()}focusEl($("#ip"));return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[i])focusEl(tiles[i])};
 
 /* add playlist from phone */
@@ -1365,7 +1401,7 @@ $("#adhan-save").onclick=()=>{store.set("adhanUrl",$("#adhan-url").value.trim())
 
 /* ---------- views ---------- */
 let view="home",tabT;const loaded={};
-function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
+function show(v){clearTimeout(tabT);if(v!=="iptv"&&window.ipStopPreview)ipStopPreview();view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===v)));
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
   else if(v==="tv"&&loaded.tv&&$("#tv-grid .card")){const p=allPl().find(x=>x.id===curPl);if(p)loadPl(p).then(L=>{channels=curGroup==="الكل"?L:L.filter(c=>c.group===curGroup)}).catch(()=>{})}
