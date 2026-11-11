@@ -128,6 +128,20 @@ public class MainActivity extends Activity {
 
 
         /** Native playlist download (no CORS, VLC user agent, long timeout, Xtream fallbacks). Calls window.onNetFetch(token, ok, info). */
+        /** plain download (JSON from the Xtream API etc.) with no playlist check */
+        @JavascriptInterface
+        public void fetchRaw(final String token, final String url) {
+            new Thread(() -> {
+                try {
+                    String txt = netGetText(url, 180000);
+                    writeNet(token, txt);
+                    js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",true,'')");
+                } catch (Exception e) {
+                    js("window.onNetFetch&&window.onNetFetch(" + JSONObject.quote(token) + ",false," + JSONObject.quote(String.valueOf(e.getMessage())) + ")");
+                }
+            }).start();
+        }
+
         @JavascriptInterface
         public void fetchPl(final String token, final String url) {
             new Thread(() -> {

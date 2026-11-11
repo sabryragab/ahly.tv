@@ -1149,7 +1149,7 @@ function xtOf(p){const m=(p&&p.u||"").match(/^(https?:\/\/[^\/?#]+)\/(?:get|play
   m[2].split("&").forEach(x=>{const i=x.indexOf("=");if(i>0){try{q[x.slice(0,i)]=decodeURIComponent(x.slice(i+1).replace(/\+/g," "))}catch(e){q[x.slice(0,i)]=x.slice(i+1)}}});
   return q.username&&q.password?{base:m[1],u:q.username,p:q.password}:null}
 const xtU=(x,a,e)=>x.base+"/player_api.php?username="+encodeURIComponent(x.u)+"&password="+encodeURIComponent(x.p)+(a?"&action="+a:"")+(e||"");
-async function xtGet(x,a,e){const u=xtU(x,a,e);const t=(bridge&&bridge.fetchPl)?await nativeGet(u):await (await fetchT(u,30000)).text();
+async function xtGet(x,a,e){const u=xtU(x,a,e);const t=(bridge&&bridge.fetchPl)?await nativeGet(u,true):await (await fetchT(u,30000)).text();
   try{return JSON.parse(t)}catch(_){throw new Error("السيرفر مردّش بشكل صحيح")}}
 async function xtInfo(x){const j=await xtGet(x,"");const ui=j&&j.user_info;if(!ui)throw new Error("السيرفر مردّش بشكل صحيح");
   if(ui.auth===0||ui.auth==="0")throw new Error("اسم المستخدم أو كلمة السر غلط");
@@ -1344,7 +1344,7 @@ function parseM3U(txt,filterAr){const out=[];let meta=null;const lines=txt.split
   if(filterAr)return out.filter(c=>/[؀-ۿ]/.test(c.name)||/arab/i.test(c.lang)||/\.(eg|sa|ae|kw|qa|bh|om|jo|lb|ma|dz|tn|iq|sy|ps|ly|sd|ye)(@|$)/i.test(c.id));
   return out}
 const netWait={};window.onNetFetch=function(tok,ok,info){const w=netWait[tok];if(!w)return;delete netWait[tok];clearTimeout(w.t);if(ok)w.res(bridge.readNet(tok));else w.rej(new Error(info||"فشل التحميل"))};
-function nativeGet(u){return new Promise((res,rej)=>{const tok="n"+Date.now();netWait[tok]={res,rej,t:setTimeout(()=>{delete netWait[tok];rej(new Error("السيرفر بطيء جداً (أكتر من دقيقتين)"))},240000)};bridge.fetchPl(tok,u)})}
+let netSeq=0;function nativeGet(u,raw){return new Promise((res,rej)=>{const tok="n"+Date.now()+"_"+(netSeq++);netWait[tok]={res,rej,t:setTimeout(()=>{delete netWait[tok];rej(new Error("السيرفر بطيء جداً (أكتر من 4 دقايق)"))},240000)};if(raw&&bridge.fetchRaw)bridge.fetchRaw(tok,u);else bridge.fetchPl(tok,u)})}
 async function loadPl(p){if(p.local)return (p.local==="favs"?favs:recent).slice();if(plCache[p.id])return plCache[p.id];let list;
   if(p.file){if(!bridge||!bridge.readFile)throw new Error("الملف موجود على الشاشة بس");list=parseM3U(bridge.readFile(p.id)||"")}
   else if(bridge&&bridge.fetchPl&&/^https?:/i.test(p.u||"")&&!p.filterAr)list=parseM3U(await nativeGet(p.u),false)
