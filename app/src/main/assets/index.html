@@ -22,6 +22,7 @@
   --r:.9vw;
 }
 [hidden]{display:none!important}
+.sethid{display:none!important}
 /* themes */
 html.t-egypt{--night:#0e0b0b;--wine:#241a1a;--wine-2:#382525;--ahly:#c8102e;--ahly-d:#1a1a1a;--gold:#c9a227;--chalk:#ffffff;--mist:#c9bdbd;--paper:#f5f2ee;--glow:rgba(200,16,46,.30);--base:#0e0b0b;--adh:#3a1015}
 html.t-saudi{--night:#04140c;--wine:#0b2a1b;--wine-2:#124029;--ahly:#00843d;--ahly-d:#00391b;--gold:#d4b26a;--chalk:#f8f6ef;--mist:#a9c6b6;--paper:#f4f1e6;--glow:rgba(0,132,61,.38);--base:#04140c;--adh:#0b3a22}
@@ -1379,6 +1380,16 @@ function show(v){clearTimeout(tabT);view=v;document.querySelectorAll(".view").fo
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>show(t.dataset.view));
 document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.go);focusView()});
 
+/* ---------- settings split into sections (short lists, no endless scrolling) ---------- */
+const SET_G=[["look","المظهر"],["tabs","التبويبات"],["gen","عام"],["adhan","الأذان"],["pl","قوائم IPTV"],["scr","الشاشة والضيوف"]];
+const SET_MAP={"الاسم":"gen","الثيم":"look","العرض":"look","التبويبات":"tabs","التحديثات":"gen","قوائم IPTV":"pl","صوت الأذان":"adhan","وضع الضيوف":"scr","شاشة التوقف":"scr"};
+let setG=store.get("setG","look");
+function initSettingsTabs(){const sec=$("#v-settings");if(!sec||sec.dataset.sp)return;sec.dataset.sp=1;let g="gen";const kids=Array.prototype.slice.call(sec.children);
+  kids.forEach(n=>{if(n.tagName==="H2")g=SET_MAP[n.textContent.trim()]||g;n.dataset.g=g});
+  const last2=kids.slice(-2);if(last2[0]&&/mp3/.test(last2[0].textContent+last2[1].textContent)){last2.forEach(n=>n.dataset.g="adhan")}
+  const bar=el("div",{class:"seg wrap",id:"set-tabs",style:"margin-bottom:.8vw"});sec.insertBefore(bar,sec.firstChild);renderSetTabs()}
+function renderSetTabs(){const sec=$("#v-settings");$("#set-tabs").replaceChildren(...SET_G.map(x=>el("button",{class:"chip","data-nav":"","aria-pressed":String(x[0]===setG),text:x[1],onclick(){setG=x[0];store.set("setG",setG);renderSetTabs();focusSel("#set-tabs [aria-pressed=true]")}})));
+  Array.prototype.forEach.call(sec.children,n=>{if(n.id!=="set-tabs")n.classList.toggle("sethid",n.dataset.g!==setG)})}
 /* ---------- remote control ---------- */
 function visible(n){if(!n.offsetParent&&getComputedStyle(n).position!=="fixed")return false;const r=n.getBoundingClientRect();return r.width>0&&r.height>0}
 function scope(){return !$("#adhan").hidden?$("#adhan"):!$("#nowp").hidden?$("#nowp"):document}
@@ -1393,6 +1404,8 @@ function move(dir){const items=focusables(),cur=document.activeElement;if(items.
     if(dir==="L"){if(b.right>a.left+4&&dx>=-2)continue;main=-dx;cross=Math.abs(dy)}else if(dir==="R"){if(b.left<a.right-4&&dx<=2)continue;main=dx;cross=Math.abs(dy)}
     else if(dir==="U"){if(b.bottom>a.top+4)continue;main=-dy;cross=Math.abs(dx)}else{if(b.top<a.bottom-4)continue;main=dy;cross=Math.abs(dx)}
     if(main<=0)continue;const sc=main+cross*2.2;if(sc<bs){bs=sc;best=n}}
+  // leaving the content upwards always lands on the CURRENT tab, never on a neighbouring one or a header icon
+  if(best&&cur.closest&&cur.closest(".view")&&!best.closest(".view")&&dir==="U"){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
   if(best)focusEl(best)}
 window.tvKey=function(k){
   if(wakeBlack())return "ok";
@@ -1522,11 +1535,11 @@ document.addEventListener("focusin",e=>{const t=e.target;if(!t||!t.closest)retur
 function firstInView(){const sec=document.getElementById("v-"+view);if(!sec)return null;
   const items=Array.prototype.filter.call(sec.querySelectorAll("[data-nav]"),visible);if(!items.length)return null;
   items.sort((a,b)=>{const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();return Math.abs(ra.top-rb.top)>8?ra.top-rb.top:rb.right-ra.right});return items[0]}
-function enterView(){const m=focusMem["v-"+view];if(m&&document.body.contains(m)&&visible(m)){focusEl(m);return true}const f=firstInView();if(f){focusEl(f);return true}return false}
+function enterView(){if(view==="settings"){const c=$("#set-tabs [aria-pressed=true]");if(c){focusEl(c);return true}}const m=focusMem["v-"+view];if(m&&document.body.contains(m)&&visible(m)){focusEl(m);return true}const f=firstInView();if(f){focusEl(f);return true}return false}
 window.goHome=function(){hideNowPlaying();hideGuest();if(!$("#player").hidden)closePlayer();show("home");focusView();return "ok"};
 
 /* ---------- boot ---------- */
-renderCities();renderAdhanToggle();
+initSettingsTabs();renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
 applyTheme();applyCols();applyTabs();applyUserBg();renderGreet();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();loadTop();renderArc(Date.now());
 setInterval(()=>loadWeather(),10*6e4);setInterval(loadAhly,10*6e4);setInterval(loadTop,10*6e4);setInterval(renderAyah,60*6e4);

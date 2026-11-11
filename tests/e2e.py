@@ -64,6 +64,19 @@ def main():
       log(f"after RIGHT: {page.evaluate('document.activeElement.textContent.trim()')}")
       page.evaluate("tvKey('D')")
       log(f"after DOWN: {page.evaluate('document.activeElement.className')}")
+      bad_nav = []
+      for v in ["home", "apps", "prayer", "azkar", "quran", "tv", "radio", "settings"]:
+          page.evaluate(f"show('{v}');focusView()")
+          page.wait_for_timeout(500)
+          page.evaluate("tvKey('D')")
+          page.evaluate("tvKey('U')")
+          ok_back = page.evaluate("(document.activeElement.classList.contains('tab')&&document.activeElement.dataset.view===view)")
+          if not ok_back:
+              bad_nav.append(v)
+      log(f"nav: Down then Up returns to the same tab in every view: {not bad_nav} {bad_nav}")
+      if bad_nav:
+          failed = True
+      page.evaluate("show('home')")
       log(f"Hls loaded: {page.evaluate('!!window.Hls')}")
       log("prayer: " + page.locator("#home-prayers").inner_text().replace(chr(10), " "))
       nx = page.locator("#nx-name").inner_text()
