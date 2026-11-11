@@ -206,6 +206,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .box .h{color:var(--mist);font-size:.95vw}
 .box .big{font-family:var(--f-display);font-size:2vw;line-height:1.1}
 .box .sm{color:var(--mist);font-size:.95vw}
+.wx-d{font-size:.85vw;color:var(--mist);line-height:1.4;white-space:nowrap}
 .wx-days{display:grid;grid-template-columns:repeat(3,1fr);grid-gap:.5vw;margin-top:.3vw;font-size:.9vw;color:var(--mist);text-align:center}
 .wx-days b{display:block;color:var(--chalk);font-weight:500}
 .match{display:grid;grid-template-columns:1fr auto 1fr;grid-gap:.6vw;align-items:center;text-align:center}
@@ -526,9 +527,9 @@ html{background:var(--base)}
       </div>
       <div class="quad">
         <button class="tile" data-nav id="t-azkar"><span class="h"><svg class="i"><use href="#i-moon"/></svg>الأذكار</span><span class="mid big" id="t-azkar-t">أذكار الصباح</span><span class="sm" id="t-azkar-s">قراءة واستماع</span></button>
-        <div class="box" id="wx"><span class="h"><svg class="i"><use href="#i-sun"/></svg>الطقس</span><div class="mid wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-days" id="wx-days"></div></div>
+        <div class="box" id="wx"><span class="h"><svg class="i"><use href="#i-sun"/></svg>الطقس</span><div class="mid wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-d" id="wx-d"></div><div class="wx-days" id="wx-days"></div></div>
         <div class="box" id="ahly"><span class="h"><svg class="i"><use href="#i-ball"/></svg><span id="ahly-h">أهم ماتش</span></span><div class="mid" id="ahly-b"><span class="sm">جاري التحميل…</span></div><span class="sm" id="ahly-s"></span></div>
-        <div class="sbox"><span class="h"><svg class="i"><use href="#i-book"/></svg><span id="ayah-h">آية اليوم</span></span><div class="mid ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
+        <div class="box"><span class="h"><svg class="i"><use href="#i-book"/></svg><span id="ayah-h">آية اليوم</span></span><div class="mid ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
       </div>
       <div class="sec"><h3>تطبيقاتي وآخر القنوات</h3><div class="strip"><div id="my-apps" class="contents"></div><div id="recent" class="contents"></div></div><span id="recent-sec" hidden></span></div>
     </div>
@@ -750,6 +751,7 @@ document.documentElement.setAttribute("dir","rtl");document.documentElement.setA
 /* polyfills for older Android TV browsers */
 (function(){var Ps=[Element.prototype,Document.prototype,DocumentFragment.prototype];for(var i=0;i<Ps.length;i++){if(!Ps[i].replaceChildren)Ps[i].replaceChildren=function(){while(this.lastChild)this.removeChild(this.lastChild);for(var j=0;j<arguments.length;j++)this.append(arguments[j])}}})();
 
+const DTF={};function dtf(l,o){const k=l+JSON.stringify(o);return DTF[k]||(DTF[k]=new Intl.DateTimeFormat(l,o))}
 const store={get(k,d){try{const v=localStorage.getItem("ahlytv:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("ahlytv:"+k,JSON.stringify(v))}catch(e){}}};
 const $=s=>document.querySelector(s);
 const el=(t,a,...kids)=>{a=a||{};const n=document.createElement(t);for(const k in a){if(k==="class")n.className=a[k];else if(k==="text")n.textContent=a[k];else if(k.indexOf("on")===0)n.addEventListener(k.slice(2),a[k]);else n.setAttribute(k,a[k])}kids.forEach(c=>{if(c!=null)n.append(c)});return n};
@@ -782,10 +784,12 @@ const D2R=Math.PI/180,R2D=180/Math.PI,sin=d=>Math.sin(d*D2R),cos=d=>Math.cos(d*D
 const fix=(a,b)=>{a=a-b*Math.floor(a/b);return a<0?a+b:a};
 function julian(y,m,d){if(m<=2){y-=1;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
 function sunPos(jd){const D=jd-2451545,g=fix(357.529+.98560028*D,360),q=fix(280.459+.98564736*D,360),L=fix(q+1.915*sin(g)+.02*sin(2*g),360),e=23.439-.00000036*D;return{decl:asin(sin(e)*sin(L)),eqt:q/15-fix(atan2(cos(e)*sin(L),cos(L))/15,24)}}
-function parts(zone,date,opts){const p={};new Intl.DateTimeFormat("en-US",Object.assign({timeZone:zone},opts)).formatToParts(date).forEach(x=>p[x.type]=x.value);return p}
+function parts(zone,date,opts){const p={};try{dtf("en-US",Object.assign({timeZone:zone},opts)).formatToParts(date).forEach(x=>p[x.type]=x.value)}catch(e){
+  const d=new Date(date.getTime()-date.getTimezoneOffset()*6e4),z=n=>("0"+n).slice(-2);
+  p.year=String(d.getUTCFullYear());p.month=z(d.getUTCMonth()+1);p.day=z(d.getUTCDate());p.hour=z(d.getUTCHours());p.minute=z(d.getUTCMinutes());p.second=z(d.getUTCSeconds())}return p}
 function tzOffset(zone,date){const p=parts(zone,date,{hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});return(Date.UTC(+p.year,+p.month-1,+p.day,(+p.hour)%24,+p.minute,+p.second)-date.getTime())/36e5}
 function cityYMD(zone,date){const p=parts(zone,date,{year:"numeric",month:"numeric",day:"numeric"});return{y:+p.year,m:+p.month,d:+p.day}}
-function hijri(date){try{const p={};new Intl.DateTimeFormat("en-US-u-ca-islamic-umalqura",{timeZone:city.tz,day:"numeric",month:"numeric",year:"numeric"}).formatToParts(date).forEach(x=>p[x.type]=x.value);
+function hijri(date){try{const p={};dtf("en-US-u-ca-islamic-umalqura",{timeZone:city.tz,day:"numeric",month:"numeric",year:"numeric"}).formatToParts(date).forEach(x=>p[x.type]=x.value);
   const d=parseInt(p.day,10),m=parseInt(p.month,10),y=parseInt(p.year,10);if(!(m>=1&&m<=12))return null;return{d,m,y}}catch(e){return null}}
 const HM=["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
 function prayerTimes(c,date,shift){const s=cityYMD(c.tz,new Date(date.getTime()+(shift||0)*864e5)),y=s.y,m=s.m,d=s.d;
@@ -797,12 +801,13 @@ function prayerTimes(c,date,shift){const s=cityYMD(c.tz,new Date(date.getTime()+
   for(let i=0;i<2;i++){const p=k=>t[k]/24;t={fajr:at(c.m.fajr,p("fajr"),true),sunrise:at(.833,p("sunrise"),true),dhuhr:mid(p("dhuhr")),asr:asr(p("asr")),maghrib:at(.833,p("maghrib")),isha:typeof c.m.isha==="number"?at(c.m.isha,p("isha")):t.isha}}
   if(typeof c.m.isha!=="number"){const h=hijri(new Date(noon));t.isha=t.maghrib+((h&&h.m===9)?2:1.5)}
   const out={};for(const k of ORDER)out[k]=Date.UTC(y,m-1,d)+Math.round((t[k]-c.lng/15)*60)*6e4;return out}
-const fmtTime=ms=>new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit",hour12:true}).format(new Date(ms));
-function dates(d){let g="";try{g=new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(d)}catch(e){}
+function clockStr(d){try{return dtf("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit",hour12:true}).format(d)}catch(e){let h=d.getHours(),m=d.getMinutes();const pm=h>=12;h=h%12||12;return arNum(h)+":"+arNum(m,2)+(pm?" م":" ص")}}
+const fmtTime=ms=>clockStr(new Date(ms));
+function dates(d){let g="";try{g=dtf("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(d)}catch(e){}
   const h=hijri(d);return g+(h?" · "+arNum(h.d)+" "+HM[h.m-1]+" "+arNum(h.y)+" هـ":"")}
 
 /* ---------- prayer UI ---------- */
-let today={},tomorrow={},adhanOn=store.get("adhanOn",true),fired=store.get("fired",{}),lastDay="";
+let lastMin=-1,today={},tomorrow={},adhanOn=store.get("adhanOn",true),fired=store.get("fired",{}),lastDay="";
 function compute(){const now=new Date();today=prayerTimes(city,now);tomorrow=prayerTimes(city,now,1)}
 function nextPrayer(now){for(const k of ORDER){if(k==="sunrise")continue;if(today[k]>now)return{k,ms:today[k]}}return{k:"fajr",ms:tomorrow.fajr}}
 function renderStrip(box,now){const nx=nextPrayer(now);box.replaceChildren(...ORDER.map(k=>el("div",{class:"pr"+(k===nx.k?" is-next":today[k]<now?" is-past":"")},el("div",{class:"n",text:PNAMES[k]}),el("div",{class:"v",text:fmtTime(today[k])}))))}
@@ -811,8 +816,8 @@ function renderPrayers(){const now=Date.now();renderStrip($("#home-prayers"),now
 function renderCities(){$("#cities").replaceChildren(...CITIES.map(c=>el("button",{class:"chip","data-nav":"","aria-pressed":String(c.id===city.id),text:c.n,onclick(){city=c;store.set("city",c.id);lastDay="";tick();loadWeather();renderCities();focusSel("#cities [aria-pressed=true]")}})))}
 function tick(){try{tickInner()}catch(e){console.error(e)}}
 function tickInner(){const now=new Date(),ms=now.getTime();const s=cityYMD(city.tz,now),dk=s.y+"-"+s.m+"-"+s.d;
-  if(dk!==lastDay){if(lastDay){fired={};store.set("fired",fired)}lastDay=dk;compute();renderPrayers()}
-  $("#clk").textContent=new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit",hour12:true}).format(now);$("#dates").textContent=dates(now);
+  if(dk!==lastDay||!(today.fajr>0)){if(lastDay&&dk!==lastDay){fired={};store.set("fired",fired)}lastDay=dk;compute();renderPrayers()}
+  $("#clk").textContent=clockStr(now);if(now.getMinutes()!==lastMin||!$("#dates").textContent){lastMin=now.getMinutes();$("#dates").textContent=dates(now)}
   const nx=nextPrayer(ms);$("#nx-name").textContent=PNAMES[nx.k];
   const sec=Math.max(0,Math.floor((nx.ms-ms)/1000));$("#nx-cd").textContent=arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2)+" متبقي";
   const evening=ms>=today.asr||ms<today.fajr;$("#t-azkar-t").textContent=evening?"أذكار المساء":"أذكار الصباح";$("#t-azkar").dataset.zk=evening?"pm":"am";
@@ -875,7 +880,7 @@ function renderAdhanToggle(){$("#toggle-adhan").textContent="الأذان: "+(ad
 $("#toggle-adhan").onclick=()=>{adhanOn=!adhanOn;store.set("adhanOn",adhanOn);renderAdhanToggle()};
 
 /* ---------- reminders on the home screen ---------- */
-function weekday(d){return new Intl.DateTimeFormat("en-US",{timeZone:city.tz,weekday:"short"}).format(d)}
+function weekday(d){return dtf("en-US",{timeZone:city.tz,weekday:"short"}).format(d)}
 const TAKBIR=["https://archive.org/download/eid-takbeer-mp-3-160-k/"+encodeURIComponent("تكبيرات العيد  - التكبيرات الشامية بدون إيقاع Eid Takbeer(MP3_160K).mp3"),"https://archive.org/download/4-islamic-1020/takbeer.mp3"];
 function playTakbir(){playRadio({name:"تكبيرات العيد",url:TAKBIR[0]});$("#radio").onerror=()=>{if($("#radio").src.indexOf("4-islamic")<0){$("#radio").src=TAKBIR[1];$("#radio").play().catch(()=>{})}}}
 let matchInfo=null;
@@ -883,7 +888,7 @@ function renderNotice(now,ms){const h=hijri(now)||{},wd=weekday(now),afterMaghri
   const nightOf=afterMaghrib?(h.d||0)+1:(h.d||0); // Islamic nights start at maghrib
   const mt=matchInfo&&matchInfo.when;const sameDay=mt&&Object.values(cityYMD(city.tz,mt)).join("-")===Object.values(cityYMD(city.tz,now)).join("-");
   if(sameDay&&ms<mt.getTime()+2.2*36e5){const r=mt.getTime()-ms;
-    if(r>0){t="النهارده ماتش الأهلي ضد "+matchInfo.opp+" · بعد "+arNum(Math.floor(r/36e5))+" ساعة و"+arNum(Math.floor(r/6e4)%60)+" دقيقة";sub=lg(matchInfo.league)+" · الساعة "+new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(mt)}
+    if(r>0){t="النهارده ماتش الأهلي ضد "+matchInfo.opp+" · بعد "+arNum(Math.floor(r/36e5))+" ساعة و"+arNum(Math.floor(r/6e4)%60)+" دقيقة";sub=lg(matchInfo.league)+" · الساعة "+dtf("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(mt)}
     else{t="ماتش الأهلي شغال دلوقتي ضد "+matchInfo.opp;sub="يلا يا أهلي"}}
   else if(h.m===10&&h.d===1&&ms<today.dhuhr){t="عيد فطر مبارك، تقبّل الله منا ومنكم";sub="الله أكبر الله أكبر لا إله إلا الله";act=["تكبيرات العيد",playTakbir]}
   else if(h.m===12&&h.d>=10&&h.d<=13){t="عيد أضحى مبارك، تقبّل الله منا ومنكم";sub=h.d>10?"أيام التشريق: أيام أكل وشرب وذكر لله":"الله أكبر الله أكبر لا إله إلا الله";act=["تكبيرات العيد",playTakbir]}
@@ -932,12 +937,20 @@ function renderSky(ms){if(!today.fajr)return;let ph="day";
 /* ---------- weather (Open-Meteo, free) ---------- */
 function setWxClass(c){const w=$("#wx");w.dataset.code=c;const night=skyNow==="night";w.className="box "+(c>=51?"rain":c>=3||c===45||c===48?"cloud":night?"night":"clear")}
 let wxNow="";
-function wxText(c){if(c===0)return"صحو";if(c<=2)return"غائم جزئياً";if(c===3)return"غائم";if(c===45||c===48)return"ضباب";if(c>=51&&c<=57)return"رذاذ";if(c>=61&&c<=67)return"مطر";if(c>=71&&c<=77)return"ثلج";if(c>=80&&c<=82)return"زخات مطر";if(c>=95)return"عاصفة رعدية";return""}
-async function loadWeather(){try{const r=await fetchT("https://api.open-meteo.com/v1/forecast?latitude="+city.lat+"&longitude="+city.lng+"&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4",15000);
-  const j=await r.json(),c=j.current,d=j.daily;wxNow=arNum(Math.round(c.temperature_2m))+"° "+wxText(c.weather_code);
-  setWxClass(c.weather_code);$("#wx-now").textContent=arNum(Math.round(c.temperature_2m))+"°";$("#wx-t").textContent=wxText(c.weather_code)+" · "+city.n;
-  $("#wx-days").replaceChildren(...[1,2,3].map(i=>{const dt=new Date(d.time[i]+"T12:00:00Z");return el("div",{},el("b",{text:new Intl.DateTimeFormat("ar-EG",{weekday:"long",timeZone:"UTC"}).format(dt)}),arNum(Math.round(d.temperature_2m_max[i]))+"°")}))}
-  catch(e){$("#wx-t").textContent="الطقس مش متاح دلوقتي"}}
+function wxText(c){if(c===0)return"صحو";if(c===1)return"غالباً صحو";if(c===2)return"غائم جزئياً";if(c===3)return"غائم";if(c===45||c===48)return"ضباب";if(c>=51&&c<=57)return"رذاذ";if(c>=61&&c<=67)return"مطر";if(c>=71&&c<=77||c===85||c===86)return"ثلج";if(c>=80&&c<=82)return"زخات مطر";if(c>=95)return"عاصفة رعدية";return"—"}
+function wxShow(j,old){const c=j.current,d=j.daily,r=n=>arNum(Math.round(n));wxNow=r(c.temperature_2m)+"° "+wxText(c.weather_code);
+  setWxClass(c.weather_code);$("#wx-now").textContent=r(c.temperature_2m)+"°";
+  $("#wx-t").textContent=wxText(c.weather_code)+" · "+city.n+(old?" (قديم)":"");
+  $("#wx-d").textContent=(c.apparent_temperature!=null?"الإحساس "+r(c.apparent_temperature)+"°":"")+(c.relative_humidity_2m!=null?" · رطوبة "+r(c.relative_humidity_2m)+"٪":"");
+  $("#wx-days").replaceChildren(...[1,2,3].map(i=>{const dt=new Date(d.time[i]+"T12:00:00Z");return el("div",{},el("b",{text:dtf("ar-EG",{weekday:"long",timeZone:"UTC"}).format(dt)}),r(d.temperature_2m_max[i])+"°")}))}
+let wxTry=0,wxBusy=false;
+async function loadWeather(force){if(wxBusy)return;const key="wx:"+city.id,ca=store.get(key,null),age=ca?Date.now()-ca.t:1e12;
+  if(ca&&ca.j&&age<6*36e5){try{wxShow(ca.j,age>40*6e4)}catch(e){}}if(!force&&ca&&age<8*6e4)return;
+  wxBusy=true;try{const r=await fetchT("https://api.open-meteo.com/v1/forecast?latitude="+city.lat+"&longitude="+city.lng+"&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4",9000);
+    const j=await r.json();if(!j.current||!j.daily)throw new Error("bad");wxShow(j,false);store.set(key,{t:Date.now(),j});wxTry=0}
+  catch(e){if(!(ca&&ca.j&&age<6*36e5))$("#wx-t").textContent="الطقس مش متاح دلوقتي، بحاول تاني…";wxTry++;setTimeout(()=>loadWeather(true),Math.min(120,10*wxTry)*1e3)}
+  finally{wxBusy=false}}
+window.addEventListener("online",()=>loadWeather(true));
 
 /* ---------- Al Ahly matches (refreshed every 4 hours on GitHub) ---------- */
 const TEAM_AR={"Al Ahly":"الأهلي","Zamalek":"الزمالك","Pyramids":"بيراميدز","Al Masry":"المصري","Ismaily":"الإسماعيلي","El Gouna":"الجونة","Al Ittihad Alexandria":"الاتحاد السكندري","Ceramica Cleopatra":"سيراميكا كليوباترا","ENPPI":"إنبي","Smouha":"سموحة","Al-Mokawloon al-Arab":"المقاولون العرب","Modern Sport":"مودرن سبورت","ZED":"زد","National Bank of Egypt":"البنك الأهلي","Pharco":"فاركو","Tala'ea El-Gaish":"طلائع الجيش","Ghazl El Mahalla":"غزل المحلة","Petrojet":"بتروجت","Haras El Hodood":"حرس الحدود",
@@ -951,8 +964,8 @@ function teamCol(name,badge){const d=el("div",{});if(badge){const im=el("img",{a
 async function loadAhly(){try{const j=await (await fetchT(DATA+"ahly.json",15000)).json();const n=(j.next||[])[0],l=(j.last||[])[0],b=$("#ahly-b0");
   if(n){$("#ahly-h0").textContent="ماتش الأهلي الجاي · "+lg(n.league);const when=n.ts?new Date(n.ts.replace(/\+00:00$/,"")+"Z"):null;
     matchInfo={when:when,opp:tn(n.home==="Al Ahly"?n.away:n.home),league:n.league};
-    b.replaceChildren(el("div",{class:"match"},teamCol(n.home,n.hb),el("div",{class:"vs",text:when?new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(when):"ضد"}),teamCol(n.away,n.ab)),
-      el("div",{class:"sm",style:"text-align:center;margin-top:.3vw",text:when?new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(when):(n.date||"")}),
+    b.replaceChildren(el("div",{class:"match"},teamCol(n.home,n.hb),el("div",{class:"vs",text:when?dtf("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(when):"ضد"}),teamCol(n.away,n.ab)),
+      el("div",{class:"sm",style:"text-align:center;margin-top:.3vw",text:when?dtf("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(when):(n.date||"")}),
       l?el("div",{class:"sm",style:"text-align:center",text:"آخر ماتش: "+tn(l.home)+" "+arNum(+l.hs||0)+" - "+arNum(+l.as||0)+" "+tn(l.away)}):null)}
   if(l&&l.hs!=null&&!fired["res:"+l.date+l.home]){const ld=new Date(l.date+"T12:00:00Z");if(Date.now()-ld.getTime()<36*36e5){fired["res:"+l.date+l.home]=1;store.set("fired",fired);notify("انتهى: "+tn(l.home)+" "+arNum(+l.hs||0)+" - "+arNum(+l.as||0)+" "+tn(l.away))}}
   if(!n&&l){$("#ahly-h0").textContent="آخر ماتش للأهلي";b.replaceChildren(el("div",{class:"match"},teamCol(l.home,l.hb),el("div",{class:"vs",text:arNum(+l.hs||0)+" - "+arNum(+l.as||0)}),teamCol(l.away,l.ab)))}
@@ -968,9 +981,9 @@ function pickTop(list,now){const ms=now.getTime(),L=list.map(m=>Object.assign({}
 async function loadTop(){try{const j=await (await fetchT(DATA+"match.json",15000)).json();const now=new Date(),r=pickTop(j.matches||[],now);
   if(!r){$("#ahly-b").replaceChildren(el("span",{class:"sm",text:"مفيش ماتشات كبيرة قريب"}));$("#ahly-s").textContent="";return}
   const m=r.m,live=now>=m.when;$("#ahly-h").textContent=(r.today?(live?"شغال دلوقتي":"أهم ماتش النهارده"):"أهم ماتش قادم")+" · "+lg(m.league);
-  $("#ahly-b").replaceChildren(el("div",{class:"match"},teamCol(m.home,m.hb),el("div",{class:"vs",text:new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(m.when)}),teamCol(m.away,m.ab)));
+  $("#ahly-b").replaceChildren(el("div",{class:"match"},teamCol(m.home,m.hb),el("div",{class:"vs",text:dtf("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit"}).format(m.when)}),teamCol(m.away,m.ab)));
   const d=Math.round((new Date(ymdKey(m.when).replace(/-(\d)\b/g,"-0$1")+"T00:00:00Z")-new Date(ymdKey(now).replace(/-(\d)\b/g,"-0$1")+"T00:00:00Z"))/864e5);
-  $("#ahly-s").textContent=d<=0?"النهارده":d===1?"بكرة":new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(m.when)}
+  $("#ahly-s").textContent=d<=0?"النهارده":d===1?"بكرة":dtf("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(m.when)}
   catch(e){$("#ahly-b").replaceChildren(el("span",{class:"sm",text:"مش متاح دلوقتي"}))}}
 /* sun position on the home arc: fajr at the right end, isha at the left */
 function renderArc(ms){const c=$("#arc-now");if(!c||!today.fajr)return;let t=(ms-today.fajr)/(today.isha-today.fajr);t=Math.max(0,Math.min(1,t));const u=1-t;
@@ -1031,7 +1044,7 @@ function renderSaverOpts(){$("#saver-opts").replaceChildren(...[[5,"بعد ٥ د
 function showSaver(){$("#saver").hidden=false;saverPos=0;moveSaver();tick()}
 function hideSaver(){lastInput=Date.now();if(!$("#saver").hidden){$("#saver").hidden=true;return true}return false}
 function moveSaver(){const i=$("#saver-in");i.style.left=(Math.random()*40)+"vw";i.style.top=(4+Math.random()*38)+"vh"}
-function renderSaver(now,ms,nx){$("#sv-clk").textContent=new Intl.DateTimeFormat("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit",hour12:true}).format(now);
+function renderSaver(now,ms,nx){$("#sv-clk").textContent=clockStr(now);
   $("#sv-dt").textContent=dates(now)+" · "+city.n;const sec=Math.max(0,Math.floor((nx.ms-ms)/1000));
   $("#sv-nx").innerHTML="";$("#sv-nx").append("باقي على ",el("b",{text:PNAMES[nx.k]})," "+arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2));
   if(now.getSeconds()===0||!$("#sv-row").firstChild)$("#sv-row").replaceChildren(...ORDER.map(k=>el("div",{class:today[k]===nx.ms?"on":""},PNAMES[k],el("b",{text:fmtTime(today[k])}))));
@@ -1477,7 +1490,7 @@ function renderThemes(){$("#themes").replaceChildren(...THEMES.map(t=>{const b=e
 $("#base-tog").onclick=()=>{store.set("lightBase",!store.get("lightBase",false));if(themeId==="custom")applyTheme();renderThemes()};
 $("#name-save").onclick=()=>{store.set("name",$("#name-txt").value.trim());renderGreet();toast("أهلاً "+(store.get("name","")||"بيك"))};
 /* greeting */
-function renderGreet(){const nm=store.get("name","");if(!nm){$("#greet").hidden=true;return}const h=+new Intl.DateTimeFormat("en-US",{timeZone:city.tz,hour:"numeric",hour12:false}).format(new Date());
+function renderGreet(){const nm=store.get("name","");if(!nm){$("#greet").hidden=true;return}const h=+dtf("en-US",{timeZone:city.tz,hour:"numeric",hour12:false}).format(new Date());
   const g=h<12?"صباح الخير":h<17?"نهارك سعيد":"مساء الخير";$("#greet").hidden=false;$("#greet").textContent=g+" يا "+nm}
 /* channel grid density */
 let cols=store.get("cols",6);
@@ -1516,6 +1529,6 @@ window.goHome=function(){hideNowPlaying();hideGuest();if(!$("#player").hidden)cl
 renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
 applyTheme();applyCols();applyTabs();applyUserBg();renderGreet();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();loadTop();renderArc(Date.now());
-setInterval(loadWeather,30*6e4);setInterval(loadAhly,10*6e4);setInterval(loadTop,10*6e4);setInterval(renderAyah,60*6e4);
+setInterval(()=>loadWeather(),10*6e4);setInterval(loadAhly,10*6e4);setInterval(loadTop,10*6e4);setInterval(renderAyah,60*6e4);
 tick();renderNotice(new Date(),Date.now());renderSky(Date.now());findHaram();setInterval(tick,1000);setTimeout(focusView,300);
 </script>
