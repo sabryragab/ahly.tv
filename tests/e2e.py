@@ -177,6 +177,14 @@ def main():
       log(f"quran audio plays (Al-Kahf): {media_plays(page, '#radio', 20)} {page.locator('#np-name').inner_text()}")
       log(f"now playing screen shows: {page.locator('#nowp').is_visible()} title: {page.locator('#nw-ttl').inner_text()}")
       page.wait_for_timeout(3000)
+      end = time.time() + 12
+      while time.time() < end and not page.evaluate("qSeg?qSeg.length:0"):
+          time.sleep(0.5)
+      nseg = page.evaluate("qSeg?qSeg.length:0")
+      ay = page.locator('#nw-ac').inner_text()
+      log(f"quran ayahs on screen: {nseg} segments, estimated={page.evaluate('!!(qSeg&&qSeg.est)')}, text: {ay[:40]}")
+      if not nseg or len(ay) < 5:
+          failed = True
       page.screenshot(path="shot-nowplaying.png")
       page.evaluate("stopRadio()")
       # favourites, recent, channel number

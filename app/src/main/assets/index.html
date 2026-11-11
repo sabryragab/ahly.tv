@@ -288,13 +288,13 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .nowp.q .sub{font-size:1.15vw}
 .nowp.q .prog{max-width:100%}
 .nowp.q .ctl .btn{font-size:.95vw;padding:.55vw .9vw}
-.stage{position:absolute;top:13vh;bottom:30vh;right:7vw;left:7vw;display:none;text-align:center;color:#fff}
+.stage{position:absolute;top:16vh;bottom:27vh;right:7vw;left:7vw;display:none;text-align:center;color:#fff}
 .nowp.q .stage{display:block}
 .nowp.q.noay .stage{display:none}
-.stage .frame{position:absolute;top:0;right:0;bottom:0;left:0;border:.1vw solid rgba(224,190,110,.75);border-radius:1.4vw;background:rgba(4,12,10,.42);box-shadow:0 0 0 .45vw rgba(4,12,10,.28),0 0 0 .5vw rgba(224,190,110,.35),0 1.4vw 4vw rgba(0,0,0,.55),inset 0 0 6vw rgba(0,0,0,.35)}
+.stage .frame{position:absolute;top:0;right:0;bottom:0;left:0;border:.1vw solid rgba(224,190,110,.75);border-radius:1.4vw;background:rgba(4,12,10,.55);box-shadow:0 0 0 .45vw rgba(4,12,10,.28),0 0 0 .5vw rgba(224,190,110,.35),0 1.4vw 4vw rgba(0,0,0,.55),inset 0 0 6vw rgba(0,0,0,.35)}
 .stage .frame:before,.stage .frame:after{content:"\06DE";position:absolute;font-family:var(--f-ayah);font-size:2.6vw;line-height:1;color:#e0be6e;background:#0a1a15;border:.1vw solid rgba(224,190,110,.75);border-radius:50%;width:4vw;height:4vw;text-align:center;line-height:3.9vw;top:-2vw;right:50%;margin-right:-2vw}
 .stage .frame:after{top:auto;bottom:-2vw}
-.stage .box{position:absolute;top:3.4vw;bottom:3.4vw;right:3vw;left:3vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stage .sbox{position:absolute;top:3.6vw;bottom:4.6vw;right:3vw;left:3vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ayah-cur{font-family:var(--f-ayah);color:#fff8e4;line-height:2.1;text-shadow:0 0 1.6vw rgba(224,190,110,.35),0 .2vw .8vw rgba(0,0,0,.8);font-size:3.4vw;max-width:100%;word-spacing:.12em}
 .ayah-cur.in{animation:ayin .9s ease both}
 @keyframes ayin{from{opacity:0;transform:translateY(1.2vw)}to{opacity:1;transform:translateY(0)}}
@@ -302,7 +302,7 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .ayah-cur.bsm{color:#f6e7b4}
 .ayah-ctx{font-family:var(--f-ayah);font-size:1.5vw;line-height:1.7;color:rgba(255,248,228,.42);max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:2.6vw}
 .ayah-ctx.nx{margin-top:.4vw}
-.ayah-cnt{position:absolute;bottom:.9vw;right:0;left:0;font-size:1vw;color:rgba(224,190,110,.85);letter-spacing:.04em}
+.ayah-cnt{position:absolute;bottom:1.3vw;right:0;left:0;font-size:1vw;color:rgba(224,190,110,.85);letter-spacing:.04em}
 .stage .est{position:absolute;top:.8vw;left:1.6vw;font-size:.8vw;color:rgba(255,255,255,.45)}
 
 /* living sky: the page colour follows the sun (from today's prayer times) */
@@ -528,7 +528,7 @@ html{background:var(--base)}
         <button class="tile" data-nav id="t-azkar"><span class="h"><svg class="i"><use href="#i-moon"/></svg>الأذكار</span><span class="mid big" id="t-azkar-t">أذكار الصباح</span><span class="sm" id="t-azkar-s">قراءة واستماع</span></button>
         <div class="box" id="wx"><span class="h"><svg class="i"><use href="#i-sun"/></svg>الطقس</span><div class="mid wxrow"><span class="big" id="wx-now">—</span><span class="sm" id="wx-t">جاري التحميل…</span></div><div class="wx-days" id="wx-days"></div></div>
         <div class="box" id="ahly"><span class="h"><svg class="i"><use href="#i-ball"/></svg><span id="ahly-h">أهم ماتش</span></span><div class="mid" id="ahly-b"><span class="sm">جاري التحميل…</span></div><span class="sm" id="ahly-s"></span></div>
-        <div class="box"><span class="h"><svg class="i"><use href="#i-book"/></svg><span id="ayah-h">آية اليوم</span></span><div class="mid ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
+        <div class="sbox"><span class="h"><svg class="i"><use href="#i-book"/></svg><span id="ayah-h">آية اليوم</span></span><div class="mid ayah" id="ayah"></div><span class="sm" id="ayah-src"></span></div>
       </div>
       <div class="sec"><h3>تطبيقاتي وآخر القنوات</h3><div class="strip"><div id="my-apps" class="contents"></div><div id="recent" class="contents"></div></div><span id="recent-sec" hidden></span></div>
     </div>
@@ -701,7 +701,7 @@ html{background:var(--base)}
   <div class="bg" id="bg1"></div><div class="bg b2" id="bg2"></div><div class="shade"></div>
   <div class="clock"><b id="nw-clk"></b><br><span id="nw-nx"></span></div>
   <div class="credit" id="nw-credit"></div>
-  <div class="stage" id="nw-stage"><div class="frame"></div><div class="box">
+  <div class="stage" id="nw-stage"><div class="frame"></div><div class="sbox">
     <div class="ayah-ctx" id="nw-ap"></div>
     <div class="ayah-cur" id="nw-ac"></div>
     <div class="ayah-ctx nx" id="nw-an"></div>
@@ -1291,7 +1291,7 @@ function buildSegs(n,tm,dur){const T=QTX[n-1],bas=n!==1&&n!==9,segs=[];if(bas)se
   if(segs[1]&&segs[1].s-segs[0].s<1&&segs[0].k===0)segs.shift();
   return segs}
 function showSeg(i){const g=qSeg[i];if(!g)return;qSegI=i;const c=$("#nw-ac");
-  const sz=g.t.length<=40?5.2:g.t.length<=80?4.4:g.t.length<=140?3.7:g.t.length<=220?3.1:g.t.length<=320?2.6:g.t.length<=450?2.2:1.85;
+  const L=g.t.length,sz=L<=40?5:L<=80?4.2:L<=140?3.5:L<=220?2.9:L<=320?2.4:L<=450?2:1.7;
   c.style.fontSize=sz+"vw";c.classList.toggle("bsm",g.k===0);c.replaceChildren(document.createTextNode(g.t),...(g.k?[el("span",{class:"mk",text:" \uFD3F"+arNum(g.k)+"\uFD3E"})]:[]));
   c.classList.remove("in");void c.offsetWidth;c.classList.add("in");
   const p=qSeg[i-1],x=qSeg[i+1];$("#nw-ap").textContent=p&&p.k?p.t:"";$("#nw-an").textContent=x?x.t:"";
