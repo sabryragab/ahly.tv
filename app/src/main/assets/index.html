@@ -979,7 +979,8 @@ function renderArc(ms){const c=$("#arc-now");if(!c||!today.fajr)return;let t=(ms
 /* ---------- IPTV section: playlists, categories, virtual channel list ---------- */
 const IP={pl:store.get("ipPl",""),sec:"live",items:[],cats:[],cat:0,list:[],idx:0,col:1,q:"",loading:false,err:""};
 const IP_ROWS=9,IP_CROWS=11;
-const kindOf=c=>/\/series\//i.test(c.url)?"series":(/\/movie\//i.test(c.url)||/\.(mp4|mkv|avi)(\?|$)/i.test(c.url))?"movie":"live";
+const kindOf=c=>{const u=c.url||"",g=c.group||"";if(/\/series\//i.test(u))return"series";if(/\/movie\//i.test(u)||/\.(mp4|mkv|avi|mov)(\?|$)/i.test(u))return"movie";
+  if(!/\.(m3u8|ts)(\?|$)/i.test(u)){if(/series|مسلسل|season|موسم|\bS\d{1,2}\b/i.test(g))return"series";if(/\bvod\b|movies?\b|films?\b|أفلام|افلام|سينما|cinema/i.test(g))return"movie"}return"live"};
 function ipCompute(keepCat){const all=IP.items.filter(c=>c.kind===IP.sec);const counts={},order=[];all.forEach(c=>{if(counts[c.group]==null){counts[c.group]=0;order.push(c.group)}counts[c.group]++});
   const favN=all.filter(isFav).length,prev=keepCat&&IP.cats[IP.cat]?IP.cats[IP.cat].n:null;
   IP.cats=[{n:"الكل",c:all.length,all:1}].concat(favN?[{n:"★ المفضلة",c:favN,fav:1}]:[],order.map(g=>({n:g,c:counts[g]})));
@@ -988,15 +989,15 @@ function ipFilter(){const ct=IP.cats[IP.cat]||{all:1},q=IP.q.trim().toLowerCase(
   if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);else if(ct.fav)L=L.filter(isFav);else if(!ct.all)L=L.filter(c=>c.group===ct.n);
   IP.list=L;IP.idx=Math.min(IP.idx,Math.max(0,L.length-1));if(view==="iptv")channels=L;ipRender()}
 function win(n,idx,rows){let st=Math.max(0,Math.min(idx-Math.floor(rows/2),n-rows));return st<0?0:st}
-function ipRender(){const top=$("#ip-top"),secs=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]].filter(x=>x[0]==="live"||IP.items.some(c=>c.kind===x[0]));
+function ipRender(){const top=$("#ip-top"),secs=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]];
   top.replaceChildren(...userPl.map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===IP.pl),text:p.n,onclick(){ipOpen(p.id)}})),
-    ...(secs.length>1?[el("span",{class:"sep"})].concat(secs.map(x=>el("button",{class:"chip","data-nav":"","aria-pressed":String(x[0]===IP.sec),text:x[1],onclick(){IP.sec=x[0];IP.idx=0;ipCompute()}}))):[]));
+    ...(IP.items.length?[el("span",{class:"sep"})].concat(secs.map(x=>{const n=IP.items.filter(c=>c.kind===x[0]).length;return el("button",{class:"chip","data-nav":"","aria-pressed":String(x[0]===IP.sec),text:x[1]+" "+arNum(n),onclick(){IP.sec=x[0];IP.idx=0;IP.col=1;ipCompute()}})})):[]));
   const ce=$("#ip-cats"),le=$("#ip-list");$("#ip").className="c"+IP.col;
   if(!userPl.length){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("br"),"دوس «إضافة قايمة» وصوّر الكود من موبايلك،",el("br"),"والزق رابط m3u أو اكتب بيانات Xtream."));ipPrev(null);$("#ip-count").textContent="";$("#ip-pl").textContent="";return}
   if(IP.loading||IP.err){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},IP.loading?"جاري تحميل القايمة…":el("b",{text:"مقدرتش أحمّل القايمة"}),IP.err?el("br"):null,IP.err||"",IP.err?el("br"):null,IP.err?"دوس OK للمحاولة تاني":""));ipPrev(null);return}
   const cs=win(IP.cats.length,IP.cat,IP_CROWS);ce.replaceChildren(...IP.cats.slice(cs,cs+IP_CROWS).map((c,i)=>{const r=el("div",{class:"iprow"+(cs+i===IP.cat?" sel":"")},el("span",{class:"nm",text:c.n}),el("i",{text:arNum(c.c)}));
     r.onclick=()=>{IP.col=0;IP.cat=cs+i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter();focusEl($("#ip"))};return r}));
-  if(!IP.list.length){le.replaceChildren(el("div",{class:"ipempty",text:IP.q?"مفيش قناة بالاسم ده":"القسم ده فاضي"}))}
+  if(!IP.list.length){le.replaceChildren(el("div",{class:"ipempty",text:IP.q?"مفيش قناة بالاسم ده":(IP.sec==="live"?"القسم ده فاضي":"مفيش "+(IP.sec==="movie"?"أفلام":"مسلسلات")+" في القايمة دي. الأفلام والمسلسلات بتيجي مع روابط الاشتراك بصيغة m3u_plus.")}))}
   else{const ls=win(IP.list.length,IP.idx,IP_ROWS);le.replaceChildren(...IP.list.slice(ls,ls+IP_ROWS).map((c,i)=>{const lgx=el("span",{class:"lg"});
     if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>{im.remove();lgx.append(icon("i-tv"))};lgx.append(im)}else lgx.append(icon("i-tv"));
     const r=el("div",{class:"iprow"+(ls+i===IP.idx?" sel":"")},el("span",{class:"no",text:arNum(ls+i+1)}),lgx,el("span",{class:"nm",text:cleanName(c.name)}),isFav(c)?el("span",{class:"st",text:"★"}):null);
