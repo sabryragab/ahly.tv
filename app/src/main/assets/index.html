@@ -1290,18 +1290,18 @@ function buildSegs(n,tm,dur){const T=QTX[n-1],bas=n!==1&&n!==9,segs=[];if(bas)se
   if(!ok){if(!(dur>0))return null;let w=0;const ws=segs.map(g=>{const x=g.t.length+(g.k?4:0);w+=x;return x});let c=0;segs.forEach((g,i)=>{g.s=dur*c/w;c+=ws[i]});segs.est=true}
   if(segs[1]&&segs[1].s-segs[0].s<1&&segs[0].k===0)segs.shift();
   return segs}
-function renderAyah(i){const g=qSeg[i];if(!g)return;qSegI=i;const c=$("#nw-ac");
+function showSeg(i){const g=qSeg[i];if(!g)return;qSegI=i;const c=$("#nw-ac");
   const sz=g.t.length<=40?5.2:g.t.length<=80?4.4:g.t.length<=140?3.7:g.t.length<=220?3.1:g.t.length<=320?2.6:g.t.length<=450?2.2:1.85;
   c.style.fontSize=sz+"vw";c.classList.toggle("bsm",g.k===0);c.replaceChildren(document.createTextNode(g.t),...(g.k?[el("span",{class:"mk",text:" \uFD3F"+arNum(g.k)+"\uFD3E"})]:[]));
   c.classList.remove("in");void c.offsetWidth;c.classList.add("in");
   const p=qSeg[i-1],x=qSeg[i+1];$("#nw-ap").textContent=p&&p.k?p.t:"";$("#nw-an").textContent=x?x.t:"";
   const tot=QTX&&qNow?QTX[qNow.n-1].length:0;$("#nw-acount").textContent=g.k&&tot?"الآية "+arNum(g.k)+" من "+arNum(tot):"";}
 function qSync(){if(!qSeg||$("#nowp").hidden)return;const t=$("#radio").currentTime+.15;let i=qSegI<0?0:qSegI;
-  if(qSeg[i].s>t)i=0;while(i+1<qSeg.length&&qSeg[i+1].s<=t)i++;if(i!==qSegI)renderAyah(i)}
+  if(qSeg[i].s>t)i=0;while(i+1<qSeg.length&&qSeg[i+1].s<=t)i++;if(i!==qSegI)showSeg(i)}
 async function startAyat(ri,n){const tok=++qTok;qSeg=null;qSegI=-1;$("#nw-ac").textContent="";$("#nw-ap").textContent=$("#nw-an").textContent=$("#nw-acount").textContent="";$("#nw-est").hidden=true;
   let T;try{T=await loadQText()}catch(e){return}if(tok!==qTok)return;
   const tm=await loadQTiming(ri,n);if(tok!==qTok)return;
-  const a=$("#radio");const mk=()=>{if(tok!==qTok||qSeg)return;const sg=buildSegs(n,tm,a.duration);if(!sg)return;qSeg=sg;$("#nw-est").hidden=!sg.est;qSync();if(qSegI<0)renderAyah(0)};
+  const a=$("#radio");const mk=()=>{if(tok!==qTok||qSeg)return;const sg=buildSegs(n,tm,a.duration);if(!sg)return;qSeg=sg;$("#nw-est").hidden=!sg.est;qSync();if(qSegI<0)showSeg(0)};
   if(tm)mk();if(!qSeg){if(isFinite(a.duration)&&a.duration>0)mk();else a.addEventListener("loadedmetadata",function f(){a.removeEventListener("loadedmetadata",f);mk()})}}
 (function(){const a=$("#radio");a.addEventListener("timeupdate",qSync);a.addEventListener("seeked",qSync)})();
 function ayJump(d){if(!qSeg)return;const a=$("#radio");let i=qSegI<0?0:qSegI;
