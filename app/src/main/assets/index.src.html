@@ -8,6 +8,7 @@
 <script src="qrcode.min.js"></script>
 <script>window.qrcode||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"><\/script>')</script>
 <style>
+@font-face{font-family:"AmiriQuran";src:url(AmiriQuran.ttf) format("truetype");font-display:swap}
 /* Layout: 10-foot TV shell sized in vw (works the same on 960 and 1920 wide screens).
    Header (club + clock) / tab rail / one view / now-playing bar. Ahly red night.
    Only CSS that old Android TV browsers understand (see scripts/build_tv.py); gaps via grid. */
@@ -17,6 +18,7 @@
   --f-display:"Reem Kufi","Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
   --f-body:"IBM Plex Sans Arabic","Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;
   --f-quran:"Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
+  --f-ayah:"AmiriQuran","Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
   --r:.9vw;
 }
 [hidden]{display:none!important}
@@ -276,6 +278,32 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 .nowp .clock b{font-size:2.6vw}
 .nowp .credit{position:absolute;top:5vh;right:6vw;font-size:.75vw;color:rgba(255,255,255,.7)}
 .np .open{background:var(--gold);color:var(--night)}
+
+/* quran reading mode: the ayah shown with the recitation */
+.nowp.q .shade{background:radial-gradient(ellipse at 50% 46%,rgba(2,10,8,.66),rgba(2,10,8,.42) 55%,rgba(0,0,0,.78))}
+.nowp.q .bg.on{animation-duration:48s}
+.nowp.q .cnt{bottom:3.6vh;grid-gap:.5vw}
+.nowp.q .kind{display:none}
+.nowp.q .ttl{font-family:var(--f-ayah);font-size:2.5vw;color:#f6e7b4;text-shadow:0 .2vw 1vw rgba(0,0,0,.7)}
+.nowp.q .sub{font-size:1.15vw}
+.nowp.q .prog{max-width:100%}
+.nowp.q .ctl .btn{font-size:.95vw;padding:.55vw .9vw}
+.stage{position:absolute;top:13vh;bottom:30vh;right:7vw;left:7vw;display:none;text-align:center;color:#fff}
+.nowp.q .stage{display:block}
+.nowp.q.noay .stage{display:none}
+.stage .frame{position:absolute;top:0;right:0;bottom:0;left:0;border:.1vw solid rgba(224,190,110,.75);border-radius:1.4vw;background:rgba(4,12,10,.42);box-shadow:0 0 0 .45vw rgba(4,12,10,.28),0 0 0 .5vw rgba(224,190,110,.35),0 1.4vw 4vw rgba(0,0,0,.55),inset 0 0 6vw rgba(0,0,0,.35)}
+.stage .frame:before,.stage .frame:after{content:"\06DE";position:absolute;font-family:var(--f-ayah);font-size:2.6vw;line-height:1;color:#e0be6e;background:#0a1a15;border:.1vw solid rgba(224,190,110,.75);border-radius:50%;width:4vw;height:4vw;text-align:center;line-height:3.9vw;top:-2vw;right:50%;margin-right:-2vw}
+.stage .frame:after{top:auto;bottom:-2vw}
+.stage .box{position:absolute;top:3.4vw;bottom:3.4vw;right:3vw;left:3vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ayah-cur{font-family:var(--f-ayah);color:#fff8e4;line-height:2.1;text-shadow:0 0 1.6vw rgba(224,190,110,.35),0 .2vw .8vw rgba(0,0,0,.8);font-size:3.4vw;max-width:100%;word-spacing:.12em}
+.ayah-cur.in{animation:ayin .9s ease both}
+@keyframes ayin{from{opacity:0;transform:translateY(1.2vw)}to{opacity:1;transform:translateY(0)}}
+.ayah-cur .mk{color:#e0be6e;font-size:.72em;white-space:nowrap;margin:0 .15em}
+.ayah-cur.bsm{color:#f6e7b4}
+.ayah-ctx{font-family:var(--f-ayah);font-size:1.5vw;line-height:1.7;color:rgba(255,248,228,.42);max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:2.6vw}
+.ayah-ctx.nx{margin-top:.4vw}
+.ayah-cnt{position:absolute;bottom:.9vw;right:0;left:0;font-size:1vw;color:rgba(224,190,110,.85);letter-spacing:.04em}
+.stage .est{position:absolute;top:.8vw;left:1.6vw;font-size:.8vw;color:rgba(255,255,255,.45)}
 
 /* living sky: the page colour follows the sun (from today's prayer times) */
 #sky{position:fixed;top:0;right:0;bottom:0;left:0;z-index:-1;pointer-events:none}
@@ -673,6 +701,11 @@ html{background:var(--base)}
   <div class="bg" id="bg1"></div><div class="bg b2" id="bg2"></div><div class="shade"></div>
   <div class="clock"><b id="nw-clk"></b><br><span id="nw-nx"></span></div>
   <div class="credit" id="nw-credit"></div>
+  <div class="stage" id="nw-stage"><div class="frame"></div><div class="box">
+    <div class="ayah-ctx" id="nw-ap"></div>
+    <div class="ayah-cur" id="nw-ac"></div>
+    <div class="ayah-ctx nx" id="nw-an"></div>
+    </div><div class="ayah-cnt" id="nw-acount"></div><div class="est" id="nw-est" hidden>التوقيت تقريبي</div></div>
   <div class="cnt">
     <div class="kind" id="nw-kind"></div>
     <div class="ttl" id="nw-ttl"></div>
@@ -680,8 +713,12 @@ html{background:var(--base)}
     <div class="prog" id="nw-prog"><span id="nw-cur"></span><div class="bar"><i id="nw-bar"></i></div><span id="nw-dur"></span></div>
     <div class="ctl">
       <button class="btn" data-nav id="nw-pp">إيقاف مؤقت</button>
+      <button class="btn" data-nav id="nw-aprev" hidden>◂ آية</button>
+      <button class="btn" data-nav id="nw-anext" hidden>آية ▸</button>
       <button class="btn" data-nav id="nw-prev" hidden>السورة اللي قبلها</button>
       <button class="btn" data-nav id="nw-next" hidden>السورة اللي بعدها</button>
+      <button class="btn" data-nav id="nw-ay" hidden>الآيات: تظهر</button>
+      <button class="btn" data-nav id="nw-bgn">خلفية تانية</button>
       <button class="btn" data-nav id="nw-sleep">مؤقت النوم</button>
       <button class="btn" data-nav id="nw-stop">إيقاف</button>
       <button class="btn" data-nav id="nw-hide">رجوع</button>
@@ -1200,7 +1237,7 @@ async function renderQuran(){try{await loadQuran()}catch(e){$("#q-surahs").repla
   $("#q-reciters").replaceChildren(...QL.reciters.map((x,i)=>el("button",{class:"chip","data-nav":"","aria-pressed":String(i===curRec()),text:x.n+(x.k==="مجوّد"?" (مجوّد)":""),onclick(){qRec=i;store.set("qRec",i);renderQuran()}})));
   $("#q-surahs").replaceChildren(...QL.suwar.map((n,i)=>el("button",{class:"surah"+(qNow&&qNow.rec===curRec()&&qNow.n===i+1?" playing":""),"data-nav":"",onclick(){playSurah(curRec(),i+1)}},el("i",{text:arNum(i+1)}),el("span",{text:n}))))}
 async function playSurah(ri,n,auto){try{await loadQuran()}catch(e){toast("مكتبة القرآن مش متاحة دلوقتي");return}const r=QL.reciters[ri];
-  playRadio({name:"سورة "+QL.suwar[n-1]+" · "+r.n,url:r.s+pad3(n)+".mp3",quiet:true});setNowPlaying({kind:"quran",title:"سورة "+QL.suwar[n-1],sub:r.n+" · "+r.k});if(!auto||!$("#nowp").hidden)showNowPlaying();qNow={rec:ri,n:n};$("#t-quran").textContent="سورة "+QL.suwar[n-1]+" · "+r.n;
+  playRadio({name:"سورة "+QL.suwar[n-1]+" · "+r.n,url:r.s+pad3(n)+".mp3",quiet:true});setNowPlaying({kind:"quran",title:"سورة "+QL.suwar[n-1],sub:r.n+" · "+r.k});if(!auto||!$("#nowp").hidden)showNowPlaying();qNow={rec:ri,n:n};startAyat(ri,n);$("#t-quran").textContent="سورة "+QL.suwar[n-1]+" · "+r.n;
   const a=$("#radio");a.onended=()=>{if(qCont&&qNow&&qNow.n<114)playSurah(qNow.rec,qNow.n+1,true);else stopRadio()};
   document.querySelectorAll("#q-surahs .surah").forEach((b,i)=>b.classList.toggle("playing",ri===curRec()&&i===n-1))}
 function renderSleep(){$("#q-sleep").textContent="مؤقت النوم: "+(sleepMin?"بعد "+arNum(sleepMin)+" دقيقة":"مقفول");$("#q-cont").textContent="تشغيل السور ورا بعض: "+(qCont?"يعمل":"متوقف")}
@@ -1215,7 +1252,8 @@ function nextBg(){if(!bgOrder.length){bgOrder=BGS.map((b,i)=>i).sort(()=>Math.ra
   const on=$("#bg"+bgLayer),off=$("#bg"+(3-bgLayer));off.style.backgroundImage="url('"+b.f+"')";
   const im=new Image();im.onload=()=>{off.classList.add("on");on.classList.remove("on");bgLayer=3-bgLayer;$("#nw-credit").textContent="صورة: "+b.a+" · "+b.l+" · Wikimedia Commons"};im.src=b.f}
 function setNowPlaying(info){npInfo=info;$("#nw-kind").textContent=info.kind==="quran"?"القرآن الكريم":"راديو";$("#nw-ttl").textContent=info.title;$("#nw-sub").textContent=info.sub||"";
-  $("#nw-prev").hidden=$("#nw-next").hidden=info.kind!=="quran";$("#nw-prog").style.visibility="hidden"}
+  const isq=info.kind==="quran";$("#nw-prev").hidden=$("#nw-next").hidden=$("#nw-aprev").hidden=$("#nw-anext").hidden=$("#nw-ay").hidden=!isq;
+  $("#nowp").classList.toggle("q",isq);$("#nowp").classList.toggle("noay",isq&&!qShow);renderAyBtn();$("#nw-prog").style.visibility="hidden"}
 function showNowPlaying(){if(!npInfo)return;const n=$("#nowp");if(n.hidden){n.hidden=false;nextBg();clearInterval(bgT);bgT=setInterval(nextBg,30000)}renderNwSleep();focusSel("#nw-pp")}
 function hideNowPlaying(){const n=$("#nowp");if(n.hidden)return false;n.hidden=true;clearInterval(bgT);focusView();return true}
 const mmss=t=>{t=Math.floor(t||0);const h=Math.floor(t/3600),m=Math.floor(t/60)%60,x=t%60;return (h?arNum(h)+":"+arNum(m,2):arNum(m))+":"+arNum(x,2)};
@@ -1231,6 +1269,48 @@ $("#nw-sleep").onclick=()=>{$("#q-sleep").click();renderNwSleep()};
 $("#nw-stop").onclick=()=>{stopRadio();hideNowPlaying()};
 $("#nw-hide").onclick=hideNowPlaying;
 $("#np-open").onclick=showNowPlaying;
+
+
+/* ---------- ayah text synced with the recitation ---------- */
+let QTX=null,QTP=null,QTIDX=null,QTM={},qSeg=null,qSegI=-1,qTok=0,qShow=store.get("qAyat",true);
+const BSM="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+function loadQText(){if(QTX)return Promise.resolve(QTX);if(QTP)return QTP;
+  QTP=new Promise((res,rej)=>{const s=document.createElement("script");s.src="quran-text.js";
+    s.onload=()=>{QTX=window.QTXT;QTX?res(QTX):rej(new Error("empty"))};
+    s.onerror=()=>{fetchT(DATA+"quran-text.json",30000).then(r=>r.json()).then(j=>{QTX=j;res(j)},rej)};document.head.appendChild(s)});
+  QTP.catch(()=>{QTP=null});return QTP}
+async function loadQTiming(ri,n){try{if(!QTIDX)QTIDX=await (await fetchT(DATA+"qt/index.json",15000)).json();
+  const id=QTIDX[String(ri)];if(!id)return null;if(!QTM[id])QTM[id]=await (await fetchT(DATA+"qt/"+id+".json",25000)).json();return QTM[id][String(n)]||null}catch(e){return null}}
+function buildSegs(n,tm,dur){const T=QTX[n-1],bas=n!==1&&n!==9,segs=[];if(bas)segs.push({t:BSM,k:0,s:0});T.forEach((t,i)=>segs.push({t,k:i+1,s:0}));
+  let ok=false;
+  if(tm){if(n===1){if(tm.length>=7){ok=true;for(let i=1;i<=6;i++){if(!(tm[i]>=0)||(i>1&&tm[i]<=tm[i-1]))ok=false}
+      if(ok){segs[0].s=0;for(let i=1;i<=6;i++)segs[i].s=tm[i]/1e3}}}
+    else if(tm.length-1===T.length){ok=true;for(let i=1;i<tm.length;i++){if(!(tm[i]>=0)||(i>1&&tm[i]<=tm[i-1]))ok=false}
+      if(ok){for(let i=1;i<tm.length;i++)segs[bas?i:i-1].s=tm[i]/1e3;if(bas)segs[0].s=tm[0]>=0?tm[0]/1e3:0}}}
+  if(!ok){if(!(dur>0))return null;let w=0;const ws=segs.map(g=>{const x=g.t.length+(g.k?4:0);w+=x;return x});let c=0;segs.forEach((g,i)=>{g.s=dur*c/w;c+=ws[i]});segs.est=true}
+  if(segs[1]&&segs[1].s-segs[0].s<1&&segs[0].k===0)segs.shift();
+  return segs}
+function renderAyah(i){const g=qSeg[i];if(!g)return;qSegI=i;const c=$("#nw-ac");
+  const sz=g.t.length<=40?5.2:g.t.length<=80?4.4:g.t.length<=140?3.7:g.t.length<=220?3.1:g.t.length<=320?2.6:g.t.length<=450?2.2:1.85;
+  c.style.fontSize=sz+"vw";c.classList.toggle("bsm",g.k===0);c.replaceChildren(document.createTextNode(g.t),...(g.k?[el("span",{class:"mk",text:" \uFD3F"+arNum(g.k)+"\uFD3E"})]:[]));
+  c.classList.remove("in");void c.offsetWidth;c.classList.add("in");
+  const p=qSeg[i-1],x=qSeg[i+1];$("#nw-ap").textContent=p&&p.k?p.t:"";$("#nw-an").textContent=x?x.t:"";
+  const tot=QTX&&qNow?QTX[qNow.n-1].length:0;$("#nw-acount").textContent=g.k&&tot?"الآية "+arNum(g.k)+" من "+arNum(tot):"";}
+function qSync(){if(!qSeg||$("#nowp").hidden)return;const t=$("#radio").currentTime+.15;let i=qSegI<0?0:qSegI;
+  if(qSeg[i].s>t)i=0;while(i+1<qSeg.length&&qSeg[i+1].s<=t)i++;if(i!==qSegI)renderAyah(i)}
+async function startAyat(ri,n){const tok=++qTok;qSeg=null;qSegI=-1;$("#nw-ac").textContent="";$("#nw-ap").textContent=$("#nw-an").textContent=$("#nw-acount").textContent="";$("#nw-est").hidden=true;
+  let T;try{T=await loadQText()}catch(e){return}if(tok!==qTok)return;
+  const tm=await loadQTiming(ri,n);if(tok!==qTok)return;
+  const a=$("#radio");const mk=()=>{if(tok!==qTok||qSeg)return;const sg=buildSegs(n,tm,a.duration);if(!sg)return;qSeg=sg;$("#nw-est").hidden=!sg.est;qSync();if(qSegI<0)renderAyah(0)};
+  if(tm)mk();if(!qSeg){if(isFinite(a.duration)&&a.duration>0)mk();else a.addEventListener("loadedmetadata",function f(){a.removeEventListener("loadedmetadata",f);mk()})}}
+(function(){const a=$("#radio");a.addEventListener("timeupdate",qSync);a.addEventListener("seeked",qSync)})();
+function ayJump(d){if(!qSeg)return;const a=$("#radio");let i=qSegI<0?0:qSegI;
+  if(d<0){i=(a.currentTime-qSeg[i].s>3)?i:i-1}else i=i+1;
+  if(i>=qSeg.length){if(qNow&&qNow.n<114)playSurah(qNow.rec,qNow.n+1);return}if(i<0)i=0;a.currentTime=qSeg[i].s+.02;qSegI=-1;qSync()}
+function renderAyBtn(){const b=$("#nw-ay");if(b)b.textContent="الآيات: "+(qShow?"تظهر":"مخفية")}
+$("#nw-aprev").onclick=()=>ayJump(-1);$("#nw-anext").onclick=()=>ayJump(1);
+$("#nw-ay").onclick=()=>{qShow=!qShow;store.set("qAyat",qShow);$("#nowp").classList.toggle("noay",!qShow);renderAyBtn()};
+$("#nw-bgn").onclick=()=>{nextBg();clearInterval(bgT);bgT=setInterval(nextBg,30000)};
 
 /* ---------- guests (majlis) mode ---------- */
 let gT=null,gLayer=1,gQuran=store.get("guestQ",true),gStartedRadio=false;
