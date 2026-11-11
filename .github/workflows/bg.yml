@@ -1,0 +1,16 @@
+name: Backgrounds
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  b:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/fetch_bg.py
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git pull -q --rebase origin main || true
+          git add -A
+          git diff --cached --quiet || git commit -m "High resolution backgrounds"
+          git push
