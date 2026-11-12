@@ -117,7 +117,7 @@ def main():
       log("iptv: playlist from phone loaded " + str(n) + " channels in " + str(page.evaluate("IP.cats.length")) + " categories, view: " + page.evaluate("view"))
       if n <= 0:
           failed = True
-      st = page.evaluate("(()=>{focusEl(document.querySelector('#ip'));tvKey('D');tvKey('D');tvKey('CD');const a=[IP.idx];tvKey('R');tvKey('D');a.push(IP.col,IP.cat,IP.list.length);tvKey('L');tvKey('CL');a.push(favs.length);tvKey('CL');return a.join(',')})()")
+      st = page.evaluate("(()=>{focusEl(document.querySelector('#ip'));tvKey('D');tvKey('D');tvKey('CD');const a=[IP.idx];IP.idx=0;tvKey('U');tvKey('L');a.push(IP.col,IP.cat,IP.list.length);tvKey('D');tvKey('CL');a.push(favs.length);tvKey('CL');return a.join(',')})()")
       log("iptv remote (idx after D,D,page | col,cat,listLen after RIGHT,D | favs after long OK): " + st)
       page.evaluate("IP.cat=0;IP.idx=0;ipFilter()")
       page.screenshot(path="shot-iptv.png")

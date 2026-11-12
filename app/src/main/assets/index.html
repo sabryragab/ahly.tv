@@ -410,10 +410,15 @@ html{background:var(--base)}
 .ipbar .sep{width:1px;height:1.8vw;background:var(--line)}
 .ipbar input{background:var(--wine);border:2px solid var(--line);border-radius:2vw;color:var(--chalk);padding:.45vw 1.1vw;width:16vw;font-size:1.05vw}
 .ipbar input:focus{border-color:var(--gold);outline:none}
-#ip{display:grid;grid-template-columns:14vw 1fr 33vw;grid-gap:1.1vw;height:56vh;outline:none;border-radius:1.4vw}
+#ip{display:grid;grid-template-columns:1fr 34vw;grid-template-rows:auto 1fr;grid-gap:1vw 1.1vw;height:60vh;outline:none;border-radius:1.4vw}
+.ipcats{grid-column:1/-1;background:none!important;border:0!important;padding:0!important;display:block!important;overflow:hidden}
+.ipcats .catlist{display:flex;gap:.7vw}
+.ipcats .iprow{display:flex!important;align-items:center;gap:.6vw;height:3.2vw;padding:0 1.5vw;border-radius:1.6vw;background:rgba(255,255,255,.07);font-size:1.15vw;flex:0 0 auto;max-width:18vw}
+.ipcats .iprow .nm{flex:1 1 auto;min-width:0}
+#ip.c0:focus .ipcats .iprow.sel{box-shadow:0 0 0 .15vw var(--gold)}
 #ip:focus{box-shadow:none}
 .ipcol{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:1.3vw;padding:.7vw;display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
-#ip.c0:focus .ipcats,#ip.c1:focus .iplist{border-color:var(--gold);box-shadow:0 0 0 .15vw var(--gold)}
+#ip.c1:focus .iplist{border-color:var(--gold);box-shadow:0 0 0 .15vw var(--gold)}
 .iprow{display:grid;align-items:center;border-radius:.8vw;padding:0 .9vw;min-height:0;color:var(--mist);cursor:pointer;overflow:hidden}
 .ipcats .iprow{grid-template-columns:1fr auto;grid-gap:.6vw;font-size:1.1vw}
 .ipcats .iprow i{font-style:normal;font-size:.85vw;opacity:.75;font-variant-numeric:tabular-nums}
@@ -437,7 +442,7 @@ html{background:var(--base)}
 .ipseg .sg.on{background:rgba(255,255,255,.14);color:var(--chalk);font-weight:700}
 #ip.c2:focus .ipseg .sg.on{background:var(--ahly);color:#fff;box-shadow:0 0 0 .15vw var(--gold)}
 #ip.c2:focus .ipseg .sg.on i{opacity:1}
-.ipprev .vid{position:relative;width:100%;height:18.6vw;background:radial-gradient(circle at 50% 40%,var(--ahly-d),#07040a);display:flex;align-items:center;justify-content:center}
+.ipprev .vid{position:relative;width:100%;height:19vw;background:radial-gradient(circle at 50% 40%,var(--ahly-d),#07040a);display:flex;align-items:center;justify-content:center}
 .ipprev .vid .vst{position:absolute;bottom:.7vw;right:0;left:0;text-align:center;color:var(--mist);font-size:.95vw}
 .ipprev .okb{justify-self:start;color:var(--chalk);font-size:1.15vw;margin:.2vw 0}
 .ipprev .okb b{background:var(--ahly);color:#fff;border-radius:.5vw;padding:.1vw .8vw;margin-inline-end:.4vw}
@@ -1139,7 +1144,7 @@ function ipRenderLive(){
     if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>{im.remove();lgx.append(icon("i-tv"))};lgx.append(im)}else lgx.append(icon("i-tv"));
     const r=el("div",{class:"iprow"+(ls+i===IP.idx?" sel":"")},el("span",{class:"no",text:arNum(ls+i+1)}),lgx,el("span",{class:"nm",text:cleanName(c.name)}),isFav(c)?el("span",{class:"st",text:"★"}):null);
     r.onclick=()=>{const was=IP.idx===ls+i&&IP.col===1;IP.col=1;IP.idx=ls+i;ipRender();focusEl($("#ip"));if(was)ipPlay()};return r}))}
-  ipPrev(IP.list[IP.idx]);const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=(p?p.n:"")+(IP.acct?" · "+IP.acct:"");
+  ipPrev(IP.drill?{name:IP.drill.name,logo:IP.drill.logo,group:cleanName((IP.list[IP.idx]||{}).name||"")}:IP.list[IP.idx]);const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=(p?p.n:"")+(IP.acct?" · "+IP.acct:"");
   $("#ip-count").textContent=IP.list.length?(arNum(IP.idx+1)+" من "+arNum(IP.list.length)+(IP.q?" · نتيجة البحث":" · "+(IP.cats[IP.cat]||{n:""}).n)):"";ipPreviewSoon()}
 function ipPrev(c){const pl=$("#ip-plate");if(!c){pl.replaceChildren(icon("i-tv"));$("#ip-t").textContent="—";$("#ip-g").textContent="";return}
   const nm=cleanName(c.name);pl.replaceChildren(el("b",{text:nm}));if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onload=()=>{if(im.naturalWidth>=40)pl.replaceChildren(im)};}
@@ -1173,7 +1178,7 @@ async function ipOpenSeries(c){const x=IP.xt;if(!x)return;toast("جاري تحم
     Object.keys(E).sort((a,b)=>a-b).forEach(sn=>{(E[sn]||[]).forEach(e=>{const t=(e.title||"").replace(/^.*?S\d+\s*E\d+\s*[-–:]?\s*/i,"");
       eps.push({name:c.name+" · م"+arNum(sn)+" ح"+arNum(e.episode_num||eps.length+1)+(t&&t!==c.name?" · "+t:""),url:x.base+"/series/"+x.u+"/"+x.p+"/"+e.id+"."+(e.container_extension||"mkv"),logo:(e.info&&e.info.movie_image)||c.logo,group:"الموسم "+arNum(sn),kind:"series"})})});
     if(!eps.length){toast("مفيش حلقات متاحة للمسلسل ده");return}
-    IP.drill={name:c.name,items:eps,back:{cat:IP.cat,idx:IP.idx}};IP.cat=0;IP.idx=0;IP.q="";$("#ip-q").value="";ipStopPreview();ipCompute();IP.col=1;ipRender();focusEl($("#ip"))}
+    IP.drill={name:c.name,logo:c.logo,items:eps,back:{cat:IP.cat,idx:IP.idx}};IP.cat=0;IP.idx=0;IP.q="";$("#ip-q").value="";ipStopPreview();ipCompute();IP.col=1;ipRender();focusEl($("#ip"))}
   catch(e){toast("مقدرتش أحمّل الحلقات: "+((e&&e.message)||""))}}
 function ipBack(){if(!IP.drill)return false;const b=IP.drill.back;IP.drill=null;ipCompute();IP.cat=Math.min(b.cat,IP.cats.length-1);ipFilter();IP.idx=Math.min(b.idx,Math.max(0,IP.list.length-1));IP.col=1;ipRender();ipRestoreFocus();return true}
 async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=userPl.length?userPl[0].id:"";store.set("ipPl",IP.pl);IP.err="";IP.q="";$("#ip-q").value="";
@@ -1187,17 +1192,18 @@ async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
 function ipPlay(){if(!IP.list.length)return;const c0=IP.list[IP.idx];if(c0&&c0.kind==="series"&&c0.sid){ipOpenSeries(c0);return}ipStopPreview();channels=IP.list;IP.last={list:IP.list,i:IP.idx,c:c0};playChannel(IP.idx)}
 function ipKey(k){if(IP.err&&k==="C"){ipOpen();return true}if(!userPl.length||IP.loading)return k!=="U";
-  if(IP.col===2){const o=IP_SECS.map(x=>x[0]);let j=o.indexOf(IP.sec);
-    if(k==="L"||k==="R"){j=Math.max(0,Math.min(o.length-1,j+(k==="L"?1:-1)));ipSetSec(o[j]);ipRender();return true}
-    if(k==="D"||k==="C"){IP.col=0;ipRender();return true}
-    return k!=="U"}
-  const inC=IP.col===0,n=inC?IP.cats.length:IP.list.length,page=inC?IP_CROWS:IP_ROWS;let i=inC?IP.cat:IP.idx;
-  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0){return false}const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));
-    if(inC){if(i!==IP.cat){IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter()}}else{IP.idx=i;ipRender()}return true}
-  if(k==="R"){if(!inC){IP.col=0;ipRender();return true}return false}
-  if(k==="L"){if(inC){IP.col=1;ipRender()}return true}
-  if(k==="C"){if(inC){IP.col=1;ipRender()}else ipPlay();return true}
-  if(k==="CL"||k==="RED"){const c=IP.list[IP.idx];if(c&&!inC){toggleFav(c);ipCompute(true)}return true}
+  /* top row: categories (or seasons) as chips; below: the list. ◀ ▶ move along the chips, ▲ ▼ move between the two rows and inside the list */
+  if(IP.col===0){const n=IP.cats.length;let i=IP.cat;
+    if(k==="L"||k==="R"){if(k==="R"&&i===0)return false;i=Math.max(0,Math.min(n-1,i+(k==="L"?1:-1)));if(i!==IP.cat){IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter()}return true}
+    if(k==="D"||k==="C"||k==="CD"){if(IP.list.length){IP.col=1;ipRender()}return true}
+    return false}
+  const n=IP.list.length,page=IP_ROWS;let i=IP.idx;
+  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0){if(IP.cats.length){IP.col=0;ipRender();return true}return false}
+    const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));IP.idx=i;ipRender();return true}
+  if(k==="R")return false;
+  if(k==="L")return true;
+  if(k==="C"){ipPlay();return true}
+  if(k==="CL"||k==="RED"){const c=IP.list[IP.idx];if(c){toggleFav(c);ipCompute(true)}return true}
   return false}
 $("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.idx=0;IP.col=1;IP.gn=30;if(IP.page==="home"||IP.page==="fav"&&!IP.q){if(IP.page==="home"){IP.page="live";IP.sec="live";ipCompute()}else ipRender()}else if(IP.page==="fav")ipRender();else ipFilter()});
 $("#ip-add").onclick=openAddPanel;
