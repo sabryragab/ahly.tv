@@ -403,11 +403,11 @@ html{background:var(--base)}
 .qb.ico svg.i{margin:0;width:1.35vw;height:1.35vw}
 .banner{top:auto!important;right:auto!important;bottom:5vh;left:5vw}
 
-/* ---- IPTV: full-screen purple UI (home tiles, browse grids, guide, catch-up, settings) ---- */
+/* ---- IPTV: full-screen yellow UI (home tiles, browse grids, guide, catch-up, settings) ---- */
 body.ivon header.top,body.ivon nav.tabs{display:none}
-.iv{--pu:#7047f5;--pu2:#4b27c9;--ln:#302a78;--cd:#171340;--tx:#f3f0ff;--mt:#aaa4d8;position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;display:grid;grid-template-rows:auto 1fr auto;padding:1.3vw 2.4vw 1.1vw;background:radial-gradient(ellipse at 15% 0,#2b1f7a 0,#0c0926 55%);color:var(--tx)}
+.iv{--pu:#ffc72c;--pu2:#5a4410;--ln:#3a3016;--cd:#1c1708;--tx:#fff8e6;--mt:#c9b98a;position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;display:grid;grid-template-rows:auto 1fr auto;padding:1.3vw 2.4vw 1.1vw;background:radial-gradient(ellipse at 15% 0,#3d2e08 0,#0d0a02 55%);color:var(--tx)}
 .iv[hidden]{display:none}
-.iv [data-nav]:focus{box-shadow:0 0 0 .2vw #0c0926,0 0 0 .45vw #d6caff,0 0 1.6vw .3vw rgba(140,100,255,.65)}
+.iv [data-nav]:focus{box-shadow:0 0 0 .2vw #0d0a02,0 0 0 .45vw #ffe08a,0 0 1.6vw .3vw rgba(255,199,44,.6)}
 .iv ::-webkit-scrollbar{display:none}
 .ivh{display:flex;align-items:center;grid-gap:1.2vw;height:4.8vw}
 .ivlogo{display:flex;align-items:center;grid-gap:.9vw}
@@ -427,14 +427,14 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .ivbody{position:relative;min-height:0}
 .ivstate{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;grid-gap:1.2vw;text-align:center}
 .ivstate b{font-size:2.2vw;font-weight:600}.ivstate span{color:var(--mt);font-size:1.3vw;max-width:50vw;line-height:1.8}
-.ivbtn{background:var(--pu);color:#fff;border-radius:1vw;padding:.8vw 2.4vw;font-size:1.3vw;font-weight:700;margin-top:.6vw}
+.ivbtn{background:var(--pu);color:#1a1300;border-radius:1vw;padding:.8vw 2.4vw;font-size:1.3vw;font-weight:700;margin-top:.6vw}
 .ivhome{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;grid-template-columns:14.5vw 1fr;grid-gap:1.6vw}
 .ivnav,.ivcats{background:rgba(255,255,255,.035);border:1px solid var(--ln);border-radius:1.3vw;padding:.7vw;align-content:start}
 .ivnav{display:grid;grid-gap:.3vw}
 .ivnav button{display:flex;align-items:center;grid-gap:.9vw;padding:.85vw 1vw;border-radius:.9vw;font-size:1.2vw;color:var(--mt);text-align:start}
 .ivnav button svg.i,.vc svg.i{width:1.4vw;height:1.4vw;flex:none}
 .gl{font-size:1.2vw;text-align:center;width:1.4vw;display:block}
-.ivnav button[aria-pressed="true"]{background:var(--pu);color:#fff;font-weight:700}
+.ivnav button[aria-pressed="true"]{background:var(--pu);color:#1a1300;font-weight:700}
 .ivmain{min-width:0;display:grid;grid-gap:1.3vw;align-content:start}
 .ivtiles{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:19vw 11.5vw;grid-gap:1.3vw}
 .tl{border-radius:1.6vw;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;position:relative;overflow:hidden}
@@ -443,13 +443,13 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .tl .gl{font-size:4vw;width:auto}.tl.sm .gl{font-size:2.6vw}
 .tl b{font-family:var(--f-display);font-size:2.2vw;font-weight:500;margin-top:.6vw}.tl.sm b{font-size:1.5vw;margin-top:.3vw}
 .tl small{opacity:.88;font-size:1.05vw;margin-top:.2vw}.tl.sm small{font-size:.9vw}
-.tl.g1{background:linear-gradient(145deg,#8a5cff,#4a25c9)}
-.tl.g2{background:linear-gradient(145deg,#2b95ff,#0b4cc4)}
-.tl.g3{background:linear-gradient(145deg,#2fcf79,#0b8545)}
-.tl.g4{background:linear-gradient(145deg,#ffa23f,#d9601a)}
-.tl.g5{background:linear-gradient(145deg,#ff6479,#cf2850)}
-.tl.g6{background:linear-gradient(145deg,#1cc3d4,#0a7a92)}
-.tl.g7{background:linear-gradient(145deg,#7a58f0,#4527b5)}
+.tl.g1{background:linear-gradient(145deg,#ffd75e,#e5a100);color:#1a1300}
+.tl.g2{background:linear-gradient(145deg,#3a2f0e,#1a1405);box-shadow:inset 0 0 0 .15vw #ffc72c}
+.tl.g3{background:linear-gradient(145deg,#ff9d2e,#d9601a)}
+.tl.g4{background:linear-gradient(145deg,#f7e7ab,#c9a84c);color:#1a1300}
+.tl.g5{background:linear-gradient(145deg,#e5484d,#8c1d2a)}
+.tl.g6{background:linear-gradient(145deg,#6b5412,#2e2406)}
+.tl.g7{background:linear-gradient(145deg,#8a6a10,#4a3808)}
 .ivrh{font-family:var(--f-display);font-size:1.5vw}
 .ivrecent{display:grid;grid-template-columns:repeat(7,1fr);grid-gap:1vw}
 .ivrecent .mp,.ivrecent .lt{height:8vw}
@@ -460,22 +460,22 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .vc{display:grid;grid-template-columns:1.6vw 1fr auto;grid-gap:.7vw;align-items:center;border-radius:.9vw;padding:0 1vw;font-size:1.15vw;color:var(--mt);text-align:start}
 .vc .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vc i{font-style:normal;font-size:.9vw;opacity:.8;font-variant-numeric:tabular-nums}
-.vc.on{background:var(--pu);color:#fff;font-weight:700}
+.vc.on{background:var(--pu);color:#1a1300;font-weight:700}
 .ivgrid{overflow-y:auto;display:grid;grid-gap:1.1vw;align-content:start;padding:.5vw}
 .ivgrid.g4{grid-template-columns:repeat(4,1fr)}
 .ivgrid.g5{grid-template-columns:repeat(5,1fr)}
 .ivgrid.g1{grid-template-columns:1fr;grid-gap:.6vw}
 .lt{height:10.4vw;border-radius:1.2vw;background:var(--cd);border:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;justify-content:center;grid-gap:.5vw;position:relative;padding:.6vw;color:var(--tx)}
-.lt .lg{width:7.2vw;height:4.6vw;border-radius:.8vw;background:#f4f1ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lt .lg{width:7.2vw;height:4.6vw;border-radius:.8vw;background:#fff8e6;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .lt .lg img{max-width:88%;max-height:88%;object-fit:contain}
 .lt b{font-size:1.05vw;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mp{height:19.5vw;border-radius:1vw;overflow:hidden;position:relative;background:linear-gradient(160deg,#3a2a9a,#120c3a);border:1px solid var(--ln);color:#fff;display:block;text-align:start}
+.mp{height:19.5vw;border-radius:1vw;overflow:hidden;position:relative;background:linear-gradient(160deg,#5a4410,#1c1708);border:1px solid var(--ln);color:#fff;display:block;text-align:start}
 .mp .pi{position:absolute;top:0;right:0;bottom:0;left:0}
 .mp .pi img{width:100%;height:100%;object-fit:cover}
-.mp b{position:absolute;bottom:0;right:0;left:0;padding:2.6vw .7vw .6vw;background:linear-gradient(transparent,rgba(5,3,20,.92));font-size:1.05vw;font-weight:600;line-height:1.35;max-height:5.6em;overflow:hidden}
+.mp b{position:absolute;bottom:0;right:0;left:0;padding:2.6vw .7vw .6vw;background:linear-gradient(transparent,rgba(10,7,0,.92));font-size:1.05vw;font-weight:600;line-height:1.35;max-height:5.6em;overflow:hidden}
 .er{display:flex;align-items:center;grid-gap:1vw;height:4.4vw;border-radius:1vw;background:var(--cd);border:1px solid var(--ln);padding:0 1.4vw;font-size:1.3vw;text-align:start;color:var(--tx)}
 .er b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.er .pl{color:#a98bff;font-size:1.3vw}.er .tm{color:#c9b8ff;font-size:1.05vw;min-width:9vw}
+.er .pl{color:#ffc72c;font-size:1.3vw}.er .tm{color:#e6c765;font-size:1.05vw;min-width:9vw}
 .gr{display:grid;grid-template-columns:16vw 1fr 1fr 1fr;grid-gap:.5vw;height:5.2vw;border-radius:.9vw;text-align:start;color:var(--tx)}
 .gr .gc{display:flex;align-items:center;grid-gap:.8vw;background:var(--cd);border-radius:.8vw;padding:0 .8vw;overflow:hidden}
 .gr .gc .lg{width:3.6vw;height:2.4vw;border-radius:.4vw;background:#f4f1ff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
@@ -483,20 +483,48 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .gr .gc b{font-size:1.05vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gr .pg{background:rgba(255,255,255,.05);border-radius:.8vw;padding:.5vw .9vw;display:grid;align-content:center;min-width:0}
 .gr .pg.now{background:var(--pu2)}
-.gr .pg small{color:#c9b8ff;font-size:.8vw}
+.gr .pg small{color:#e6c765;font-size:.8vw}
 .gr .pg b{font-size:1vw;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ivnote{color:var(--mt);font-size:1.1vw;padding:.4vw 0}
 .ivempty{grid-column:1/-1;color:var(--mt);font-size:1.5vw;text-align:center;padding:6vw 2vw;line-height:1.9}
 .sr{display:flex;align-items:center;justify-content:space-between;height:4.8vw;border-radius:1vw;background:var(--cd);border:1px solid var(--ln);padding:0 1.6vw;font-size:1.3vw;color:var(--tx);text-align:start}
 .sr .st2{display:grid}.sr small{color:var(--mt);font-size:.9vw}
-.sr .sv{color:#c9b8ff;font-size:1.1vw;max-width:30vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sw{width:3.6vw;height:2vw;border-radius:1vw;background:#3b3580;position:relative;display:block}
+.sr .sv{color:#e6c765;font-size:1.1vw;max-width:30vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sw{width:3.6vw;height:2vw;border-radius:1vw;background:#4a3d12;position:relative;display:block}
 .sw i{position:absolute;top:.25vw;right:.25vw;width:1.5vw;height:1.5vw;border-radius:50%;background:#fff}
 .sw.on{background:var(--pu)}.sw.on i{right:2.1vw}
 .ipnow{display:flex;align-items:center;grid-gap:1vw;background:var(--cd);border:1px solid var(--ln);border-radius:2vw;padding:.55vw 1.6vw;margin-top:.9vw;color:var(--tx);text-align:start}
 .ipnow[hidden]{display:none}
-.ipnow .pl{color:#a98bff;font-size:1.3vw}.ipnow .nt{flex:1;min-width:0;display:grid}.ipnow small{color:var(--mt);font-size:.8vw}
-.ipnow b{font-weight:500;font-size:1.1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ipnow .go{color:#c9b8ff;font-size:.95vw}
+.ipnow .pl{color:#ffc72c;font-size:1.3vw}.ipnow .nt{flex:1;min-width:0;display:grid}.ipnow small{color:var(--mt);font-size:.8vw}
+.ipnow b{font-weight:500;font-size:1.1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ipnow .go{color:#e6c765;font-size:.95vw}
+.sw.on i{background:#1a1300}
+.pbar{position:absolute;bottom:0;right:0;left:0;height:.4vw;background:rgba(255,255,255,.25)}.pbar i{display:block;height:100%;background:var(--pu)}
+/* details screen */
+.ivdetw{position:absolute;top:0;right:0;bottom:0;left:0;border-radius:1.3vw;overflow:hidden;background:var(--cd);border:1px solid var(--ln)}
+.dbg{position:absolute;top:0;right:0;bottom:0;left:0;opacity:.35}.dbg img{width:100%;height:100%;object-fit:cover}
+.dbg:after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(90deg,rgba(13,10,2,.5),rgba(13,10,2,.97))}
+.ivdet{position:absolute;top:0;right:0;bottom:0;left:0;overflow-y:auto;padding:2.2vw 2.6vw}
+.dtop{display:flex;grid-gap:2.4vw;align-items:flex-start}
+.dpo{width:15vw;height:22.5vw;flex:none;border-radius:1vw;overflow:hidden;background:linear-gradient(160deg,#5a4410,#1c1708);box-shadow:0 1vw 3vw rgba(0,0,0,.6)}
+.dpo img{width:100%;height:100%;object-fit:cover}
+.dinf{flex:1;min-width:0}
+.dinf h1{margin:0 0 .6vw;font-family:var(--f-display);font-size:3vw;font-weight:500;line-height:1.25}
+.dmeta{display:flex;flex-wrap:wrap;grid-gap:.7vw;margin-bottom:1vw}
+.dmeta span{background:rgba(255,255,255,.1);border-radius:2vw;padding:.25vw .9vw;font-size:1.1vw;color:var(--tx)}
+.dmeta .rt{background:var(--pu);color:#1a1300;font-weight:700}
+.dplot{font-size:1.2vw;line-height:1.8;color:#eadfbb;max-height:9.6vw;overflow:hidden;margin-bottom:.8vw}
+.dcr{font-size:1vw;color:var(--mt);line-height:1.7;margin-bottom:.4vw}.dcr b{color:var(--tx);font-weight:600}
+.dld{color:var(--mt);font-size:1.2vw;margin:1vw 0}
+.dbtns{display:flex;flex-wrap:wrap;grid-gap:1vw;margin-top:1.2vw}
+.dbtn{background:rgba(255,255,255,.1);color:var(--tx);border-radius:1vw;padding:.8vw 2vw;font-size:1.3vw;font-weight:700;border:1px solid var(--ln)}
+.dbtn.pri{background:var(--pu);color:#1a1300;border:0}
+.dprog{height:.45vw;border-radius:.3vw;background:rgba(255,255,255,.15);margin-top:1vw;max-width:30vw;overflow:hidden}.dprog i{display:block;height:100%;background:var(--pu)}
+.dsn{display:flex;flex-wrap:wrap;grid-gap:.7vw;margin:2vw 0 1vw}
+.dch{padding:.5vw 1.4vw;border-radius:2vw;background:rgba(255,255,255,.08);color:var(--mt);font-size:1.15vw;border:1px solid var(--ln)}.dch.on{background:var(--pu);color:#1a1300;font-weight:700}
+.deps{display:grid;grid-gap:.6vw;padding-bottom:1vw}
+.dep{display:flex;align-items:center;grid-gap:1.2vw;height:4.6vw;border-radius:1vw;background:var(--cd);border:1px solid var(--ln);padding:0 1.4vw;font-size:1.2vw;color:var(--tx);text-align:start;position:relative;overflow:hidden}
+.dep .n{color:var(--pu);font-weight:700;min-width:3vw}.dep b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dep small{color:var(--mt);font-size:.95vw}.dep .ok{color:var(--pu);min-width:1.5vw}
+.dep .pb{position:absolute;bottom:0;right:0;left:0;height:.35vw;background:rgba(255,255,255,.1)}.dep .pb i{display:block;height:100%;background:var(--pu)}
 
 
 /* quran */
@@ -669,7 +697,7 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
   <section class="view" id="v-iptv" hidden>
     <div class="iv" id="iv">
       <header class="ivh">
-        <div class="ivlogo" id="iv-logo"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="ivg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9b7bff"/><stop offset="1" stop-color="#5a32e0"/></linearGradient></defs><path d="M10 6l32 18-32 18z" fill="url(#ivg)" stroke="#c9b8ff" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div class="ivlogo" id="iv-logo"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="ivg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#e5a100"/></linearGradient></defs><path d="M10 6l32 18-32 18z" fill="url(#ivg)" stroke="#fff1c2" stroke-width="2" stroke-linejoin="round"/></svg>
           <div><b>IPTV</b><small id="iv-sub">مباشر · أفلام · مسلسلات</small></div></div>
         <button class="ivb" id="iv-back" data-nav aria-label="رجوع" hidden>→</button>
         <h2 id="iv-title"></h2>
@@ -1076,7 +1104,7 @@ function ipCompute(keepCat){const all=ipSrc();const counts={},order=[];all.forEa
 function ipFilter(){const ct=IP.cats[IP.cat]||{all:1},q=IP.q.trim().toLowerCase();let L=ipSrc();
   if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);if(!ct.all)L=L.filter(c=>ipGrp(c)===ct.n);
   IP.list=L;if(view==="iptv")channels=L;ipRender()}
-const ipHue=t=>{let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))%997;return(250+h%80)%360};
+const ipHue=t=>{let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))%997;return 24+h%34};
 const ipHM=s=>dtf("ar-EG",{hour:"numeric",minute:"2-digit",timeZone:city.tz}).format(new Date(s*1000));
 const ipDay=s=>dtf("ar-EG",{weekday:"short",day:"numeric",month:"numeric",timeZone:city.tz}).format(new Date(s*1000));
 const ipIco=id=>id.slice(0,2)==="i-"?icon(id):el("span",{class:"gl",text:id});
@@ -1104,7 +1132,7 @@ async function xtLive(x,ui){const r=await Promise.all([xtGet(x,"get_live_categor
   return r[1].map(s=>({name:s.name||"",url:x.base+"/live/"+x.u+"/"+x.p+"/"+s.stream_id+"."+ext,logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"live",id:s.stream_id,arch:(+s.tv_archive===1)?(+s.tv_archive_duration||1):0}))}
 async function ipEnsureSec(sec){const x=IP.xt;if(!x||sec==="live"||IP.xtDone[sec]||IP.secLoad===sec)return;const pl=IP.pl;IP.secLoad=sec;ipRender();let items=[];
   try{if(sec==="movie"){const r=await Promise.all([xtGet(x,"get_vod_categories"),xtGet(x,"get_vod_streams")]);const cm=xtCats(r[0]);
-      items=(Array.isArray(r[1])?r[1]:[]).map(s=>({name:s.name||"",url:x.base+"/movie/"+x.u+"/"+x.p+"/"+s.stream_id+"."+(s.container_extension||"mp4"),logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"movie"}))}
+      items=(Array.isArray(r[1])?r[1]:[]).map(s=>({name:s.name||"",url:x.base+"/movie/"+x.u+"/"+x.p+"/"+s.stream_id+"."+(s.container_extension||"mp4"),logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"movie",id:s.stream_id}))}
     else{const r=await Promise.all([xtGet(x,"get_series_categories"),xtGet(x,"get_series")]);const cm=xtCats(r[0]);
       items=(Array.isArray(r[1])?r[1]:[]).map(s=>({name:s.name||"",url:"xt-series:"+s.series_id,sid:s.series_id,logo:s.cover||"",group:cm[s.category_id]||"أخرى",kind:"series"}))}
     if(IP.pl!==pl)return;IP.items=IP.items.filter(c=>c.kind!==sec).concat(items);IP.xtDone[sec]=1}
@@ -1117,9 +1145,9 @@ async function ipOpenSeries(c){const x=IP.xt;if(!x)return;toast("جاري تحم
     if(!eps.length){toast("مفيش حلقات متاحة للمسلسل ده");return}
     IP.drill={name:c.name,logo:c.logo,items:eps,back:{cat:IP.cat,idx:IP.idx}};IP.cat=0;IP.idx=0;IP.sig="";ipCompute();ipFocusFirst()}
   catch(e){toast("مقدرتش أحمّل الحلقات: "+((e&&e.message)||""))}}
-function ipBack(){if(IP.cu){IP.cu=null;ipRender();ipRefocus();return true}if(!IP.drill)return false;const b=IP.drill.back;IP.drill=null;ipCompute();IP.cat=Math.min(b.cat,IP.cats.length-1);ipFilter();ipRefocus();return true}
+function ipBack(){if(IP.det){IP.det=null;IP.sig="";ipRender();ipRefocus();return true}if(IP.cu){IP.cu=null;ipRender();ipRefocus();return true}if(!IP.drill)return false;const b=IP.drill.back;IP.drill=null;ipCompute();IP.cat=Math.min(b.cat,IP.cats.length-1);ipFilter();ipRefocus();return true}
 async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=userPl.length?userPl[0].id:"";store.set("ipPl",IP.pl);IP.err="";IP.q="";$("#ip-q").value="";
-  if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];IP.drill=null;IP.cu=null;IP.xtDone={};IP.secLoad="";IP.acct="";const p=userPl.find(x=>x.id===IP.pl);IP.xt=xtOf(p);ipRender();
+  if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];IP.drill=null;IP.cu=null;IP.det=null;IP.xtDone={};IP.secLoad="";IP.acct="";const p=userPl.find(x=>x.id===IP.pl);IP.xt=xtOf(p);ipRender();
   try{let L=null;
     if(IP.xt){try{const ui=await xtInfo(IP.xt);IP.acct=xtAcct(ui);L=await xtLive(IP.xt,ui)}catch(e){if(/الاشتراك|اسم المستخدم/.test((e&&e.message)||""))throw e;L=null}if(L&&!L.length)L=null}
     if(!L){L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)})}
@@ -1129,20 +1157,20 @@ async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
 function ipAuto(){if(!IPS.auto||loaded.auto)return;loaded.auto=1;const c=store.get("ipLast",null);if(c&&c.url){channels=[c];IP.last={c:c,list:[c],i:0};playChannel(0)}}
 function ipHomeLoad(){if(!IP.xt)return;ipEnsureSec("movie").then(()=>ipEnsureSec("series"))}
-function ipGo(p){IP.page=p;IP.drill=null;IP.cu=null;IP.q="";$("#ip-q").value="";IP.cat=0;IP.idx=0;IP.sig="";
+function ipGo(p){IP.page=p;IP.det=null;IP.drill=null;IP.cu=null;IP.q="";$("#ip-q").value="";IP.cat=0;IP.idx=0;IP.sig="";
   if(["live","movie","series","kids","fav","search","guide","catchup"].indexOf(p)>=0){IP.sec=p;if(IP.xt&&(p==="movie"||p==="series"))ipEnsureSec(p);if(IP.xt&&p==="kids")ipHomeLoad();
     if(["live","movie","series","kids","fav"].indexOf(p)>=0)store.set("ipPage",p);ipCompute()}else ipRender();
   ipFocusFirst()}
 function ipFocusFirst(){setTimeout(()=>{if(view!=="iptv"||$("#iv").hidden)return;const b=$("#iv-body");let t=null;
-  if(IP.page==="home")t=$("#iv-t-"+IP.hm);else if(IP.page==="search")t=$("#ip-q");
+  if(IP.det)t=$("#dt-play");else if(IP.page==="home")t=$("#iv-t-"+IP.hm);else if(IP.page==="search")t=$("#ip-q");
   if(!t)t=b.querySelector(".lt,.mp,.er,.gr,.sr,.ivbtn")||b.querySelector(".vc.on")||b.querySelector("[data-nav]")||$("#iv-set");focusEl(t)},0)}
-function ipRefocus(){setTimeout(()=>{if(view!=="iptv"||$("#iv").hidden)return;if(IP.page==="home"){ipFocusFirst();return}let t=null;
+function ipRefocus(){setTimeout(()=>{if(view!=="iptv"||$("#iv").hidden)return;if(IP.page==="home"||IP.det){ipFocusFirst();return}let t=null;
   const all=$("#iv-body").querySelectorAll("[data-nav]");for(let i=0;i<all.length;i++){if(all[i]._ch&&all[i]._ch.url===IP.fk){t=all[i];break}}
   if(t)focusEl(t);else ipFocusFirst()},0)}
-function ipBackKey(){if(IP.cu||IP.drill)return ipBack();if(IP.page!=="home"){ipGo("home");return true}show(IP.from&&IP.from!=="iptv"?IP.from:"home");focusView();return true}
+function ipBackKey(){if(IP.cu||IP.drill||IP.det)return ipBack();if(IP.page!=="home"){ipGo("home");return true}show(IP.from&&IP.from!=="iptv"?IP.from:"home");focusView();return true}
 function ipRecent(c){let R=store.get("ipRecent",[]).filter(x=>x.url!==c.url);R.unshift({name:c.name,url:c.url,logo:c.logo||"",kind:c.kind,sid:c.sid,id:c.id});store.set("ipRecent",R.slice(0,14))}
 function ipActivate(c){if(IP.page==="catchup"&&!IP.drill&&!IP.cu){ipCuOpen(c);return}IP.fk=c.url;
-  if(c.kind==="series"&&c.sid){if(["series","kids","fav","search"].indexOf(IP.page)<0){IP.page="series";IP.sig=""}ipOpenSeries(c);return}
+  if((c.kind==="series"&&c.sid)||c.kind==="movie"){ipDetail(c);return}
   let L=[c],i=0;const li=IP.list.indexOf(c);if(c.kind==="live"&&li>=0&&["home","fav","search"].indexOf(IP.page)<0){L=IP.list.filter(x=>x.kind==="live");i=Math.max(0,L.indexOf(c))}
   channels=L;IP.last={c:c,list:L,i:i};ipRecent(c);if(c.kind==="live")store.set("ipLast",{name:c.name,url:c.url,logo:c.logo||"",kind:"live"});playChannel(i)}
 function ipCuPlay(p){const x=IP.xt,c=IP.cu.ch;if(!x)return;const dur=Math.max(1,Math.round((p.e-p.s)/60)),st=p.st||"";
@@ -1160,10 +1188,67 @@ async function ipEpg(c){if(!IP.xt||!c.id)return[];if(!EPG[c.id])EPG[c.id]=xtGet(
 function ipEpgPump(){while(epgBusy<3&&epgQ.length){const j=epgQ.shift();epgBusy++;const done=()=>{epgBusy--;ipEpgPump()};ipEpg(j.c).then(L=>{j.cb(L);done()},done)}}
 function ipEpgFill(rows){if(!IP.xt)return;rows.forEach(r=>{const c=r._ch;if(!c.id)return;epgQ.push({c:c,cb:L=>{const now=Date.now()/1000,P=L.filter(e=>e.e>now).slice(0,3),cs=r.querySelectorAll(".pg");
   P.forEach((e,i)=>{cs[i].replaceChildren(el("small",{text:ipHM(e.s)+" – "+ipHM(e.e)}),el("b",{text:e.t}))});if(!P.length)cs[0].textContent="—"}})});ipEpgPump()}
+
+/* ---------- details screen (movie / series) + resume ---------- */
+let IPP={};
+function ipPosAll(){try{IPP=(bridge&&bridge.allPos)?JSON.parse(bridge.allPos()):{}}catch(e){IPP={}}}
+function ipPosOf(u){const s=IPP[u];if(!s)return null;const a=String(s).split("|"),p=+a[0],d=+a[1];return p>0?{p:p,d:d,f:d>0?Math.min(1,p/d):0}:null}
+function ipProg(c){const u=c.kind==="series"&&c.sid?store.get("ipSL",{})[c.sid]:c.kind==="movie"?c.url:"";const p=u?ipPosOf(u):null;return p?p.f:0}
+const mm=ms=>{const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),c=s%60,p=n=>("0"+n).slice(-2);return h?h+":"+p(m)+":"+p(c):m+":"+p(c)};
+const epTag=e=>"م"+arNum(e.sn)+" ح"+arNum(e.n);
+async function ipDetail(c){ipPosAll();IP.fk=c.url;const d={c:c,info:{},eps:null,sn:null,loading:true};IP.det=d;IP.sig="";ipRender();ipFocusFirst();
+  const x=IP.xt;
+  try{if(x&&c.kind==="movie"&&c.id){const j=await xtGet(x,"get_vod_info","&vod_id="+c.id);d.info=(j&&j.info)||{}}
+    else if(x&&c.kind==="series"&&c.sid){const j=await xtGet(x,"get_series_info","&series_id="+c.sid),E=j.episodes||{},eps=[];d.info=j.info||{};
+      Object.keys(E).sort((a,b)=>a-b).forEach(sn=>{(E[sn]||[]).forEach(e=>{const t=(e.title||"").replace(/^.*?S\d+\s*E\d+\s*[-–:]?\s*/i,""),n=+e.episode_num||eps.length+1;
+        eps.push({name:c.name+" · م"+arNum(sn)+" ح"+arNum(n)+(t&&t!==c.name?" · "+t:""),title:t,sn:+sn,n:n,dur:(e.info&&e.info.duration)||"",url:x.base+"/series/"+x.u+"/"+x.p+"/"+e.id+"."+(e.container_extension||"mkv"),logo:(e.info&&e.info.movie_image)||c.logo,kind:"series"})})});
+      d.eps=eps}}
+  catch(e){toast("مقدرتش أحمّل البيانات: "+((e&&e.message)||""))}
+  if(IP.det!==d)return;d.loading=false;if(c.kind==="series"&&!(d.eps&&d.eps.length))d.eps=[];ipRender();ipFocusFirst()}
+function ipPlay(L,i,start){channels=L.map((e,j)=>Object.assign({},e,{start:j===i?(start||0):0}));const c=channels[i];IP.last={c:c,list:channels,i:i};IP.fk=c.url;
+  if(IP.det){ipRecent(IP.det.c);if(IP.det.c.sid){const S=store.get("ipSL",{});S[IP.det.c.sid]=c.url;store.set("ipSL",S)}}else ipRecent(c);playChannel(i)}
+function ipRenderDetail(b){const d=IP.det,c=d.c,i=d.info||{},isS=c.kind==="series"&&c.sid,eps=d.eps||[];
+  const first=v=>Array.isArray(v)?v[0]:v,img=u=>u&&/^https?:/.test(u)?u:"";
+  const bgu=img(first(i.backdrop_path))||img(i.cover_big)||img(c.logo),pou=img(i.movie_image)||img(i.cover)||img(c.logo);
+  const w=el("div",{class:"ivdetw"});
+  if(bgu){const g=el("div",{class:"dbg"}),im=el("img",{alt:"",src:bgu});im.onerror=()=>im.remove();g.append(im);w.append(g)}
+  const sc=el("div",{class:"ivdet",id:"iv-det"});w.append(sc);
+  const po=el("div",{class:"dpo"});if(pou){const im=el("img",{alt:"",src:pou});im.onerror=()=>im.remove();po.append(im)}
+  const meta=el("div",{class:"dmeta"}),rt=+i.rating||(+i.rating_5based?+i.rating_5based*2:0);
+  if(rt)meta.append(el("span",{class:"rt",text:"★ "+rt.toFixed(1)}));
+  const yr=String(i.releasedate||i.release_date||i.releaseDate||i.year||"").slice(0,4);if(yr)meta.append(el("span",{text:yr}));
+  const du=i.duration||(i.episode_run_time?i.episode_run_time+" دقيقة":"");if(du)meta.append(el("span",{text:du}));
+  if(isS&&eps.length){const ns=eps.reduce((a,e)=>a.indexOf(e.sn)<0?a.concat(e.sn):a,[]).length;meta.append(el("span",{text:arNum(ns)+" مواسم · "+arNum(eps.length)+" حلقة"}))}
+  if(i.genre)meta.append(el("span",{text:i.genre}));
+  const inf=el("div",{class:"dinf"},el("h1",{text:cleanName(c.name)}),meta);
+  const plot=i.plot||i.description||"";if(plot)inf.append(el("div",{class:"dplot",text:plot}));
+  if(i.cast||i.actors)inf.append(el("div",{class:"dcr"},el("b",{text:"التمثيل: "}),String(i.cast||i.actors).slice(0,160)));
+  if(i.director)inf.append(el("div",{class:"dcr"},el("b",{text:"الإخراج: "}),String(i.director).slice(0,80)));
+  if(d.loading)inf.append(el("div",{class:"dld",text:"جاري تحميل البيانات…"}));
+  const btns=el("div",{class:"dbtns"});let prog=0;
+  const addB=(t,fn,pri,id)=>{const q=el("button",{class:"dbtn"+(pri?" pri":""),"data-nav":"",text:t});if(id)q.id=id;q.onclick=fn;btns.append(q);return q};
+  let lastK=-1;
+  if(isS){if(eps.length){const SL=store.get("ipSL",{});let k=eps.findIndex(e=>e.url===SL[c.sid]),st=0,lb;lastK=k;
+      if(k>=0){const p=ipPosOf(eps[k].url);if(p){st=p.p;prog=p.f;lb="متابعة "+epTag(eps[k])+" من "+mm(p.p)}else if(k+1<eps.length){k++;lb="الحلقة التالية "+epTag(eps[k])}else{k=0;lb="ابدأ من الأول"}}else{k=0;lb="ابدأ المسلسل"}
+      if(d.sn==null)d.sn=eps[k].sn;const kk=k,ss=st;addB("▶  "+lb,()=>ipPlay(eps,kk,ss),1,"dt-play")}
+    else if(!d.loading)inf.append(el("div",{class:"dld",text:"مفيش حلقات متاحة للمسلسل ده"}))}
+  else{const p=ipPosOf(c.url);if(p){prog=p.f;addB("▶  متابعة من "+mm(p.p),()=>ipPlay([c],0,p.p),1,"dt-play");addB("↺  من البداية",()=>ipPlay([c],0,0))}else addB("▶  تشغيل",()=>ipPlay([c],0,0),1,"dt-play")}
+  addB(isFav(c)?"★  في المفضلة":"☆  أضف للمفضلة",()=>{toggleFav(c);ipRender();setTimeout(()=>focusEl($("#dt-fav")),0)},0,"dt-fav");
+  inf.append(btns);if(prog>0)inf.append(el("div",{class:"dprog"},el("i",{style:"width:"+Math.round(prog*100)+"%"})));
+  sc.append(el("div",{class:"dtop"},po,inf));
+  if(isS&&eps.length){const S=eps.reduce((a,e)=>a.indexOf(e.sn)<0?a.concat(e.sn):a,[]);
+    const ch=el("div",{class:"dsn"},...S.map(n=>{const q=el("button",{class:"dch"+(n===d.sn?" on":""),"data-nav":"",text:"الموسم "+arNum(n)});q.onclick=()=>{d.sn=n;ipRender();setTimeout(()=>{const t=$("#iv-det .dch.on");if(t)focusEl(t)},0)};return q}));
+    const list=el("div",{class:"deps"});
+    eps.forEach((e,j)=>{if(e.sn!==d.sn)return;const p=ipPosOf(e.url),r=el("button",{class:"dep","data-nav":""},el("span",{class:"n",text:arNum(e.n)}),el("b",{text:e.title||("الحلقة "+arNum(e.n))}),
+      el("small",{text:p?"باقي "+mm(Math.max(0,p.d-p.p)):(e.dur||"")}),el("span",{class:"ok",text:p?"▶":(j<lastK?"✓":"")}));
+      if(p)r.append(el("span",{class:"pb"},el("i",{style:"width:"+Math.round(p.f*100)+"%"})));
+      r.onclick=()=>ipPlay(eps,j,p?p.p:0);list.append(r)});
+    sc.append(ch,list)}
+  b.replaceChildren(w)}
 /* tiles */
 function ipImg(c,cls){const d=el("div",{class:cls});if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>im.remove();d.append(im)}return d}
 function ipTileLive(c){const b=el("button",{class:"lt","data-nav":""},ipImg(c,"lg"),el("b",{text:cleanName(c.name)}));b._ch=c;if(isFav(c))b.append(el("span",{class:"star",text:"★"}));b.onclick=()=>ipActivate(c);return b}
-function ipTilePoster(c){const b=el("button",{class:"mp","data-nav":""},ipImg(c,"pi"),el("b",{text:cleanName(c.name)}));b._ch=c;const h=ipHue(c.name||"");b.style.backgroundImage="linear-gradient(160deg,hsl("+h+",45%,26%),hsl("+h+",55%,10%))";if(isFav(c))b.append(el("span",{class:"star",text:"★"}));b.onclick=()=>ipActivate(c);return b}
+function ipTilePoster(c){const b=el("button",{class:"mp","data-nav":""},ipImg(c,"pi"),el("b",{text:cleanName(c.name)}));b._ch=c;const h=ipHue(c.name||"");b.style.backgroundImage="linear-gradient(160deg,hsl("+h+",45%,26%),hsl("+h+",55%,10%))";if(isFav(c))b.append(el("span",{class:"star",text:"★"}));const pr=ipProg(c);if(pr)b.append(el("span",{class:"pbar"},el("i",{style:"width:"+Math.round(pr*100)+"%"})));b.onclick=()=>ipActivate(c);return b}
 function ipTileEp(c){const b=el("button",{class:"er","data-nav":""},el("span",{class:"pl",text:"▶"}),el("b",{text:cleanName(c.name).replace(IP.drill?IP.drill.name+" · ":"","")}));b._ch=c;b.onclick=()=>ipActivate(c);return b}
 function ipTileProg(p){const b=el("button",{class:"er","data-nav":""},el("span",{class:"tm",text:ipDay(p.s)+" "+ipHM(p.s)}),el("b",{text:p.t}),el("span",{class:"pl",text:"▶"}));b.onclick=()=>ipCuPlay(p);return b}
 function ipTileGuide(c){const b=el("button",{class:"gr","data-nav":""},el("span",{class:"gc"},ipImg(c,"lg"),el("b",{text:cleanName(c.name)})),el("span",{class:"pg now"}),el("span",{class:"pg"}),el("span",{class:"pg"}));b._ch=c;b.onclick=()=>ipActivate(c);return b}
@@ -1172,12 +1257,13 @@ function ipCatIco(c){const n=c.n;let id="i-tv";if(c.all)id="i-apps";else if(/spo
 function ipState(){if(!userPl.length)return el("div",{class:"ivstate"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("span",{text:"أضف قايمتك: صوّر الكود من موبايلك وابعت رابط m3u أو بيانات Xtream."}),ipBtn("إضافة قايمة",openAddPanel));
   if(IP.loading)return el("div",{class:"ivstate"},el("b",{text:"جاري تحميل القايمة…"}),el("span",{text:"أول مرة ممكن ياخد دقيقة لو القايمة كبيرة"}));
   if(IP.err)return el("div",{class:"ivstate"},el("b",{text:"مقدرتش أحمّل القايمة"}),el("span",{text:IP.err}),ipBtn("حاول تاني",()=>ipOpen()),ipBtn("إضافة قايمة",openAddPanel));return null}
-function ipHead(){const home=IP.page==="home";$("#iv-back").hidden=home;$("#iv-sub").hidden=!home;$("#iv-sbar").hidden=IP.page!=="search";
-  $("#iv-title").textContent=IP.drill?IP.drill.name:IP.cu?cleanName(IP.cu.ch.name):home?"":(IP_TITLE[IP.page]||"")}
+function ipHead(){const home=IP.page==="home"&&!IP.det;$("#iv-back").hidden=home;$("#iv-sub").hidden=!home;$("#iv-sbar").hidden=IP.page!=="search";
+  $("#iv-title").textContent=IP.det?cleanName(IP.det.c.name):IP.drill?IP.drill.name:IP.cu?cleanName(IP.cu.ch.name):home?"":(IP_TITLE[IP.page]||"")}
 function ivClock(){const n=new Date();$("#iv-clk").textContent=clockStr(n);$("#iv-date").textContent=dtf("ar-EG",{weekday:"short",day:"numeric",month:"short",timeZone:city.tz}).format(n)}
-function ipRender(){ipHead();ivClock();const b=$("#iv-body"),p=IP.page;let fi=-1;if(p==="home"&&b.contains(document.activeElement))fi=Array.prototype.indexOf.call(b.querySelectorAll("[data-nav]"),document.activeElement);
-  const nb=$("#ip-now");nb.hidden=!IP.last||p==="settings"||p==="search";if(IP.last)$("#ip-now-t").textContent=cleanName(IP.last.c.name||"");
-  if(p==="settings")ipRenderSettings(b);
+function ipRender(){ipPosAll();ipHead();ivClock();const b=$("#iv-body"),p=IP.page;let fi=-1;if(p==="home"&&!IP.det&&b.contains(document.activeElement))fi=Array.prototype.indexOf.call(b.querySelectorAll("[data-nav]"),document.activeElement);
+  const nb=$("#ip-now");nb.hidden=!IP.last||!!IP.det||p==="settings"||p==="search";if(IP.last)$("#ip-now-t").textContent=cleanName(IP.last.c.name||"");
+  if(IP.det){IP.sig="";ipRenderDetail(b)}
+  else if(p==="settings")ipRenderSettings(b);
   else{const st=ipState();if(st){IP.sig="";b.replaceChildren(st)}else if(p==="home"){IP.sig="";ipRenderHome(b)}else ipRenderBrowse(b)}
   if(fi>=0){const n=b.querySelectorAll("[data-nav]")[fi];if(n)n.focus({preventScroll:true})}
   if(view==="iptv"&&!$("#iv").hidden&&!$("#iv").contains(document.activeElement)&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#guest").hidden)ipFocusFirst()}
@@ -1189,7 +1275,8 @@ function ipRenderHome(b){const A=ipAll(),n={live:0,movie:0,series:0,arch:0};A.fo
   const tiles=el("div",{class:"ivtiles"},...IP_HOME.map((x,i)=>{const t=el("button",{class:"tl "+(i<3?"big ":"sm ")+x[3],id:"iv-t-"+x[0],"data-nav":""},ipIco(x[1]),el("b",{text:x[2]}),el("small",{text:sub[x[0]]}));
     t.onclick=()=>{IP.hm=x[0];ipGo(x[0])};return t}));
   const kids=[tiles];let R=store.get("ipRecent",[]);if(IPS.hide)R=R.filter(c=>!ADULT.test(c.name||""));
-  if(R.length){kids.push(el("div",{class:"ivrh",text:"شاهدت مؤخراً"}),el("div",{class:"ivrecent"},...R.slice(0,7).map(c=>{const t=c.kind==="live"?ipTileLive(c):ipTilePoster(c);t.onclick=()=>ipActivate(c);return t})))}
+  const cont=R.filter(c=>ipProg(c)>0);if(cont.length)R=cont.concat(R.filter(c=>cont.indexOf(c)<0));
+  if(R.length){kids.push(el("div",{class:"ivrh",text:cont.length?"كمّل المشاهدة":"شاهدت مؤخراً"}),el("div",{class:"ivrecent"},...R.slice(0,7).map(c=>{const t=c.kind==="live"?ipTileLive(c):ipTilePoster(c);t.onclick=()=>ipActivate(c);return t})))}
   b.replaceChildren(el("div",{class:"ivhome"},nav,el("div",{class:"ivmain"},...kids)))}
 function ipRenderBrowse(b){const p=IP.page,cu=!!IP.cu;
   const sig=p+"|"+(IP.drill?IP.drill.name:"")+"|"+(cu?"cu":"")+"|"+IP.cats.length+"|"+(IP.cats[0]?IP.cats[0].c:0);
@@ -1227,7 +1314,7 @@ $("#iv-search").onclick=()=>{ipGo("search")};
 $("#iv-set").onclick=()=>{ipGo("settings")};
 $("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.cat=0;IP.idx=0;ipCompute()});
 $("#iv-body").addEventListener("focusin",e=>{const t=e.target;if(!t||!t.closest)return;
-  if(t.closest(".ivgrid,.ivcats")){if(t.scrollIntoViewIfNeeded)t.scrollIntoViewIfNeeded(false);else t.scrollIntoView(false)}
+  if(t.closest(".ivgrid,.ivcats,.ivdet")){if(t.scrollIntoViewIfNeeded)t.scrollIntoViewIfNeeded(false);else t.scrollIntoView(false)}
   const g=$("#iv-grid");if(g&&g.contains(t)&&!IP.cu&&IP.shown<IP.list.length&&t.parentNode===g){const i=Array.prototype.indexOf.call(g.children,t);if(i>=g.children.length-6)ipFillGrid(false)}
   else if(g&&g.contains(t)&&IP.cu&&IP.shown<IP.cu.progs.length&&t.parentNode===g&&Array.prototype.indexOf.call(g.children,t)>=g.children.length-4)ipFillGrid(false)});
 setInterval(()=>{if(view==="iptv")ivClock()},20000);
@@ -1345,7 +1432,7 @@ let favs=store.get("favs",[]),recent=store.get("recent",[]);
 const allPl=()=>(favs.length?[{id:"fav",n:"★ المفضلة",local:"favs"}]:[]).concat(recent.length?[{id:"recent",n:"شاهدت مؤخراً",local:"recent"}]:[],FREE);
 const chKey=c=>c.url;
 function isFav(c){return favs.some(f=>f.url===c.url)}
-function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة",kind:c.kind,sid:c.sid});toast("★ اتضافت للمفضلة")}
+function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة",kind:c.kind,sid:c.sid,id:c.id});toast("★ اتضافت للمفضلة")}
   store.set("favs",favs);delete plCache.fav;renderSources();const cur=document.activeElement;if(cur&&cur._ch){const st=cur.querySelector(".star");if(isFav(c)&&!st)cur.prepend(el("span",{class:"star",text:"★"}));if(!isFav(c)&&st)st.remove()}}
 function pushRecent(c){recent=[{name:c.name,url:c.url,logo:c.logo||"",group:"مؤخراً"}].concat(recent.filter(x=>x.url!==c.url)).slice(0,12);store.set("recent",recent);delete plCache.recent;renderRecent()}
 function renderRecent(){const room=Math.max(0,7-$("#my-apps").children.length);$("#recent-sec").hidden=!recent.length;$("#recent").replaceChildren(...recent.slice(0,room).map((c,i)=>{const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>{channels=recent.slice();playChannel(i)});n._ch=c;return n}))}
@@ -1380,7 +1467,7 @@ function streamCandidates(url){const out=[];const m=url.match(/^(https?:\/\/[^/]
 let hls=null,osdT,playToken=0;
 function playChannel(i){if(!channels.length)return;chIdx=(i+channels.length)%channels.length;const c=channels[chIdx];stopRadio();stopZkAudio();pushRecent(c);
   if(bridge&&bridge.playChannels){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name);
-    inPlayer=true;bridge.playChannels(JSON.stringify(channels.map(x=>({n:cleanName(x.name),u:x.url}))),chIdx);return}
+    inPlayer=true;bridge.playChannels(JSON.stringify(channels.map(x=>({n:cleanName(x.name),u:x.url,s:x.start||0}))),chIdx);return}
   $("#player").hidden=false;$("#perr").hidden=true;$("#osd-t").textContent=cleanName(c.name);$("#osd-n").textContent=arNum(chIdx+1)+" / "+arNum(channels.length);
   showOsd();store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name);tryStreams(streamCandidates(c.url),++playToken)}
 function tryStreams(list,tok){const v=$("#video");if(tok!==playToken)return;if(hls){hls.destroy();hls=null}v.onerror=null;v.removeAttribute("src");
@@ -1396,7 +1483,7 @@ function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=se
 function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
 
-window.onPlayerClosed=function(i){IP.pv="";inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){ipRefocus();return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
+window.onPlayerClosed=function(i){IP.pv="";inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){if(IP.det){ipPosAll();if(IP.det.c.sid&&channels[i]){const S=store.get("ipSL",{});S[IP.det.c.sid]=channels[i].url;store.set("ipSL",S)}IP.sig="";ipRender();return}ipRefocus();return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[i])focusEl(tiles[i])};
 
 /* add playlist from phone */

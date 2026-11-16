@@ -239,6 +239,17 @@ public class MainActivity extends Activity {
             runOnUiThread(() -> { if (preview != null) preview.stop(); startActivity(new Intent(MainActivity.this, PlayerActivity.class).putExtra("index", index)); });
         }
 
+        /** Where a movie / episode was left: "positionMs|durationMs|savedAt" or "". */
+        @JavascriptInterface
+        public String getPos(String url) { return PlayerActivity.savedPos(MainActivity.this, url); }
+
+        /** All saved positions as JSON {url: "p|d|ts"}. */
+        @JavascriptInterface
+        public String allPos() { return PlayerActivity.allPos(MainActivity.this); }
+
+        @JavascriptInterface
+        public void clearPos(String url) { PlayerActivity.clearPos(MainActivity.this, url); }
+
         /** Live broadcast (the Haram at adhan time); closes itself after autoMin minutes. */
         @JavascriptInterface
         public void playLive(String json, int autoMin) {
