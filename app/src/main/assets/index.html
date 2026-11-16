@@ -433,7 +433,7 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .ivnav{display:grid;grid-gap:.3vw}
 .ivnav button{display:flex;align-items:center;grid-gap:.9vw;padding:.85vw 1vw;border-radius:.9vw;font-size:1.2vw;color:var(--mt);text-align:start}
 .ivnav button svg.i,.vc svg.i{width:1.4vw;height:1.4vw;flex:none}
-.gl{font-size:1.2vw;text-align:center;width:1.4vw;display:block}
+.iv .gl{font-size:1.2vw;text-align:center;width:1.4vw;display:block}
 .ivnav button[aria-pressed="true"]{background:var(--pu);color:#1a1300;font-weight:700}
 .ivmain{min-width:0;display:grid;grid-gap:1.3vw;align-content:start}
 .ivtiles{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:19vw 11.5vw;grid-gap:1.3vw}
@@ -599,6 +599,55 @@ nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:g
 #prayer-full .pr.is-next{background:linear-gradient(135deg,#ffd75e,#e5a100);color:#1a1300;border-color:transparent}
 #prayer-full .pr.is-next .n{color:#1a1300}
 #prayer-full .pr.is-past{opacity:.5}
+
+/* ---- v3b: prayer dial, channels feature + rows, apps sections ---- */
+.prg{display:grid;grid-template-columns:30vw 1fr;grid-gap:1.6vw;align-items:stretch}
+.pdial{position:relative;border-radius:2vw;overflow:hidden;background:linear-gradient(135deg,var(--ahly),var(--ahly-d));box-shadow:0 0 0 .1vw rgba(255,199,44,.45),0 1.4vw 3.4vw rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:1.4vw}
+.pdial svg{width:24vw;height:24vw;display:block}
+.pdc{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+.pdc .pl1{font-size:1.15vw;color:#ffe9a8}
+.pdc b{font-family:var(--f-display);font-size:5.4vw;line-height:1.1;font-weight:700}
+.pdc .pcd{font-family:var(--f-display);font-size:2.6vw;color:var(--gold);font-variant-numeric:tabular-nums}
+.pdc .pl2{font-size:1vw;color:#ffe3e3;margin-top:.3vw}
+#prayer-full.prayers{grid-gap:.5vw;align-content:stretch}
+.feat{display:grid;grid-template-columns:30vw 1fr;grid-gap:2vw;align-items:center}
+.fv{position:relative;height:16vw;border-radius:1.6vw;overflow:hidden;background:linear-gradient(150deg,#1d2a45,#0d1322);box-shadow:0 0 0 .1vw rgba(255,199,44,.5),0 1.4vw 3.4vw rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+.fv .fl{position:absolute;top:1vw;right:1.2vw;background:var(--ahly);color:#fff;border-radius:2vw;padding:.25vw .9vw;font-size:.95vw;font-weight:700;z-index:1}
+.fv .fg{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.fv .fg img{max-width:55%;max-height:60%;object-fit:contain;background:#fff8e6;border-radius:1vw;padding:1vw}
+.fv .fg b{font-family:var(--f-display);font-size:2.4vw;text-align:center;padding:0 2vw}
+.fi{display:grid;grid-gap:.6vw;align-content:center;min-width:0}
+.fb{color:var(--gold);font-size:1.2vw;font-weight:500}
+.fn{font-family:var(--f-display);font-size:3.2vw;font-weight:700;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs{color:var(--mist);font-size:1.2vw}
+.fbt{display:grid;grid-auto-flow:column;grid-auto-columns:max-content;grid-gap:1vw;margin-top:.8vw}
+.btn.gold{background:var(--gold);color:#1a1300}
+#tv-rows{display:grid;grid-gap:1.3vw}
+.crs{display:grid;grid-gap:.6vw}
+.crh{display:flex;align-items:center}
+.crh b{font-family:var(--f-display);font-size:1.7vw;font-weight:700}
+.crh span{color:var(--mist);font-size:1.05vw;margin-inline-start:1vw;margin-inline-end:auto}
+.crow{display:grid;grid-auto-flow:column;grid-auto-columns:14.5vw;grid-gap:1vw;overflow:hidden;padding:.5vw .4vw}
+.ahd{display:flex;align-items:baseline;margin-top:.4vw}
+.ahd b{font-family:var(--f-display);font-size:1.7vw;font-weight:700}
+.ahd span{color:var(--mist);font-size:1.05vw;margin-inline-start:1vw}
+#tv-sources.seg.wrap,#tv-groups.seg.wrap{display:grid;grid-auto-flow:column;grid-auto-columns:max-content;grid-gap:.6vw;overflow:hidden;margin-bottom:0;padding:.3vw 0}
+#tv-sources.seg.wrap>*,#tv-groups.seg.wrap>*{margin:0}
+/* ---- v3c: lists (quran, radio, azkar, settings, states) ---- */
+.surahs{grid-template-columns:repeat(5,1fr);grid-gap:.9vw}
+.surah{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:1.2vw;padding:.9vw 1vw;grid-template-columns:auto 1fr;align-items:center;grid-gap:.9vw;text-align:right}
+.surah i{width:2.6vw;height:2.6vw;border-radius:50%;background:rgba(255,199,44,.15);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1vw}
+.surah span{font-size:1.6vw}
+.surah:focus{background:rgba(255,199,44,.14)}
+.surah.playing{background:linear-gradient(135deg,#ffd75e,#e5a100);color:#1a1300;box-shadow:none}
+.surah.playing i{background:rgba(26,19,0,.15);color:#1a1300}
+.card.playing{box-shadow:0 0 0 .25vw var(--gold)}
+.reader{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:2vw}
+.pl{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:1.2vw;padding:.8vw 1.3vw}
+.btn{border-radius:1vw;padding:.7vw 1.7vw}
+.btn.ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.state{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:1.5vw}
+.view>h2,.view h2{font-family:var(--f-display);font-weight:700}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -691,13 +740,22 @@ nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:g
       <button class="btn ghost" data-nav id="wifi-settings"><svg class="i"><use href="#i-wifi"/></svg>الواي فاي</button>
       <button class="btn ghost" data-nav id="home-settings">تغيير الشاشة الرئيسية</button>
     </div>
+    <div class="ahd" id="ah-user"><b>تطبيقاتي</b><span id="ac-user"></span></div>
     <div class="grid" id="apps-grid"></div>
+    <div class="ahd" id="ah-sys" hidden><b>تطبيقات النظام</b><span id="ac-sys"></span></div>
+    <div class="grid" id="apps-sys" hidden></div>
   </section>
 
   <!-- PRAYER -->
   <section class="view" id="v-prayer" hidden>
     <div><h2>مواقيت الصلاة اليوم</h2><p class="muted" id="pr-sub" style="margin:.3vw 0 0"></p></div>
-    <div class="prayers" id="prayer-full"></div>
+    <div class="prg">
+      <div class="pdial">
+        <svg viewBox="0 0 520 520" aria-hidden="true"><circle cx="260" cy="260" r="236" fill="rgba(0,0,0,.28)" stroke="rgba(255,255,255,.14)" stroke-width="2"/><circle id="pd-ring" cx="260" cy="260" r="236" fill="none" stroke="#ffc72c" stroke-width="12" stroke-linecap="round" stroke-dasharray="1483" stroke-dashoffset="1483" transform="rotate(-90 260 260)"/><circle id="pd-dot" cx="260" cy="24" r="14" fill="#ffc72c"/></svg>
+        <div class="pdc"><span class="pl1">الصلاة القادمة</span><b id="pd-name">—</b><span class="pcd" id="pd-cd">--:--:--</span><span class="pl2" id="pd-time"></span></div>
+      </div>
+      <div class="prayers" id="prayer-full"></div>
+    </div>
     <div style="display:grid;grid-gap:.8vw"><h2>المدينة</h2><div class="seg wrap" id="cities"></div></div>
     <div class="row">
       <button class="btn" data-nav id="test-adhan">تجربة الأذان</button>
@@ -748,6 +806,12 @@ nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:g
       </div>
     </div>
     <div class="seg wrap" id="tv-groups"></div>
+    <div class="feat" id="feat" hidden>
+      <div class="fv"><span class="fl">مباشر</span><div class="fg" id="fg"></div></div>
+      <div class="fi"><div class="fb" id="fb"></div><div class="fn" id="fn"></div><div class="fs" id="fs"></div>
+        <div class="fbt"><button class="btn gold" data-nav id="f-play"><svg class="i"><use href="#i-play"/></svg>تشغيل</button><button class="btn ghost" data-nav id="f-fav">★ أضف للمفضلة</button></div></div>
+    </div>
+    <div id="tv-rows" hidden></div>
     <div class="grid" id="tv-grid"></div>
   </section>
 
@@ -967,7 +1031,9 @@ function tickInner(){const now=new Date(),ms=now.getTime();const s=cityYMD(city.
   if(dk!==lastDay||!(today.fajr>0)){if(lastDay&&dk!==lastDay){fired={};store.set("fired",fired)}lastDay=dk;compute();renderPrayers()}
   $("#clk").textContent=clockStr(now);if(now.getMinutes()!==lastMin||!$("#dates").textContent){lastMin=now.getMinutes();$("#dates").textContent=dates(now)}
   const nx=nextPrayer(ms);$("#nx-name").textContent=PNAMES[nx.k];
-  const sec=Math.max(0,Math.floor((nx.ms-ms)/1000));$("#nx-cd").textContent=arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2)+" متبقي";
+  const sec=Math.max(0,Math.floor((nx.ms-ms)/1000)),cds=arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2);$("#nx-cd").textContent=cds+" متبقي";
+  {let prev=today.isha-864e5;for(const k of ORDER)if(today[k]<=ms&&today[k]>prev)prev=today[k];const pr=Math.max(0,Math.min(1,(ms-prev)/Math.max(1,nx.ms-prev)));
+    $("#pd-name").textContent=PNAMES[nx.k];$("#pd-cd").textContent=cds;$("#pd-time").textContent="متبقي · "+fmtTime(nx.ms);$("#pd-ring").setAttribute("stroke-dashoffset",String(1483*(1-pr)));$("#pd-dot").setAttribute("transform","rotate("+(pr*360).toFixed(1)+" 260 260)")}
   const evening=ms>=today.asr||ms<today.fajr;$("#t-azkar-t").textContent=evening?"أذكار المساء":"أذكار الصباح";$("#t-azkar").dataset.zk=evening?"pm":"am";
   for(const k of ORDER){if(k==="sunrise")continue;const key=dk+":"+k;if(ms>=today[k]&&ms-today[k]<90e3&&!fired[key]){fired[key]=1;store.set("fired",fired);if(adhanOn)showAdhan(k);renderPrayers()}
     if(preOn&&today[k]-ms>0&&today[k]-ms<=600e3&&!fired["pre:"+key]){fired["pre:"+key]=1;store.set("fired",fired);hideSaver();notify("باقي "+arNum(Math.ceil((today[k]-ms)/6e4))+" دقايق على أذان "+PNAMES[k])}
@@ -1465,15 +1531,19 @@ function renderMyApps(){const box=$("#my-apps"),apps=getApps(),pins=getPins();co
   box.replaceChildren(...tiles);if(window.renderRecent)renderRecent()}
 function renderPinMode(){$("#pin-mode").classList.toggle("on",pinMode);$("#pin-mode").textContent=pinMode?"اختار التطبيق اللي عايز تثبّته ✓":"تثبيت على الرئيسية"}
 $("#pin-mode").onclick=()=>{pinMode=!pinMode;renderPinMode()};
-function renderApps(){const g=$("#apps-grid");renderPinMode();
-  if(!bridge){g.replaceChildren(stateMsg("قايمة التطبيقات بتظهر جوه تطبيق الشاشة بس."));return}
+function renderApps(){const g=$("#apps-grid"),gs=$("#apps-sys");renderPinMode();
+  if(!bridge){g.replaceChildren(stateMsg("قايمة التطبيقات بتظهر جوه تطبيق الشاشة بس."));$("#ah-sys").hidden=gs.hidden=true;$("#ah-user").hidden=true;return}
+  $("#ah-user").hidden=false;
   let apps=getApps(true).slice();const pins=getPins();
-  const pri=["netflix","youtube","shahid","amazon","disney","osn","watchit","tod","settings","downloader"];
+  const pri=["netflix","youtube","shahid","amazon","disney","osn","watchit","tod","downloader","settings"];
   const rank=a=>{const s=(a.pkg+" "+a.label).toLowerCase();for(let i=0;i<pri.length;i++)if(s.indexOf(pri[i])>=0)return i;return 99};
   apps.sort((a,b)=>rank(a)-rank(b)||a.label.localeCompare(b.label,"ar"));
-  g.replaceChildren(...apps.map(a=>{const art=el("div",{class:"art"});
+  const mk=a=>{const art=el("div",{class:"art"});
     if(a.banner){art.append(el("img",{class:"cover",alt:"",src:a.img}))}else{art.style.background="var(--wine-2)";const im=el("img",{alt:"",src:a.img});im.style.padding="18%";art.append(im)}
-    const c=card(a.label,art,()=>{if(pinMode){togglePin(a.pkg);return}bridge.open(a.pkg)},pins.indexOf(a.pkg)>=0?"pinned":"");c.dataset.pkg=a.pkg;return c}))}
+    const c=card(a.label,art,()=>{if(pinMode){togglePin(a.pkg);return}bridge.open(a.pkg)},pins.indexOf(a.pkg)>=0?"pinned":"");c.dataset.pkg=a.pkg;return c};
+  const hasSys=apps.some(a=>a.sys===true),usr=apps.filter(a=>!a.sys),sys=apps.filter(a=>a.sys);
+  g.replaceChildren(...usr.map(mk));$("#ac-user").textContent=arNum(usr.length)+" تطبيق";
+  $("#ah-sys").hidden=gs.hidden=!hasSys;if(hasSys){gs.replaceChildren(...sys.map(mk));$("#ac-sys").textContent=arNum(sys.length)+" تطبيق"}}
 const openSys=()=>bridge?bridge.settings():toast("الزرار ده بيشتغل من تطبيق الشاشة");
 const openWifi=()=>bridge?bridge.wifi():toast("الزرار ده بيشتغل من تطبيق الشاشة");
 $("#q-wifi").onclick=openWifi;$("#wifi-settings").onclick=openWifi;$("#q-set").onclick=openSys;$("#sys-settings").onclick=openSys;
@@ -1521,13 +1591,30 @@ async function loadPl(p){if(p.local)return (p.local==="favs"?favs:recent).slice(
   else list=await firstOk([p.u,p.alt],async r=>{const t=await r.text();if(!/#EXTM3U|#EXTINF/.test(t.slice(0,3000)))throw new Error("الرابط مش قايمة m3u");return parseM3U(t,p.filterAr)});
   plCache[p.id]=list;return list}
 function renderSources(){$("#tv-sources").replaceChildren(...allPl().map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===curPl),text:p.n,onclick(){curPl=p.id;store.set("curPl",curPl);curGroup="الكل";$("#pl-panel").hidden=true;renderSources();renderChannels()}})))}
-async function renderChannels(){const grid=$("#tv-grid");const p=allPl().find(x=>x.id===curPl)||FREE[0];
+let FEAT=null,FEATL=[];
+function setFeat(c){if(!c||FEAT===c)return;FEAT=c;const fg=$("#fg");fg.replaceChildren();
+  if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>{im.remove();fg.append(el("b",{text:cleanName(c.name)}))};fg.append(im)}else fg.append(el("b",{text:cleanName(c.name)}));
+  $("#fb").textContent=c.group&&c.group!=="مؤخراً"?c.group:"قناة";$("#fn").textContent=cleanName(c.name);$("#fs").textContent="بث مباشر";featFav()}
+function featFav(){if(FEAT)$("#f-fav").textContent=isFav(FEAT)?"★ في المفضلة":"☆ أضف للمفضلة"}
+$("#f-play").onclick=()=>{if(!FEAT)return;const L=FEATL.length?FEATL:channels;channels=L;playChannel(Math.max(0,L.indexOf(FEAT)))};
+$("#f-fav").onclick=()=>{if(FEAT){toggleFav(FEAT);featFav()}};
+document.addEventListener("focusin",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t._ch&&t.closest("#v-tv"))setFeat(t._ch);
+  const row=t.closest(".crow,#tv-sources,#tv-groups");if(row){const r=t.getBoundingClientRect(),rr=row.getBoundingClientRect();if(r.left<rr.left)row.scrollLeft+=r.left-rr.left-12;else if(r.right>rr.right)row.scrollLeft+=r.right-rr.right+12}});
+function chCard(c,list){const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>{channels=list;playChannel(list.indexOf(c))});n._ch=c;if(isFav(c))n.prepend(el("span",{class:"star",text:"★"}));return n}
+async function renderChannels(){const grid=$("#tv-grid"),rows=$("#tv-rows"),ft=$("#feat");const p=allPl().find(x=>x.id===curPl)||FREE[0];
+  grid.hidden=false;rows.hidden=true;ft.hidden=true;FEAT=null;
   grid.replaceChildren(el("div",{class:"state",text:"جاري تحميل القنوات…"}));$("#tv-groups").replaceChildren();
   try{const list=await loadPl(p);const groups=["الكل"];const seen={};list.forEach(c=>{if(!seen[c.group]){seen[c.group]=1;groups.push(c.group)}});
     if(groups.length>2)$("#tv-groups").replaceChildren(...groups.slice(0,80).map(g=>el("button",{class:"chip","data-nav":"","aria-pressed":String(g===curGroup),text:g,onclick(){curGroup=g;renderChannels()}})));
-    channels=curGroup==="الكل"?list:list.filter(c=>c.group===curGroup);
+    channels=curGroup==="الكل"?list:list.filter(c=>c.group===curGroup);FEATL=channels;
     if(!channels.length){grid.replaceChildren(stateMsg("القائمة فاضية."));return}
-    paged(grid,channels,(c,i)=>{const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>playChannel(channels.indexOf(c)));n._ch=c;if(isFav(c))n.prepend(el("span",{class:"star",text:"★"}));return n},60)}
+    ft.hidden=false;setFeat(channels[0]);
+    if(curGroup==="الكل"&&groups.length>2){grid.hidden=true;rows.hidden=false;channels=list;FEATL=list;
+      rows.replaceChildren(...groups.slice(1,13).map(g=>{const items=list.filter(c=>c.group===g);
+        return el("section",{class:"crs"},el("div",{class:"crh"},el("b",{text:g}),el("span",{text:arNum(items.length)+" قناة"}),items.length>14?el("button",{class:"chip","data-nav":"",text:"عرض الكل",onclick(){curGroup=g;renderChannels()}}):null),
+          el("div",{class:"crow"},...items.slice(0,14).map(c=>chCard(c,list))))}))}
+    else paged(grid,channels,c=>chCard(c,channels),60)}
   catch(e){delete plCache[p.id];grid.replaceChildren(stateMsg("مقدرتش أحمّل القائمة.",(e&&e.name==="AbortError")?"النت بطيء، جرّب تاني.":"اتأكد إن الشاشة متوصلة بالنت وإن الرابط صحيح. "+((e&&e.message)||""),renderChannels))}}
 function streamCandidates(url){const out=[];const m=url.match(/^(https?:\/\/[^/]+)\/(?:live\/)?([^/]+)\/([^/]+)\/(\d+)(?:\.(ts|m3u8))?$/i);
   if(m&&!/\.(mp4|mkv|avi)$/i.test(url))out.push(m[1]+"/live/"+m[2]+"/"+m[3]+"/"+m[4]+".m3u8");if(out.indexOf(url)<0)out.push(url);return out}

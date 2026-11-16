@@ -86,6 +86,8 @@ public class MainActivity extends Activity {
                     boolean banner = d != null;
                     if (d == null) d = a.loadIcon(pm);
                     o.put("banner", banner);
+                    int fl = a.applicationInfo.flags;
+                    o.put("sys", (fl & android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0 && (fl & android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0);
                     o.put("img", toPng(d, banner ? 240 : 112, banner ? 135 : 112));
                     out.put(o);
                 } catch (Exception ignored) { }

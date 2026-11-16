@@ -94,7 +94,7 @@ def main():
           name = chips.nth(i).inner_text()
           chips.nth(i).click()
           page.wait_for_timeout(300)
-          n = wait_tiles(page, "#tv-grid")
+          n = wait_tiles(page, "#v-tv")
           if n <= 0:
               failed = True
               log(f"TV {name}: FAILED to load")
@@ -108,7 +108,7 @@ def main():
           log(f"TV {name}: {n} channels, first 2 played: {played}/2")
       page.evaluate("show('tv')")
       page.locator("#tv-sources .chip").first.click()
-      wait_tiles(page, "#tv-grid")
+      wait_tiles(page, "#v-tv")
       page.screenshot(path="shot-tv.png")
       # IPTV section: playlist sent from the phone page, remote keys, playback
       page.evaluate("onPhoneAdd({id:'utest',name:'قايمة من الموبايل',url:'https://raw.githubusercontent.com/sabryragab/ahly.tv/main/data/tv-arabic.m3u'})")
@@ -205,8 +205,8 @@ def main():
       # favourites, recent, channel number
       page.evaluate("show('tv')")
       page.locator("#tv-sources .chip:not(.add)").nth(0).click()
-      wait_tiles(page, "#tv-grid")
-      fav = page.evaluate("(()=>{const c=document.querySelector('#tv-grid .card');c.focus();tvKey('CL');return document.querySelector('#tv-sources .chip').textContent})()")
+      wait_tiles(page, "#v-tv")
+      fav = page.evaluate("(()=>{const c=document.querySelector('#v-tv .card');c.focus();tvKey('CL');return document.querySelector('#tv-sources .chip').textContent})()")
       log(f"long OK adds favourite: {fav}")
       page.evaluate("tvKey('CL')")
       # screensaver
