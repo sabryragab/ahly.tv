@@ -403,99 +403,100 @@ html{background:var(--base)}
 .qb.ico svg.i{margin:0;width:1.35vw;height:1.35vw}
 .banner{top:auto!important;right:auto!important;bottom:5vh;left:5vw}
 
-/* ---- IPTV: its own section ---- */
-.ipbar{display:grid;grid-template-columns:1fr auto;grid-gap:1vw;align-items:center}
-.ipbar .l{display:flex;flex-wrap:wrap;align-items:center}
-.ipbar .l>*{margin:0 0 .5vw .6vw}
-.ipbar .sep{width:1px;height:1.8vw;background:var(--line)}
-.ipbar input{background:var(--wine);border:2px solid var(--line);border-radius:2vw;color:var(--chalk);padding:.45vw 1.1vw;width:16vw;font-size:1.05vw}
-.ipbar input:focus{border-color:var(--gold);outline:none}
-#ip{display:grid;grid-template-columns:1fr 34vw;grid-template-rows:auto 1fr;grid-gap:1vw 1.1vw;height:60vh;outline:none;border-radius:1.4vw}
-.ipcats{grid-column:1/-1;background:none!important;border:0!important;padding:0!important;display:block!important;overflow:hidden}
-.ipcats .catlist{display:flex;gap:.7vw}
-.ipcats .iprow{display:flex!important;align-items:center;gap:.6vw;height:3.2vw;padding:0 1.5vw;border-radius:1.6vw;background:rgba(255,255,255,.07);font-size:1.15vw;flex:0 0 auto;max-width:18vw}
-.ipcats .iprow .nm{flex:1 1 auto;min-width:0}
-#ip.c0:focus .ipcats .iprow.sel{box-shadow:0 0 0 .15vw var(--gold)}
-#ip:focus{box-shadow:none}
-.ipcol{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:1.3vw;padding:.7vw;display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
-#ip.c1:focus .iplist{border-color:var(--gold);box-shadow:0 0 0 .15vw var(--gold)}
-.iprow{display:grid;align-items:center;border-radius:.8vw;padding:0 .9vw;min-height:0;color:var(--mist);cursor:pointer;overflow:hidden}
-.ipcats .iprow{grid-template-columns:1fr auto;grid-gap:.6vw;font-size:1.1vw}
-.ipcats .iprow i{font-style:normal;font-size:.85vw;opacity:.75;font-variant-numeric:tabular-nums}
-.iplist .iprow{grid-template-columns:3.2vw 3.6vw 1fr auto;grid-gap:.9vw;font-size:1.25vw}
-.iprow .no{font-family:var(--f-display);color:var(--gold);font-variant-numeric:tabular-nums;font-size:1.05vw;text-align:center}
-.iprow .lg{width:3.6vw;height:2.4vw;border-radius:.4vw;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.iprow .lg img{max-width:86%;max-height:86%;object-fit:contain}
-.iprow .lg svg.i{color:#8a7a7c;width:1.2vw;height:1.2vw}
-.iprow .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.iprow .st{color:var(--gold)}
-.iprow.sel{background:rgba(255,255,255,.1);color:var(--chalk)}
-#ip.c0:focus .ipcats .iprow.sel,#ip.c1:focus .iplist .iprow.sel{background:var(--ahly);color:#fff;font-weight:700}
-#ip.c0:focus .ipcats .iprow.sel i,#ip.c1:focus .iplist .iprow.sel .no{color:#fff;opacity:1}
-.ipempty{align-self:center;justify-self:center;text-align:center;color:var(--mist);line-height:1.9;padding:1vw}
-.ipprev{position:relative;border-radius:1.1vw;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,var(--ahly-d),var(--night));display:grid;grid-template-rows:auto 1fr;min-height:0}
-.ipcats{grid-template-rows:auto 1fr;grid-auto-rows:auto}
-.catlist{display:grid;grid-auto-rows:1fr;grid-gap:.35vw;min-height:0;overflow:hidden}
-.ipseg{display:grid;grid-template-columns:repeat(3,1fr);grid-gap:.3vw;margin-bottom:.4vw}
-.ipseg .sg{text-align:center;padding:.45vw .2vw;border-radius:.7vw;color:var(--mist);font-size:.95vw;background:rgba(255,255,255,.05);cursor:pointer;line-height:1.25}
-.ipseg .sg i{display:block;font-style:normal;font-size:.75vw;opacity:.75}
-.ipseg .sg.on{background:rgba(255,255,255,.14);color:var(--chalk);font-weight:700}
-#ip.c2:focus .ipseg .sg.on{background:var(--ahly);color:#fff;box-shadow:0 0 0 .15vw var(--gold)}
-#ip.c2:focus .ipseg .sg.on i{opacity:1}
-.ipprev .vid{position:relative;width:100%;height:19vw;background:radial-gradient(circle at 50% 40%,var(--ahly-d),#07040a);display:flex;align-items:center;justify-content:center}
-.ipprev .vid .vst{position:absolute;bottom:.7vw;right:0;left:0;text-align:center;color:var(--mist);font-size:.95vw}
-.ipprev .okb{justify-self:start;color:var(--chalk);font-size:1.15vw;margin:.2vw 0}
-.ipprev .okb b{background:var(--ahly);color:#fff;border-radius:.5vw;padding:.1vw .8vw;margin-inline-end:.4vw}
-.ipprev .art{display:flex;align-items:center;justify-content:center;min-height:0;position:relative}
-.ipprev .art:before{content:"";position:absolute;width:20vw;height:20vw;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 65%)}
-.ipprev .plate{position:relative;width:11vw;height:7vw;border-radius:1vw;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 1.4vw 3vw rgba(0,0,0,.45);overflow:hidden}
-.ipprev .plate img{max-width:80%;max-height:80%;object-fit:contain}
-.ipprev .plate b{font-family:var(--f-display);font-weight:500;color:#3a2a2d;font-size:1.5vw;text-align:center;padding:0 .8vw;line-height:1.3}
-.ipprev .meta{padding:1.1vw 1.4vw 1.3vw;display:grid;grid-gap:.35vw;align-content:start}
-.ipprev .t{font-family:var(--f-display);font-size:1.9vw;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ipprev .g{color:var(--gold);font-size:1vw}
-.ipprev .k{color:var(--mist);font-size:.85vw;line-height:1.8}
-.ipprev .k b{color:var(--chalk);font-weight:500;border:1px solid var(--line);border-radius:.4vw;padding:0 .4vw;margin-inline-end:.3vw}
-.ipfoot{display:flex;justify-content:space-between;color:var(--mist);font-size:.9vw}
-/* IPTV: sidebar + home + poster pages */
-.ipx{display:grid;grid-template-columns:13vw 1fr;grid-gap:1.6vw;align-items:start}
-.ipside{display:grid;grid-gap:.5vw;align-content:start;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:1.3vw;padding:.8vw}
-.ipside button{display:flex;align-items:center;grid-gap:.8vw;padding:.9vw 1vw;border-radius:.9vw;color:var(--mist);font-size:1.2vw;text-align:right;background:transparent}
-.ipside button svg.i{width:1.5vw;height:1.5vw;flex:none}
-.ipside button[aria-pressed="true"]{background:var(--ahly);color:#fff;font-weight:700}
-.ipmain{min-width:0;display:grid;grid-gap:.9vw}
-.iphero{position:relative;height:13vw;border-radius:1.3vw;overflow:hidden;background:linear-gradient(120deg,var(--ahly-d),var(--night));display:flex;align-items:center}
-.iphero .bg{position:absolute;top:0;right:0;bottom:0;left:0;background-size:cover;background-position:center 25%;opacity:.55}
-.iphero .sh{position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(270deg,rgba(8,3,6,.92) 8%,rgba(8,3,6,.35) 60%,rgba(8,3,6,.1))}
-.iphero .tx{position:relative;padding:1.2vw 2.4vw;display:grid;grid-gap:.6vw;justify-items:start;max-width:55%}
-.iphero .k{color:var(--gold);font-size:1vw}
-.iphero .t{font-family:var(--f-display);font-size:2.4vw;line-height:1.2;max-height:2.5em;overflow:hidden}
-.iphero .btn{background:var(--ahly);color:#fff;font-weight:700;padding:.7vw 2vw;font-size:1.25vw}
-.iprow-h{display:flex;justify-content:space-between;align-items:baseline;margin:.8vw 0 0}
-.iprow-h h3{font-family:var(--f-display);font-size:1.7vw;font-weight:500;margin:0}
-.iprow-h span{color:var(--mist);font-size:.95vw}
-.iprail{display:grid;grid-template-columns:repeat(7,1fr);grid-gap:.9vw}
-.ctile{position:relative;height:6.4vw;border-radius:1vw;overflow:hidden;color:#fff;padding:.8vw 1vw;display:flex;flex-direction:column;justify-content:flex-end;text-align:right;border:0;background-size:cover}
-.ctile b{font-size:1.15vw;line-height:1.25;max-height:2.5em;overflow:hidden}
-.ctile i{font-style:normal;font-size:.85vw;opacity:.85}
-.ctile.all{background:rgba(255,255,255,.07);color:var(--gold);align-items:center;justify-content:center;font-size:1.1vw}
-.pcard{position:relative;display:block;height:14.5vw;border-radius:1vw;overflow:hidden;background:var(--wine);border:0;padding:0;min-width:0}
-.pcard img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:cover}
-.pcard .ph{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,var(--wine-2),var(--night));color:var(--gold)}
-.pcard .ph svg.i{width:3vw;height:3vw}
-.pcard .tt{position:absolute;bottom:0;right:0;left:0;padding:2.4vw .7vw .6vw;background:linear-gradient(transparent,rgba(0,0,0,.88));color:#fff;font-size:.98vw;line-height:1.3;text-align:center;max-height:5.6em;overflow:hidden}
-.pcard .st{position:absolute;top:.5vw;left:.5vw;color:var(--gold);font-size:1.2vw}
-.pcard.all{display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.15vw;background:rgba(255,255,255,.07)}
-.ipposters{display:grid;grid-template-columns:repeat(6,1fr);grid-gap:.9vw}
-.ipposters .more{grid-column:1/-1}
-.ipchips{margin-bottom:.6vw}
-.ipnow{display:flex;align-items:center;grid-gap:1vw;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:1.2vw;padding:.6vw 1.2vw;color:var(--chalk);text-align:right}
-.ipnow .pl{color:var(--ahly);font-size:1.4vw}
-.ipnow .nt{flex:1;min-width:0;display:grid}
-.ipnow small{color:var(--mist);font-size:.8vw}
-.ipnow b{font-weight:500;font-size:1.1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ipnow .go{color:var(--gold);font-size:.95vw}
-#ip-seg{display:none}
+/* ---- IPTV: full-screen purple UI (home tiles, browse grids, guide, catch-up, settings) ---- */
+body.ivon header.top,body.ivon nav.tabs{display:none}
+.iv{--pu:#7047f5;--pu2:#4b27c9;--ln:#302a78;--cd:#171340;--tx:#f3f0ff;--mt:#aaa4d8;position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;display:grid;grid-template-rows:auto 1fr auto;padding:1.3vw 2.4vw 1.1vw;background:radial-gradient(ellipse at 15% 0,#2b1f7a 0,#0c0926 55%);color:var(--tx)}
+.iv[hidden]{display:none}
+.iv [data-nav]:focus{box-shadow:0 0 0 .2vw #0c0926,0 0 0 .45vw #d6caff,0 0 1.6vw .3vw rgba(140,100,255,.65)}
+.iv ::-webkit-scrollbar{display:none}
+.ivh{display:flex;align-items:center;grid-gap:1.2vw;height:4.8vw}
+.ivlogo{display:flex;align-items:center;grid-gap:.9vw}
+.ivlogo svg{width:3.4vw;height:3.4vw}
+.ivlogo b{font-family:var(--f-display);font-size:2.6vw;line-height:1;font-weight:500}
+.ivlogo small{display:block;color:var(--mt);font-size:.95vw;margin-top:.2vw}
+.ivh h2{margin:0;font-family:var(--f-display);font-size:2.1vw;font-weight:500}
+.ivb,.ivi{width:3.1vw;height:3.1vw;border-radius:50%;background:var(--cd);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;color:var(--tx);padding:0;font-size:1.7vw}
+.ivb[hidden]{display:none}
+.ivi svg.i{width:1.4vw;height:1.4vw}
+.ivgrow{flex:1}
+.ivclk{text-align:end;line-height:1.25}.ivclk b{display:block;font-size:1.5vw;font-weight:600}.ivclk small{color:var(--mt);font-size:.9vw}
+#iv-sbar{display:flex;align-items:center}
+#iv-sbar[hidden]{display:none}
+#ip-q{background:var(--cd);border:2px solid var(--ln);border-radius:1.6vw;color:var(--tx);font-size:1.3vw;padding:.6vw 1.6vw;width:38vw}
+#ip-q:focus{border-color:var(--pu);outline:none}
+.ivbody{position:relative;min-height:0}
+.ivstate{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;grid-gap:1.2vw;text-align:center}
+.ivstate b{font-size:2.2vw;font-weight:600}.ivstate span{color:var(--mt);font-size:1.3vw;max-width:50vw;line-height:1.8}
+.ivbtn{background:var(--pu);color:#fff;border-radius:1vw;padding:.8vw 2.4vw;font-size:1.3vw;font-weight:700;margin-top:.6vw}
+.ivhome{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;grid-template-columns:14.5vw 1fr;grid-gap:1.6vw}
+.ivnav,.ivcats{background:rgba(255,255,255,.035);border:1px solid var(--ln);border-radius:1.3vw;padding:.7vw;align-content:start}
+.ivnav{display:grid;grid-gap:.3vw}
+.ivnav button{display:flex;align-items:center;grid-gap:.9vw;padding:.85vw 1vw;border-radius:.9vw;font-size:1.2vw;color:var(--mt);text-align:start}
+.ivnav button svg.i,.vc svg.i{width:1.4vw;height:1.4vw;flex:none}
+.gl{font-size:1.2vw;text-align:center;width:1.4vw;display:block}
+.ivnav button[aria-pressed="true"]{background:var(--pu);color:#fff;font-weight:700}
+.ivmain{min-width:0;display:grid;grid-gap:1.3vw;align-content:start}
+.ivtiles{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:19vw 11.5vw;grid-gap:1.3vw}
+.tl{border-radius:1.6vw;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;position:relative;overflow:hidden}
+.tl.big{grid-column:span 4}.tl.sm{grid-column:span 3}
+.tl svg.i{width:5vw;height:5vw}.tl.sm svg.i{width:3.2vw;height:3.2vw}
+.tl .gl{font-size:4vw;width:auto}.tl.sm .gl{font-size:2.6vw}
+.tl b{font-family:var(--f-display);font-size:2.2vw;font-weight:500;margin-top:.6vw}.tl.sm b{font-size:1.5vw;margin-top:.3vw}
+.tl small{opacity:.88;font-size:1.05vw;margin-top:.2vw}.tl.sm small{font-size:.9vw}
+.tl.g1{background:linear-gradient(145deg,#8a5cff,#4a25c9)}
+.tl.g2{background:linear-gradient(145deg,#2b95ff,#0b4cc4)}
+.tl.g3{background:linear-gradient(145deg,#2fcf79,#0b8545)}
+.tl.g4{background:linear-gradient(145deg,#ffa23f,#d9601a)}
+.tl.g5{background:linear-gradient(145deg,#ff6479,#cf2850)}
+.tl.g6{background:linear-gradient(145deg,#1cc3d4,#0a7a92)}
+.tl.g7{background:linear-gradient(145deg,#7a58f0,#4527b5)}
+.ivrh{font-family:var(--f-display);font-size:1.5vw}
+.ivrecent{display:grid;grid-template-columns:repeat(7,1fr);grid-gap:1vw}
+.ivrecent .mp,.ivrecent .lt{height:8vw}
+.ivrecent .lt .lg{width:5vw;height:3vw}
+.ivbrowse{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;grid-template-columns:19vw 1fr;grid-gap:1.6vw}
+.ivbrowse.nocat{grid-template-columns:1fr}
+.ivcats{overflow-y:auto;display:grid;grid-auto-rows:3.5vw;grid-gap:.25vw}
+.vc{display:grid;grid-template-columns:1.6vw 1fr auto;grid-gap:.7vw;align-items:center;border-radius:.9vw;padding:0 1vw;font-size:1.15vw;color:var(--mt);text-align:start}
+.vc .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vc i{font-style:normal;font-size:.9vw;opacity:.8;font-variant-numeric:tabular-nums}
+.vc.on{background:var(--pu);color:#fff;font-weight:700}
+.ivgrid{overflow-y:auto;display:grid;grid-gap:1.1vw;align-content:start;padding:.5vw}
+.ivgrid.g4{grid-template-columns:repeat(4,1fr)}
+.ivgrid.g5{grid-template-columns:repeat(5,1fr)}
+.ivgrid.g1{grid-template-columns:1fr;grid-gap:.6vw}
+.lt{height:10.4vw;border-radius:1.2vw;background:var(--cd);border:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;justify-content:center;grid-gap:.5vw;position:relative;padding:.6vw;color:var(--tx)}
+.lt .lg{width:7.2vw;height:4.6vw;border-radius:.8vw;background:#f4f1ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lt .lg img{max-width:88%;max-height:88%;object-fit:contain}
+.lt b{font-size:1.05vw;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mp{height:19.5vw;border-radius:1vw;overflow:hidden;position:relative;background:linear-gradient(160deg,#3a2a9a,#120c3a);border:1px solid var(--ln);color:#fff;display:block;text-align:start}
+.mp .pi{position:absolute;top:0;right:0;bottom:0;left:0}
+.mp .pi img{width:100%;height:100%;object-fit:cover}
+.mp b{position:absolute;bottom:0;right:0;left:0;padding:2.6vw .7vw .6vw;background:linear-gradient(transparent,rgba(5,3,20,.92));font-size:1.05vw;font-weight:600;line-height:1.35;max-height:5.6em;overflow:hidden}
+.er{display:flex;align-items:center;grid-gap:1vw;height:4.4vw;border-radius:1vw;background:var(--cd);border:1px solid var(--ln);padding:0 1.4vw;font-size:1.3vw;text-align:start;color:var(--tx)}
+.er b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.er .pl{color:#a98bff;font-size:1.3vw}.er .tm{color:#c9b8ff;font-size:1.05vw;min-width:9vw}
+.gr{display:grid;grid-template-columns:16vw 1fr 1fr 1fr;grid-gap:.5vw;height:5.2vw;border-radius:.9vw;text-align:start;color:var(--tx)}
+.gr .gc{display:flex;align-items:center;grid-gap:.8vw;background:var(--cd);border-radius:.8vw;padding:0 .8vw;overflow:hidden}
+.gr .gc .lg{width:3.6vw;height:2.4vw;border-radius:.4vw;background:#f4f1ff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+.gr .gc .lg img{max-width:88%;max-height:88%;object-fit:contain}
+.gr .gc b{font-size:1.05vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gr .pg{background:rgba(255,255,255,.05);border-radius:.8vw;padding:.5vw .9vw;display:grid;align-content:center;min-width:0}
+.gr .pg.now{background:var(--pu2)}
+.gr .pg small{color:#c9b8ff;font-size:.8vw}
+.gr .pg b{font-size:1vw;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ivnote{color:var(--mt);font-size:1.1vw;padding:.4vw 0}
+.ivempty{grid-column:1/-1;color:var(--mt);font-size:1.5vw;text-align:center;padding:6vw 2vw;line-height:1.9}
+.sr{display:flex;align-items:center;justify-content:space-between;height:4.8vw;border-radius:1vw;background:var(--cd);border:1px solid var(--ln);padding:0 1.6vw;font-size:1.3vw;color:var(--tx);text-align:start}
+.sr .st2{display:grid}.sr small{color:var(--mt);font-size:.9vw}
+.sr .sv{color:#c9b8ff;font-size:1.1vw;max-width:30vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sw{width:3.6vw;height:2vw;border-radius:1vw;background:#3b3580;position:relative;display:block}
+.sw i{position:absolute;top:.25vw;right:.25vw;width:1.5vw;height:1.5vw;border-radius:50%;background:#fff}
+.sw.on{background:var(--pu)}.sw.on i{right:2.1vw}
+.ipnow{display:flex;align-items:center;grid-gap:1vw;background:var(--cd);border:1px solid var(--ln);border-radius:2vw;padding:.55vw 1.6vw;margin-top:.9vw;color:var(--tx);text-align:start}
+.ipnow[hidden]{display:none}
+.ipnow .pl{color:#a98bff;font-size:1.3vw}.ipnow .nt{flex:1;min-width:0;display:grid}.ipnow small{color:var(--mt);font-size:.8vw}
+.ipnow b{font-weight:500;font-size:1.1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ipnow .go{color:#c9b8ff;font-size:.95vw}
 
 
 /* quran */
@@ -666,28 +667,20 @@ html{background:var(--base)}
 
   <!-- IPTV -->
   <section class="view" id="v-iptv" hidden>
-    <div class="ipx">
-      <nav class="ipside" id="ip-side"></nav>
-      <div class="ipmain">
-        <div class="ipbar">
-          <div class="l" id="ip-top"></div>
-          <div class="row"><input id="ip-q" data-nav placeholder="بحث" autocomplete="off"><button class="btn ghost" data-nav id="ip-add"><svg class="i"><use href="#i-phone"/></svg>إضافة قايمة</button></div>
-        </div>
-        <div id="ip-home"></div>
-        <div id="ip-grid" hidden></div>
-        <div id="ip-livewrap">
-    <div id="ip" class="c1" data-nav tabindex="0">
-      <div class="ipcol ipcats"><div class="ipseg" id="ip-seg"></div><div class="catlist" id="ip-cats"></div></div>
-      <div class="ipcol iplist" id="ip-list"></div>
-      <div class="ipprev"><div class="vid" id="ip-vid"><div class="plate" id="ip-plate"></div><div class="vst" id="ip-st"></div></div>
-        <div class="meta"><div class="g" id="ip-g"></div><div class="t" id="ip-t">—</div>
-          <div class="okb" id="ip-ok"><b>OK</b> شاشة كاملة</div>
-          <div class="k"><b>OK مطوّل</b>مفضلة <b>▲▼</b>تنقل <b>CH±</b>صفحة <b>٠-٩</b>رقم القناة</div></div></div>
-    </div>
-        </div>
-        <div class="ipfoot"><span id="ip-count"></span><span id="ip-pl"></span></div>
-        <button class="ipnow" data-nav id="ip-now" hidden><span class="pl">▶</span><span class="nt"><small>آخر تشغيل</small><b id="ip-now-t"></b></span><span class="go">OK للمتابعة</span></button>
-      </div>
+    <div class="iv" id="iv">
+      <header class="ivh">
+        <div class="ivlogo" id="iv-logo"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="ivg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9b7bff"/><stop offset="1" stop-color="#5a32e0"/></linearGradient></defs><path d="M10 6l32 18-32 18z" fill="url(#ivg)" stroke="#c9b8ff" stroke-width="2" stroke-linejoin="round"/></svg>
+          <div><b>IPTV</b><small id="iv-sub">مباشر · أفلام · مسلسلات</small></div></div>
+        <button class="ivb" id="iv-back" data-nav aria-label="رجوع" hidden>→</button>
+        <h2 id="iv-title"></h2>
+        <div id="iv-sbar" hidden><input id="ip-q" data-nav placeholder="ابحث في القنوات والأفلام والمسلسلات" autocomplete="off"></div>
+        <span class="ivgrow"></span>
+        <button class="ivi" id="iv-search" data-nav aria-label="بحث"><svg class="i"><use href="#i-search"/></svg></button>
+        <button class="ivi" id="iv-set" data-nav aria-label="إعدادات IPTV"><svg class="i"><use href="#i-gear"/></svg></button>
+        <div class="ivclk"><b id="iv-clk"></b><small id="iv-date"></small></div>
+      </header>
+      <div class="ivbody" id="iv-body"></div>
+      <button class="ipnow" data-nav id="ip-now" hidden><span class="pl">▶</span><span class="nt"><small>آخر تشغيل</small><b id="ip-now-t"></b></span><span class="go">OK للمتابعة</span></button>
     </div>
   </section>
 
@@ -1058,97 +1051,41 @@ async function loadTop(){try{const j=await (await fetchT(DATA+"match.json",15000
 function renderArc(ms){const c=$("#arc-now");if(!c||!today.fajr)return;let t=(ms-today.fajr)/(today.isha-today.fajr);t=Math.max(0,Math.min(1,t));const u=1-t;
   const x=u*u*740+2*u*t*380+t*t*20,y=u*u*140+2*u*t*(-90)+t*t*140;c.setAttribute("cx",x.toFixed(1));c.setAttribute("cy",y.toFixed(1));c.setAttribute("opacity",(ms<today.fajr||ms>today.isha)?".45":"1")}
 
-/* ---------- IPTV section: playlists, categories, virtual channel list ---------- */
-const IP={pl:store.get("ipPl",""),xt:null,xtDone:{},secLoad:"",drill:null,acct:"",sec:"live",page:"live",gn:30,last:null,mk:0,items:[],cats:[],cat:0,list:[],idx:0,col:1,q:"",loading:false,err:""};
-const IP_ROWS=9,IP_CROWS=9;
+/* ---------- IPTV section: full-screen UI. Data side: playlists, categories, Xtream; UI side: home tiles, browse grids, guide, catch-up, settings ---------- */
+const IP={pl:store.get("ipPl",""),xt:null,xtDone:{},secLoad:"",drill:null,cu:null,acct:"",sec:"live",page:"home",gn:40,shown:0,last:null,items:[],cats:[],cat:0,list:[],idx:0,q:"",loading:false,err:"",from:"home",hm:"live",fk:"",ss:"gen",sig:""};
+const IPS=Object.assign({auto:0,hide:0,fmt:"auto",resume:0},store.get("ipset",{}));
+const ipSave=()=>store.set("ipset",IPS);
+const ADULT=/adult|xxx|porn|sex\b|18\s*\+|\+\s*18|للكبار|اباح|إباح/i,KIDS=/kids?\b|children|cartoon|toon|junior|baby|disney|nick\b|اطفال|أطفال|كرتون|طفل/i;
+const KL={live:"قنوات",movie:"أفلام",series:"مسلسلات"};
 const kindOf=c=>{const u=c.url||"",g=c.group||"";if(/\/series\//i.test(u))return"series";if(/\/movie\//i.test(u)||/\.(mp4|mkv|avi|mov)(\?|$)/i.test(u))return"movie";
   if(!/\.(m3u8|ts)(\?|$)/i.test(u)){if(/series|مسلسل|season|موسم|\bS\d{1,2}\b/i.test(g))return"series";if(/\bvod\b|movies?\b|films?\b|أفلام|افلام|سينما|cinema/i.test(g))return"movie"}return"live"};
-const ipSrc=()=>IP.drill?IP.drill.items:IP.items.filter(c=>c.kind===IP.sec);
-function ipCompute(keepCat){const all=ipSrc();const counts={},order=[];all.forEach(c=>{if(counts[c.group]==null){counts[c.group]=0;order.push(c.group)}counts[c.group]++});
-  const favN=all.filter(isFav).length,prev=keepCat&&IP.cats[IP.cat]?IP.cats[IP.cat].n:null;
-  IP.cats=[{n:"الكل",c:all.length,all:1}].concat(favN?[{n:"★ المفضلة",c:favN,fav:1}]:[],order.map(g=>({n:g,c:counts[g]})));
+const ipAll=()=>IPS.hide?IP.items.filter(c=>!ADULT.test(c.group||"")&&!ADULT.test(c.name||"")):IP.items;
+function ipSrc(){if(IP.drill)return IP.drill.items;const p=IP.page,A=ipAll();
+  if(p==="live"||p==="guide")return A.filter(c=>c.kind==="live");
+  if(p==="catchup")return A.filter(c=>c.kind==="live"&&c.arch);
+  if(p==="movie"||p==="series")return A.filter(c=>c.kind===p);
+  if(p==="kids")return A.filter(c=>KIDS.test(c.group||""));
+  if(p==="fav")return favs.map(f=>Object.assign({kind:f.kind||kindOf(f)},f));
+  if(p==="search"){const q=IP.q.trim().toLowerCase();return q?A.filter(c=>c.name.toLowerCase().indexOf(q)>=0):[]}
+  return[]}
+const ipGrp=c=>(IP.page==="fav"||IP.page==="search")&&!IP.drill?(KL[c.kind]||"قنوات"):c.group;
+function ipCompute(keepCat){const all=ipSrc();const counts={},order=[];all.forEach(c=>{const g=ipGrp(c);if(counts[g]==null){counts[g]=0;order.push(g)}counts[g]++});
+  const prev=keepCat&&IP.cats[IP.cat]?IP.cats[IP.cat].n:null;
+  IP.cats=[{n:"الكل",c:all.length,all:1}].concat(order.map(g=>({n:g,c:counts[g]})));
   IP.cat=prev?Math.max(0,IP.cats.findIndex(x=>x.n===prev)):0;ipFilter()}
 function ipFilter(){const ct=IP.cats[IP.cat]||{all:1},q=IP.q.trim().toLowerCase();let L=ipSrc();
-  if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);else if(ct.fav)L=L.filter(isFav);else if(!ct.all)L=L.filter(c=>c.group===ct.n);
-  IP.list=L;IP.idx=Math.min(IP.idx,Math.max(0,L.length-1));if(view==="iptv")channels=L;ipRender()}
-function win(n,idx,rows){let st=Math.max(0,Math.min(idx-Math.floor(rows/2),n-rows));return st<0?0:st}
-const IP_SECS=[["live","مباشر"],["movie","أفلام"],["series","مسلسلات"]];
-function ipSetSec(k){if(IP.sec===k)return;IP.sec=k;IP.idx=0;IP.q="";$("#ip-q").value="";IP.drill=null;ipStopPreview();ipCompute();ipEnsureSec(k)}
-function ipTop(){const top=$("#ip-top");
-  top.replaceChildren(...(IP.drill?[el("button",{class:"chip","data-nav":"","aria-pressed":"true",text:"↩ رجوع · "+IP.drill.name,onclick(){ipBack();focusEl($("#ip"))}})]:[]),...userPl.map(p=>el("button",{class:"chip","data-nav":"","aria-pressed":String(p.id===IP.pl),text:p.n,onclick(){IP.drill=null;ipOpen(p.id)}})));}
-/* ---------- IPTV pages: sidebar + home (hero and rows) + poster grids + live (3 columns with preview) ---------- */
-const IP_PAGES=[["home","الرئيسية","i-apps"],["live","مباشر","i-tv"],["movie","أفلام","i-play"],["series","مسلسلات","i-book"],["fav","المفضلة",""]];
-function ipSide(){const sd=$("#ip-side");if(!sd.firstChild)sd.replaceChildren(...IP_PAGES.map(p=>{const b=el("button",{"data-nav":"","aria-pressed":"false","data-pg":p[0]},p[2]?icon(p[2]):el("span",{class:"ft",text:"★"}),el("span",{text:p[1]}));b.onclick=()=>ipGo(p[0]);return b}));
-  Array.prototype.forEach.call(sd.children,b=>b.setAttribute("aria-pressed",String(b.getAttribute("data-pg")===IP.page)))}
-function ipGo(p){if(IP.page===p&&!IP.drill)return;IP.page=p;IP.q="";$("#ip-q").value="";IP.drill=null;IP.gn=30;IP.idx=0;IP.cat=0;ipStopPreview();
-  if(p==="movie"||p==="series"){IP.sec=p;ipCompute();ipEnsureSec(p)}
-  else if(p==="live"){IP.sec="live";IP.col=1;ipCompute()}
-  else{ipRender();if(p==="home")ipHomeLoad()}}
-function ipHomeLoad(){if(!IP.xt)return;ipEnsureSec("movie").then(()=>ipEnsureSec("series"))}
-function ipMark(n){const all=document.querySelectorAll("#ip-home [data-nav],#ip-grid [data-nav]");IP.mk=Array.prototype.indexOf.call(all,n);if(IP.mk<0)IP.mk=0}
-function ipRestoreFocus(){if(IP.page==="live"||IP.drill){focusEl($("#ip"));return}
-  const all=document.querySelectorAll("#ip-home [data-nav],#ip-grid [data-nav]");const n=all[IP.mk]||all[0]||$("#ip-side [aria-pressed=true]");focusEl(n)}
-function ipFocusMain(){if(IP.page==="live"||IP.drill)focusEl($("#ip"));else ipRestoreFocus()}
-function ipActivate(c,node){if(node)ipMark(node);if(c.kind==="series"&&c.sid){ipOpenSeries(c);return}
-  ipStopPreview();IP.last={c:c};channels=[c];playChannel(0)}
-function ipPcard(c){const b=el("button",{class:"pcard","data-nav":""});b._ch=c;b.append(el("div",{class:"ph"},icon("i-play")));
-  if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>im.remove();b.append(im)}
-  b.append(el("div",{class:"tt",text:cleanName(c.name)}));if(isFav(c))b.append(el("span",{class:"st",text:"★"}));b.onclick=()=>ipActivate(c,b);return b}
-function ipMoreCard(txt,fn){const b=el("button",{class:"pcard all","data-nav":"",text:txt});b.onclick=()=>{ipMark(b);fn()};return b}
-function ipHue(t){let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))%997;return(340+h%80)%360}
-function ipOpenCat(name){IP.page="live";IP.sec="live";IP.q="";$("#ip-q").value="";IP.drill=null;ipCompute();const i=IP.cats.findIndex(x=>x.n===name);IP.cat=i>0?i:0;IP.idx=0;IP.col=1;ipFilter();focusEl($("#ip"))}
-function ipRowHead(t,sub){return el("div",{class:"iprow-h"},el("h3",{text:t}),el("span",{text:sub||""}))}
-function ipRenderHome(h){const kids=[];const live=IP.items.filter(c=>c.kind==="live");
-  const mv=IP.items.filter(c=>c.kind==="movie"),sr=IP.items.filter(c=>c.kind==="series");
-  const hc=mv.find(c=>c.logo&&/^https?:/.test(c.logo))||sr.find(c=>c.logo&&/^https?:/.test(c.logo));
-  const hero=el("div",{class:"iphero"},el("div",{class:"bg"}),el("div",{class:"sh"}));
-  if(hc){hero.firstChild.style.backgroundImage="url("+JSON.stringify(hc.logo)+")";
-    const b=el("button",{class:"btn","data-nav":"",text:"▶  شاهد الآن"});b.onclick=()=>ipActivate(hc,b);
-    hero.append(el("div",{class:"tx"},el("div",{class:"k",text:hc.kind==="series"?"مسلسل مميز":"فيلم مميز"}),el("div",{class:"t",text:cleanName(hc.name)}),b))}
-  else{const b=el("button",{class:"btn","data-nav":"",text:"▶  البث المباشر"});b.onclick=()=>ipGo("live");
-    hero.append(el("div",{class:"tx"},el("div",{class:"k",text:IP.xt&&IP.secLoad?"جاري تحميل الأفلام والمسلسلات…":"IPTV"}),el("div",{class:"t",text:"اختار من القنوات والأفلام والمسلسلات"}),b))}
-  kids.push(hero);
-  if(live.length){const cnt={},ord=[];live.forEach(c=>{if(cnt[c.group]==null){cnt[c.group]=0;ord.push(c.group)}cnt[c.group]++});
-    ord.sort((a,b)=>cnt[b]-cnt[a]);const rail=el("div",{class:"iprail"});
-    ord.slice(0,6).forEach(g=>{const t=el("button",{class:"ctile","data-nav":""},el("b",{text:g}),el("i",{text:arNum(cnt[g])+" قناة"}));t.style.backgroundImage="linear-gradient(135deg,hsl("+ipHue(g)+",55%,30%),hsl("+ipHue(g)+",60%,13%))";t.onclick=()=>{ipMark(t);ipOpenCat(g)};rail.append(t)});
-    const all=el("button",{class:"ctile all","data-nav":"",text:"كل القنوات ‹"});all.onclick=()=>{ipMark(all);ipGo("live")};rail.append(all);
-    kids.push(ipRowHead("القنوات المباشرة",arNum(live.length)+" قناة"),rail)}
-  const row=(title,L,pg,loadingTxt)=>{if(!L.length){if(IP.xt&&!IP.xtDone[pg]&&IP.secLoad)kids.push(ipRowHead(title,loadingTxt));return}
-    const r=el("div",{class:"ipposters"});L.slice(0,5).forEach(c=>r.append(ipPcard(c)));r.append(ipMoreCard("الكل ‹",()=>ipGo(pg)));kids.push(ipRowHead(title,arNum(L.length)),r)};
-  row("أفلام",mv,"movie","جاري التحميل…");row("مسلسلات",sr,"series","جاري التحميل…");
-  if(favs.length){const r=el("div",{class:"ipposters"});favs.slice(0,5).forEach(c=>r.append(ipPcard(c)));r.append(ipMoreCard("الكل ‹",()=>ipGo("fav")));kids.push(ipRowHead("المفضلة",arNum(favs.length)),r)}
-  h.replaceChildren(...kids)}
-function ipRenderGrid(g){const kids=[];let L;
-  if(IP.page==="fav"){const q=IP.q.trim().toLowerCase();L=favs.filter(c=>!q||c.name.toLowerCase().indexOf(q)>=0)}else{L=IP.list;
-    const chips=el("div",{class:"ipchips",id:"ip-chips"});IP.cats.slice(0,24).forEach((c,i)=>{const b=el("button",{class:"chip","data-nav":"","aria-pressed":String(i===IP.cat),text:c.n+" · "+arNum(c.c)});
-      b.onclick=()=>{IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";IP.gn=30;ipFilter();const n=$("#ip-chips");if(n&&n.children[i])focusEl(n.children[i])};chips.append(b)});if(IP.cats.length>1)kids.push(chips)}
-  if(!L.length){const ld=IP.secLoad===IP.page;kids.push(el("div",{class:"ipempty",text:ld?"جاري التحميل…":IP.q?"مفيش نتيجة بالاسم ده":IP.page==="fav"?"لسه ما ضفتش حاجة للمفضلة (OK مطوّل على أي عنصر)":"مفيش حاجة في القسم ده"}))}
-  else{const r=el("div",{class:"ipposters"});L.slice(0,IP.gn).forEach(c=>r.append(ipPcard(c)));
-    if(L.length>IP.gn)r.append(el("button",{class:"pcard all more","data-nav":"",text:"عرض المزيد ("+arNum(L.length-IP.gn)+" متبقي)",onclick(){const nx=IP.gn;IP.gn+=30;ipRender();const a=document.querySelectorAll("#ip-grid .pcard:not(.all)");if(a[nx])focusEl(a[nx])}}));
-    kids.push(r)}
-  g.replaceChildren(...kids)}
-function ipRender(){ipTop();ipSide();const st=!userPl.length||IP.loading||IP.err,live=st||IP.drill||IP.page==="live";
-  $("#ip-home").hidden=live||IP.page!=="home";$("#ip-grid").hidden=live||IP.page==="home";$("#ip-livewrap").hidden=!live;
-  if(live){ipRenderLive()}else{ipStopPreview();if(IP.page==="home")ipRenderHome($("#ip-home"));else ipRenderGrid($("#ip-grid"));
-    const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=(p?p.n:"")+(IP.acct?" · "+IP.acct:"");$("#ip-count").textContent=""}
-  const nb=$("#ip-now");nb.hidden=live||!IP.last;if(IP.last){$("#ip-now-t").textContent=cleanName((IP.last.c||{}).name||"")}}
-$("#ip-now").onclick=()=>{const L=IP.last;if(!L)return;ipStopPreview();if(L.list){channels=L.list;playChannel(L.i)}else{channels=[L.c];playChannel(0)}};
-function ipRenderLive(){
-  const ce=$("#ip-cats"),le=$("#ip-list");$("#ip").className="c"+IP.col;
-  if(!userPl.length){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("br"),"دوس «إضافة قايمة» وصوّر الكود من موبايلك،",el("br"),"والزق رابط m3u أو اكتب بيانات Xtream."));ipPrev(null);ipStopPreview();$("#ip-count").textContent="";$("#ip-pl").textContent="";return}
-  if(IP.loading||IP.err){ce.replaceChildren();le.replaceChildren(el("div",{class:"ipempty"},IP.loading?"جاري تحميل القايمة…":el("b",{text:"مقدرتش أحمّل القايمة"}),IP.err?el("br"):null,IP.err||"",IP.err?el("br"):null,IP.err?"دوس OK للمحاولة تاني":""));ipPrev(null);ipStopPreview();return}
-  const cs=win(IP.cats.length,IP.cat,IP_CROWS);ce.replaceChildren(...IP.cats.slice(cs,cs+IP_CROWS).map((c,i)=>{const r=el("div",{class:"iprow"+(cs+i===IP.cat?" sel":"")},el("span",{class:"nm",text:c.n}),el("i",{text:arNum(c.c)}));
-    r.onclick=()=>{IP.col=0;IP.cat=cs+i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter();focusEl($("#ip"))};return r}));
-  if(!IP.list.length){le.replaceChildren(el("div",{class:"ipempty",text:IP.q?"مفيش نتيجة بالاسم ده":(IP.secLoad===IP.sec?"جاري تحميل "+(IP.sec==="movie"?"الأفلام":"المسلسلات")+"…":IP.sec==="live"?"القسم ده فاضي":"مفيش "+(IP.sec==="movie"?"أفلام":"مسلسلات")+" في القايمة دي")}))}
-  else{const ls=win(IP.list.length,IP.idx,IP_ROWS);le.replaceChildren(...IP.list.slice(ls,ls+IP_ROWS).map((c,i)=>{const lgx=el("span",{class:"lg"});
-    if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>{im.remove();lgx.append(icon("i-tv"))};lgx.append(im)}else lgx.append(icon("i-tv"));
-    const r=el("div",{class:"iprow"+(ls+i===IP.idx?" sel":"")},el("span",{class:"no",text:arNum(ls+i+1)}),lgx,el("span",{class:"nm",text:cleanName(c.name)}),isFav(c)?el("span",{class:"st",text:"★"}):null);
-    r.onclick=()=>{const was=IP.idx===ls+i&&IP.col===1;IP.col=1;IP.idx=ls+i;ipRender();focusEl($("#ip"));if(was)ipPlay()};return r}))}
-  ipPrev(IP.drill?{name:IP.drill.name,logo:IP.drill.logo,group:cleanName((IP.list[IP.idx]||{}).name||"")}:IP.list[IP.idx]);const p=userPl.find(x=>x.id===IP.pl);$("#ip-pl").textContent=(p?p.n:"")+(IP.acct?" · "+IP.acct:"");
-  $("#ip-count").textContent=IP.list.length?(arNum(IP.idx+1)+" من "+arNum(IP.list.length)+(IP.q?" · نتيجة البحث":" · "+(IP.cats[IP.cat]||{n:""}).n)):"";ipPreviewSoon()}
-function ipPrev(c){const pl=$("#ip-plate");if(!c){pl.replaceChildren(icon("i-tv"));$("#ip-t").textContent="—";$("#ip-g").textContent="";return}
-  const nm=cleanName(c.name);pl.replaceChildren(el("b",{text:nm}));if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onload=()=>{if(im.naturalWidth>=40)pl.replaceChildren(im)};}
-  $("#ip-t").textContent=nm;$("#ip-g").textContent=c.group||""}
+  if(q)L=L.filter(c=>c.name.toLowerCase().indexOf(q)>=0);if(!ct.all)L=L.filter(c=>ipGrp(c)===ct.n);
+  IP.list=L;if(view==="iptv")channels=L;ipRender()}
+const ipHue=t=>{let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))%997;return(250+h%80)%360};
+const ipHM=s=>dtf("ar-EG",{hour:"numeric",minute:"2-digit",timeZone:city.tz}).format(new Date(s*1000));
+const ipDay=s=>dtf("ar-EG",{weekday:"short",day:"numeric",month:"numeric",timeZone:city.tz}).format(new Date(s*1000));
+const ipIco=id=>id.slice(0,2)==="i-"?icon(id):el("span",{class:"gl",text:id});
+const ipBtn=(t,fn)=>{const b=el("button",{class:"ivbtn","data-nav":"",text:t});b.onclick=fn;return b};
+const IP_HOME=[["live","i-tv","البث المباشر","g1"],["movie","i-play","الأفلام","g2"],["series","i-book","المسلسلات","g3"],["kids","i-users","الأطفال","g4"],["fav","★","المفضلة","g5"],["catchup","i-clock","إعادة المشاهدة","g6"],["guide","i-apps","دليل البرامج","g7"]];
+const IP_NAV=[["home","i-apps","الرئيسية"],["live","i-tv","البث المباشر"],["movie","i-play","الأفلام"],["series","i-book","المسلسلات"],["kids","i-users","الأطفال"],["fav","★","المفضلة"],["settings","i-gear","الإعدادات"]];
+const IP_TITLE={live:"البث المباشر",movie:"الأفلام",series:"المسلسلات",kids:"الأطفال",fav:"المفضلة",guide:"دليل البرامج",catchup:"إعادة المشاهدة",settings:"الإعدادات",search:""};
+const SETSEC=[["gen","عام"],["pl","المشغّل"],["par","الرقابة الأبوية"],["acc","الحساب"],["abt","عن التطبيق"]];
+const EPG={};let epgQ=[],epgBusy=0;
 /* ---------- Xtream Codes API: live, movies and series come from the panel itself (like IPTV Smarters) ---------- */
 function xtOf(p){const m=(p&&p.u||"").match(/^(https?:\/\/[^\/?#]+)\/(?:get|player_api|panel_api)\.php\?([^#]*)/i);if(!m)return null;const q={};
   m[2].split("&").forEach(x=>{const i=x.indexOf("=");if(i>0){try{q[x.slice(0,i)]=decodeURIComponent(x.slice(i+1).replace(/\+/g," "))}catch(e){q[x.slice(0,i)]=x.slice(i+1)}}});
@@ -1163,8 +1100,8 @@ function xtAcct(ui){let t="الاشتراك شغال";if(ui.exp_date&&+ui.exp_da
   if(ui.max_connections)t+=" · اتصالات "+arNum(ui.active_cons||0)+" من "+arNum(ui.max_connections);return t}
 const xtCats=a=>{const m={};(Array.isArray(a)?a:[]).forEach(c=>m[c.category_id]=c.category_name);return m};
 async function xtLive(x,ui){const r=await Promise.all([xtGet(x,"get_live_categories"),xtGet(x,"get_live_streams")]);const cm=xtCats(r[0]);if(!Array.isArray(r[1]))return null;
-  const ext=((ui.allowed_output_formats||[]).indexOf("m3u8")>=0)?"m3u8":"ts";
-  return r[1].map(s=>({name:s.name||"",url:x.base+"/live/"+x.u+"/"+x.p+"/"+s.stream_id+"."+ext,logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"live"}))}
+  const ext=IPS.fmt==="hls"?"m3u8":IPS.fmt==="ts"?"ts":((ui.allowed_output_formats||[]).indexOf("m3u8")>=0)?"m3u8":"ts";
+  return r[1].map(s=>({name:s.name||"",url:x.base+"/live/"+x.u+"/"+x.p+"/"+s.stream_id+"."+ext,logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"live",id:s.stream_id,arch:(+s.tv_archive===1)?(+s.tv_archive_duration||1):0}))}
 async function ipEnsureSec(sec){const x=IP.xt;if(!x||sec==="live"||IP.xtDone[sec]||IP.secLoad===sec)return;const pl=IP.pl;IP.secLoad=sec;ipRender();let items=[];
   try{if(sec==="movie"){const r=await Promise.all([xtGet(x,"get_vod_categories"),xtGet(x,"get_vod_streams")]);const cm=xtCats(r[0]);
       items=(Array.isArray(r[1])?r[1]:[]).map(s=>({name:s.name||"",url:x.base+"/movie/"+x.u+"/"+x.p+"/"+s.stream_id+"."+(s.container_extension||"mp4"),logo:s.stream_icon||"",group:cm[s.category_id]||"أخرى",kind:"movie"}))}
@@ -1172,59 +1109,132 @@ async function ipEnsureSec(sec){const x=IP.xt;if(!x||sec==="live"||IP.xtDone[sec
       items=(Array.isArray(r[1])?r[1]:[]).map(s=>({name:s.name||"",url:"xt-series:"+s.series_id,sid:s.series_id,logo:s.cover||"",group:cm[s.category_id]||"أخرى",kind:"series"}))}
     if(IP.pl!==pl)return;IP.items=IP.items.filter(c=>c.kind!==sec).concat(items);IP.xtDone[sec]=1}
   catch(e){toast("مقدرتش أحمّل "+(sec==="movie"?"الأفلام":"المسلسلات")+": "+((e&&e.message)||""))}
-  IP.secLoad="";if(IP.sec===sec)ipCompute();else ipRender()}
+  IP.secLoad="";ipCompute(true)}
 async function ipOpenSeries(c){const x=IP.xt;if(!x)return;toast("جاري تحميل الحلقات…");
   try{const j=await xtGet(x,"get_series_info","&series_id="+c.sid);const E=j.episodes||{},eps=[];
     Object.keys(E).sort((a,b)=>a-b).forEach(sn=>{(E[sn]||[]).forEach(e=>{const t=(e.title||"").replace(/^.*?S\d+\s*E\d+\s*[-–:]?\s*/i,"");
       eps.push({name:c.name+" · م"+arNum(sn)+" ح"+arNum(e.episode_num||eps.length+1)+(t&&t!==c.name?" · "+t:""),url:x.base+"/series/"+x.u+"/"+x.p+"/"+e.id+"."+(e.container_extension||"mkv"),logo:(e.info&&e.info.movie_image)||c.logo,group:"الموسم "+arNum(sn),kind:"series"})})});
     if(!eps.length){toast("مفيش حلقات متاحة للمسلسل ده");return}
-    IP.drill={name:c.name,logo:c.logo,items:eps,back:{cat:IP.cat,idx:IP.idx}};IP.cat=0;IP.idx=0;IP.q="";$("#ip-q").value="";ipStopPreview();ipCompute();IP.col=1;ipRender();focusEl($("#ip"))}
+    IP.drill={name:c.name,logo:c.logo,items:eps,back:{cat:IP.cat,idx:IP.idx}};IP.cat=0;IP.idx=0;IP.sig="";ipCompute();ipFocusFirst()}
   catch(e){toast("مقدرتش أحمّل الحلقات: "+((e&&e.message)||""))}}
-function ipBack(){if(!IP.drill)return false;const b=IP.drill.back;IP.drill=null;ipCompute();IP.cat=Math.min(b.cat,IP.cats.length-1);ipFilter();IP.idx=Math.min(b.idx,Math.max(0,IP.list.length-1));IP.col=1;ipRender();ipRestoreFocus();return true}
+function ipBack(){if(IP.cu){IP.cu=null;ipRender();ipRefocus();return true}if(!IP.drill)return false;const b=IP.drill.back;IP.drill=null;ipCompute();IP.cat=Math.min(b.cat,IP.cats.length-1);ipFilter();ipRefocus();return true}
 async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=userPl.length?userPl[0].id:"";store.set("ipPl",IP.pl);IP.err="";IP.q="";$("#ip-q").value="";
-  if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];IP.drill=null;IP.xtDone={};IP.secLoad="";IP.acct="";const p=userPl.find(x=>x.id===IP.pl);IP.xt=xtOf(p);ipRender();
+  if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];IP.drill=null;IP.cu=null;IP.xtDone={};IP.secLoad="";IP.acct="";const p=userPl.find(x=>x.id===IP.pl);IP.xt=xtOf(p);ipRender();
   try{let L=null;
     if(IP.xt){try{const ui=await xtInfo(IP.xt);IP.acct=xtAcct(ui);L=await xtLive(IP.xt,ui)}catch(e){if(/الاشتراك|اسم المستخدم/.test((e&&e.message)||""))throw e;L=null}if(L&&!L.length)L=null}
     if(!L){L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)})}
     if(IP.pl!==p.id)return;
     if(IP.xt){L=L.filter(c=>c.kind==="live");IP.xtDone={}}
-    IP.items=L;IP.loading=false;IP.sec="live";IP.page=IP.xt?"home":"live";IP.idx=0;IP.col=1;ipCompute();if(IP.page==="home")ipHomeLoad()}
+    IP.items=L;IP.loading=false;const rp=IPS.resume?store.get("ipPage","home"):"home";ipGo(rp);ipHomeLoad();ipAuto()}
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
-function ipPlay(){if(!IP.list.length)return;const c0=IP.list[IP.idx];if(c0&&c0.kind==="series"&&c0.sid){ipOpenSeries(c0);return}ipStopPreview();channels=IP.list;IP.last={list:IP.list,i:IP.idx,c:c0};playChannel(IP.idx)}
-function ipKey(k){if(IP.err&&k==="C"){ipOpen();return true}if(!userPl.length||IP.loading)return k!=="U";
-  /* top row: categories (or seasons) as chips; below: the list. ◀ ▶ move along the chips, ▲ ▼ move between the two rows and inside the list */
-  if(IP.col===0){const n=IP.cats.length;let i=IP.cat;
-    if(k==="L"||k==="R"){if(k==="R"&&i===0)return false;i=Math.max(0,Math.min(n-1,i+(k==="L"?1:-1)));if(i!==IP.cat){IP.cat=i;IP.idx=0;IP.q="";$("#ip-q").value="";ipFilter()}return true}
-    if(k==="D"||k==="C"||k==="CD"){if(IP.list.length){IP.col=1;ipRender()}return true}
-    return false}
-  const n=IP.list.length,page=IP_ROWS;let i=IP.idx;
-  if(k==="U"||k==="D"||k==="CU"||k==="CD"){if(k==="U"&&i===0){if(IP.cats.length){IP.col=0;ipRender();return true}return false}
-    const d=k==="U"?-1:k==="D"?1:k==="CU"?-page:page;i=Math.max(0,Math.min(n-1,i+d));IP.idx=i;ipRender();return true}
-  if(k==="R")return false;
-  if(k==="L")return true;
-  if(k==="C"){ipPlay();return true}
-  if(k==="CL"||k==="RED"){const c=IP.list[IP.idx];if(c){toggleFav(c);ipCompute(true)}return true}
-  return false}
-$("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.idx=0;IP.col=1;IP.gn=30;if(IP.page==="home"||IP.page==="fav"&&!IP.q){if(IP.page==="home"){IP.page="live";IP.sec="live";ipCompute()}else ipRender()}else if(IP.page==="fav")ipRender();else ipFilter()});
-$("#ip-add").onclick=openAddPanel;
-$("#ip").addEventListener("wheel",e=>{e.preventDefault();ipKey(e.deltaY>0?"D":"U")},{passive:false});
+function ipAuto(){if(!IPS.auto||loaded.auto)return;loaded.auto=1;const c=store.get("ipLast",null);if(c&&c.url){channels=[c];IP.last={c:c,list:[c],i:0};playChannel(0)}}
+function ipHomeLoad(){if(!IP.xt)return;ipEnsureSec("movie").then(()=>ipEnsureSec("series"))}
+function ipGo(p){IP.page=p;IP.drill=null;IP.cu=null;IP.q="";$("#ip-q").value="";IP.cat=0;IP.idx=0;IP.sig="";
+  if(["live","movie","series","kids","fav","search","guide","catchup"].indexOf(p)>=0){IP.sec=p;if(IP.xt&&(p==="movie"||p==="series"))ipEnsureSec(p);if(IP.xt&&p==="kids")ipHomeLoad();
+    if(["live","movie","series","kids","fav"].indexOf(p)>=0)store.set("ipPage",p);ipCompute()}else ipRender();
+  ipFocusFirst()}
+function ipFocusFirst(){setTimeout(()=>{if(view!=="iptv"||$("#iv").hidden)return;const b=$("#iv-body");let t=null;
+  if(IP.page==="home")t=$("#iv-t-"+IP.hm);else if(IP.page==="search")t=$("#ip-q");
+  if(!t)t=b.querySelector(".lt,.mp,.er,.gr,.sr,.ivbtn")||b.querySelector(".vc.on")||b.querySelector("[data-nav]")||$("#iv-set");focusEl(t)},0)}
+function ipRefocus(){setTimeout(()=>{if(view!=="iptv"||$("#iv").hidden)return;if(IP.page==="home"){ipFocusFirst();return}let t=null;
+  const all=$("#iv-body").querySelectorAll("[data-nav]");for(let i=0;i<all.length;i++){if(all[i]._ch&&all[i]._ch.url===IP.fk){t=all[i];break}}
+  if(t)focusEl(t);else ipFocusFirst()},0)}
+function ipBackKey(){if(IP.cu||IP.drill)return ipBack();if(IP.page!=="home"){ipGo("home");return true}show(IP.from&&IP.from!=="iptv"?IP.from:"home");focusView();return true}
+function ipRecent(c){let R=store.get("ipRecent",[]).filter(x=>x.url!==c.url);R.unshift({name:c.name,url:c.url,logo:c.logo||"",kind:c.kind,sid:c.sid,id:c.id});store.set("ipRecent",R.slice(0,14))}
+function ipActivate(c){if(IP.page==="catchup"&&!IP.drill&&!IP.cu){ipCuOpen(c);return}IP.fk=c.url;
+  if(c.kind==="series"&&c.sid){if(["series","kids","fav","search"].indexOf(IP.page)<0){IP.page="series";IP.sig=""}ipOpenSeries(c);return}
+  let L=[c],i=0;const li=IP.list.indexOf(c);if(c.kind==="live"&&li>=0&&["home","fav","search"].indexOf(IP.page)<0){L=IP.list.filter(x=>x.kind==="live");i=Math.max(0,L.indexOf(c))}
+  channels=L;IP.last={c:c,list:L,i:i};ipRecent(c);if(c.kind==="live")store.set("ipLast",{name:c.name,url:c.url,logo:c.logo||"",kind:"live"});playChannel(i)}
+function ipCuPlay(p){const x=IP.xt,c=IP.cu.ch;if(!x)return;const dur=Math.max(1,Math.round((p.e-p.s)/60)),st=p.st||"";
+  const ts=st.slice(0,10)+":"+st.slice(11,13)+"-"+st.slice(14,16);
+  const it={name:cleanName(c.name)+" · "+p.t,url:x.base+"/timeshift/"+x.u+"/"+x.p+"/"+dur+"/"+ts+"/"+c.id+".ts",logo:c.logo,group:"",kind:"movie"};
+  channels=[it];IP.last={c:it,list:[it],i:0};IP.fk=p.t;playChannel(0)}
+const b64u=t=>{try{return decodeURIComponent(escape(atob(t)))}catch(e){try{return atob(t)}catch(_){return t||""}}};
+async function ipCuOpen(c){const x=IP.xt;if(!x||!c.id){toast("إعادة المشاهدة بتشتغل مع قوايم Xtream بس");return}toast("جاري تحميل برامج القناة…");
+  try{const j=await xtGet(x,"get_simple_data_table","&stream_id="+c.id),now=Date.now()/1000;
+    const P=((j&&j.epg_listings)||[]).map(e=>({t:b64u(e.title),s:+e.start_timestamp,e:+e.stop_timestamp,st:e.start||"",ar:+e.has_archive})).filter(p=>p.e<now&&p.ar===1).sort((a,b)=>b.s-a.s);
+    if(!P.length){toast("مفيش برامج متاحة للإعادة على القناة دي");return}
+    IP.cu={ch:c,progs:P};IP.fk=c.url;IP.sig="";ipRender();ipFocusFirst()}
+  catch(e){toast("مقدرتش أحمّل البرامج: "+((e&&e.message)||""))}}
+async function ipEpg(c){if(!IP.xt||!c.id)return[];if(!EPG[c.id])EPG[c.id]=xtGet(IP.xt,"get_short_epg","&stream_id="+c.id+"&limit=4").then(j=>((j&&j.epg_listings)||[]).map(e=>({t:b64u(e.title),s:+e.start_timestamp,e:+e.stop_timestamp}))).catch(()=>[]);return EPG[c.id]}
+function ipEpgPump(){while(epgBusy<3&&epgQ.length){const j=epgQ.shift();epgBusy++;const done=()=>{epgBusy--;ipEpgPump()};ipEpg(j.c).then(L=>{j.cb(L);done()},done)}}
+function ipEpgFill(rows){if(!IP.xt)return;rows.forEach(r=>{const c=r._ch;if(!c.id)return;epgQ.push({c:c,cb:L=>{const now=Date.now()/1000,P=L.filter(e=>e.e>now).slice(0,3),cs=r.querySelectorAll(".pg");
+  P.forEach((e,i)=>{cs[i].replaceChildren(el("small",{text:ipHM(e.s)+" – "+ipHM(e.e)}),el("b",{text:e.t}))});if(!P.length)cs[0].textContent="—"}})});ipEpgPump()}
+/* tiles */
+function ipImg(c,cls){const d=el("div",{class:cls});if(c.logo&&/^https?:/.test(c.logo)){const im=el("img",{alt:"",src:c.logo});im.onerror=()=>im.remove();d.append(im)}return d}
+function ipTileLive(c){const b=el("button",{class:"lt","data-nav":""},ipImg(c,"lg"),el("b",{text:cleanName(c.name)}));b._ch=c;if(isFav(c))b.append(el("span",{class:"star",text:"★"}));b.onclick=()=>ipActivate(c);return b}
+function ipTilePoster(c){const b=el("button",{class:"mp","data-nav":""},ipImg(c,"pi"),el("b",{text:cleanName(c.name)}));b._ch=c;const h=ipHue(c.name||"");b.style.backgroundImage="linear-gradient(160deg,hsl("+h+",45%,26%),hsl("+h+",55%,10%))";if(isFav(c))b.append(el("span",{class:"star",text:"★"}));b.onclick=()=>ipActivate(c);return b}
+function ipTileEp(c){const b=el("button",{class:"er","data-nav":""},el("span",{class:"pl",text:"▶"}),el("b",{text:cleanName(c.name).replace(IP.drill?IP.drill.name+" · ":"","")}));b._ch=c;b.onclick=()=>ipActivate(c);return b}
+function ipTileProg(p){const b=el("button",{class:"er","data-nav":""},el("span",{class:"tm",text:ipDay(p.s)+" "+ipHM(p.s)}),el("b",{text:p.t}),el("span",{class:"pl",text:"▶"}));b.onclick=()=>ipCuPlay(p);return b}
+function ipTileGuide(c){const b=el("button",{class:"gr","data-nav":""},el("span",{class:"gc"},ipImg(c,"lg"),el("b",{text:cleanName(c.name)})),el("span",{class:"pg now"}),el("span",{class:"pg"}),el("span",{class:"pg"}));b._ch=c;b.onclick=()=>ipActivate(c);return b}
+function ipCatIco(c){const n=c.n;let id="i-tv";if(c.all)id="i-apps";else if(/sport|رياض|كأس|bein|ball/i.test(n))id="i-ball";else if(/news|أخبار|اخبار/i.test(n))id="i-radio";else if(/kids|أطفال|اطفال|cartoon|كرتون/i.test(n))id="i-users";else if(/movie|film|أفلام|افلام|cinema|سينما/i.test(n))id="i-play";else if(/music|موسيق|اغاني|أغاني/i.test(n))id="i-radio";else if(/quran|قرآن|islam|اسلام|إسلام/i.test(n))id="i-moon";return icon(id)}
+/* pages */
+function ipState(){if(!userPl.length)return el("div",{class:"ivstate"},el("b",{text:"لسه مفيش قايمة IPTV"}),el("span",{text:"أضف قايمتك: صوّر الكود من موبايلك وابعت رابط m3u أو بيانات Xtream."}),ipBtn("إضافة قايمة",openAddPanel));
+  if(IP.loading)return el("div",{class:"ivstate"},el("b",{text:"جاري تحميل القايمة…"}),el("span",{text:"أول مرة ممكن ياخد دقيقة لو القايمة كبيرة"}));
+  if(IP.err)return el("div",{class:"ivstate"},el("b",{text:"مقدرتش أحمّل القايمة"}),el("span",{text:IP.err}),ipBtn("حاول تاني",()=>ipOpen()),ipBtn("إضافة قايمة",openAddPanel));return null}
+function ipHead(){const home=IP.page==="home";$("#iv-back").hidden=home;$("#iv-sub").hidden=!home;$("#iv-sbar").hidden=IP.page!=="search";
+  $("#iv-title").textContent=IP.drill?IP.drill.name:IP.cu?cleanName(IP.cu.ch.name):home?"":(IP_TITLE[IP.page]||"")}
+function ivClock(){const n=new Date();$("#iv-clk").textContent=clockStr(n);$("#iv-date").textContent=dtf("ar-EG",{weekday:"short",day:"numeric",month:"short",timeZone:city.tz}).format(n)}
+function ipRender(){ipHead();ivClock();const b=$("#iv-body"),p=IP.page;let fi=-1;if(p==="home"&&b.contains(document.activeElement))fi=Array.prototype.indexOf.call(b.querySelectorAll("[data-nav]"),document.activeElement);
+  const nb=$("#ip-now");nb.hidden=!IP.last||p==="settings"||p==="search";if(IP.last)$("#ip-now-t").textContent=cleanName(IP.last.c.name||"");
+  if(p==="settings")ipRenderSettings(b);
+  else{const st=ipState();if(st){IP.sig="";b.replaceChildren(st)}else if(p==="home"){IP.sig="";ipRenderHome(b)}else ipRenderBrowse(b)}
+  if(fi>=0){const n=b.querySelectorAll("[data-nav]")[fi];if(n)n.focus({preventScroll:true})}
+  if(view==="iptv"&&!$("#iv").hidden&&!$("#iv").contains(document.activeElement)&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#guest").hidden)ipFocusFirst()}
+function ipRenderHome(b){const A=ipAll(),n={live:0,movie:0,series:0,arch:0};A.forEach(c=>{n[c.kind]=(n[c.kind]||0)+1;if(c.arch)n.arch++});
+  const ld=k=>!IP.xt?"":IP.xtDone[k]?"":"جاري التحميل…";
+  const sub={live:arNum(n.live)+" قناة",movie:n.movie?arNum(n.movie)+" فيلم":(ld("movie")||"شاهد الأفلام"),series:n.series?arNum(n.series)+" مسلسل":(ld("series")||"شاهد المسلسلات"),kids:"محتوى للصغار",fav:arNum(favs.length)+" عنصر",catchup:n.arch?arNum(n.arch)+" قناة":"شاهد اللي فات",guide:"الآن والجاي"};
+  const nav=el("nav",{class:"ivnav"},...IP_NAV.map(x=>{const q=el("button",{"data-nav":"","aria-pressed":String(x[0]==="home")},ipIco(x[1]),el("span",{text:x[2]}));
+    q.onclick=()=>{if(x[0]==="home")return;if(IP_HOME.some(h=>h[0]===x[0]))IP.hm=x[0];ipGo(x[0])};return q}));
+  const tiles=el("div",{class:"ivtiles"},...IP_HOME.map((x,i)=>{const t=el("button",{class:"tl "+(i<3?"big ":"sm ")+x[3],id:"iv-t-"+x[0],"data-nav":""},ipIco(x[1]),el("b",{text:x[2]}),el("small",{text:sub[x[0]]}));
+    t.onclick=()=>{IP.hm=x[0];ipGo(x[0])};return t}));
+  const kids=[tiles];let R=store.get("ipRecent",[]);if(IPS.hide)R=R.filter(c=>!ADULT.test(c.name||""));
+  if(R.length){kids.push(el("div",{class:"ivrh",text:"شاهدت مؤخراً"}),el("div",{class:"ivrecent"},...R.slice(0,7).map(c=>{const t=c.kind==="live"?ipTileLive(c):ipTilePoster(c);t.onclick=()=>ipActivate(c);return t})))}
+  b.replaceChildren(el("div",{class:"ivhome"},nav,el("div",{class:"ivmain"},...kids)))}
+function ipRenderBrowse(b){const p=IP.page,cu=!!IP.cu;
+  const sig=p+"|"+(IP.drill?IP.drill.name:"")+"|"+(cu?"cu":"")+"|"+IP.cats.length+"|"+(IP.cats[0]?IP.cats[0].c:0);
+  let cats=$("#iv-cats"),g=$("#iv-grid");
+  if(IP.sig!==sig||!g){IP.sig=sig;const w=el("div",{class:"ivbrowse"+(cu?" nocat":"")});cats=null;
+    if(!cu){cats=el("div",{class:"ivcats",id:"iv-cats"});w.append(cats)}
+    g=el("div",{class:"ivgrid",id:"iv-grid"});w.append(g);b.replaceChildren(w);
+    if(cats)cats.replaceChildren(...IP.cats.map((c,i)=>{const r=el("button",{class:"vc","data-nav":""},ipCatIco(c),el("span",{class:"nm",text:c.n}),el("i",{text:arNum(c.c)}));r.onclick=()=>{IP.cat=i;IP.idx=0;ipFilter()};return r}))}
+  if(cats)Array.prototype.forEach.call(cats.children,(r,i)=>r.classList.toggle("on",i===IP.cat));
+  ipFillGrid(true)}
+function ipFillGrid(reset){const g=$("#iv-grid");if(!g)return;const p=IP.page,L=IP.cu?IP.cu.progs:IP.list;
+  if(reset){g.replaceChildren();g.scrollTop=0;IP.shown=0;g.className="ivgrid "+(IP.cu||IP.drill||p==="guide"?"g1":(p==="live"||p==="catchup")?"g4":"g5");
+    if(!L.length){g.append(el("div",{class:"ivempty",text:IP.secLoad&&["movie","series","kids"].indexOf(p)>=0?"جاري تحميل المحتوى…":p==="search"?(IP.q.trim()?"مفيش نتيجة بالاسم ده":"اكتب اسم قناة أو فيلم أو مسلسل"):p==="fav"?"لسه ما ضفتش حاجة للمفضلة. اضغط OK مطوّل على أي عنصر":p==="catchup"?"القايمة دي مفيهاش قنوات بإعادة مشاهدة":"مفيش حاجة في القسم ده"}));return}
+    if(p==="guide"&&!IP.drill&&!IP.xt)g.append(el("div",{class:"ivnote",text:"دليل البرامج بيشتغل مع قوايم Xtream بس"}))}
+  const next=L.slice(IP.shown,IP.shown+IP.gn);IP.shown+=next.length;
+  if(IP.cu)next.forEach(x=>g.append(ipTileProg(x)));
+  else if(p==="guide"&&!IP.drill){const rows=next.map(ipTileGuide);rows.forEach(r=>g.append(r));ipEpgFill(rows)}
+  else next.forEach(c=>g.append(IP.drill?ipTileEp(c):c.kind==="live"?ipTileLive(c):ipTilePoster(c)))}
+function ipRows(s){const pl=userPl.find(x=>x.id===IP.pl);
+  if(s==="gen")return[{t:"فتح IPTV على آخر قسم زرته",tg:"resume",sub:"بدل الصفحة الرئيسية"},{t:"تشغيل آخر قناة تلقائياً",tg:"auto",sub:"أول ما تفتح التطبيق"}];
+  if(s==="pl")return[{t:"صيغة البث المباشر",sub:"لو قناة مش بتشتغل جرّب صيغة تانية",v:()=>({auto:"تلقائي",hls:"HLS",ts:"TS"})[IPS.fmt],act(){IPS.fmt=IPS.fmt==="auto"?"hls":IPS.fmt==="hls"?"ts":"auto";ipSave();if(IP.pl)ipOpen()}}];
+  if(s==="par")return[{t:"إخفاء المحتوى +١٨",tg:"hide",sub:"بيخفي الفئات والأسماء المخصّصة للكبار"}];
+  if(s==="acc")return[{t:"القايمة الحالية",v:()=>pl?pl.n:"—"},{t:"الاشتراك",v:()=>IP.acct||"—"},{t:"تحديث القايمة",act(){if(IP.pl)ipOpen()}},{t:"إضافة / تغيير قايمة",act:openAddPanel},
+    {t:"مسح الكاش",act(){Object.keys(plCache).forEach(k=>delete plCache[k]);Object.keys(EPG).forEach(k=>delete EPG[k]);toast("اتمسح الكاش")}}];
+  return[{t:"Ahly TV · واجهة IPTV",v:()=>"إصدار جديد"}]}
+function ipRenderSettings(b){if(IP.sig!=="set"||!$("#iv-grid")){IP.sig="set";const w=el("div",{class:"ivbrowse"},el("div",{class:"ivcats",id:"iv-cats"}),el("div",{class:"ivgrid g1",id:"iv-grid"}));b.replaceChildren(w);
+    $("#iv-cats").replaceChildren(...SETSEC.map(s=>{const r=el("button",{class:"vc","data-nav":""},el("span",{class:"gl",text:"•"}),el("span",{class:"nm",text:s[1]}),el("i"));r.onclick=()=>{IP.ss=s[0];ipRenderSettings(b)};return r}))}
+  Array.prototype.forEach.call($("#iv-cats").children,(r,i)=>r.classList.toggle("on",SETSEC[i][0]===IP.ss));
+  $("#iv-grid").replaceChildren(...ipRows(IP.ss).map(r=>{const bt=el("button",{class:"sr","data-nav":""},el("span",{class:"st2"},el("b",{text:r.t}),r.sub?el("small",{text:r.sub}):null));
+    if(r.tg){const sw=el("span",{class:"sw"+(IPS[r.tg]?" on":"")},el("i"));bt.append(sw);bt.onclick=()=>{IPS[r.tg]=IPS[r.tg]?0:1;ipSave();sw.classList.toggle("on",!!IPS[r.tg])}}
+    else{const v=el("span",{class:"sv",text:r.v?r.v():""});bt.append(v);bt.onclick=()=>{if(r.act)r.act();v.textContent=r.v?r.v():""}}return bt}))}
+$("#ip-now").onclick=()=>{const L=IP.last;if(!L)return;if(L.list){channels=L.list;playChannel(L.i)}else{channels=[L.c];playChannel(0)}};
+$("#iv-back").onclick=()=>ipBackKey();
+$("#iv-search").onclick=()=>{ipGo("search")};
+$("#iv-set").onclick=()=>{ipGo("settings")};
+$("#ip-q").addEventListener("input",()=>{IP.q=$("#ip-q").value;IP.cat=0;IP.idx=0;ipCompute()});
+$("#iv-body").addEventListener("focusin",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t.closest(".ivgrid,.ivcats")){if(t.scrollIntoViewIfNeeded)t.scrollIntoViewIfNeeded(false);else t.scrollIntoView(false)}
+  const g=$("#iv-grid");if(g&&g.contains(t)&&!IP.cu&&IP.shown<IP.list.length&&t.parentNode===g){const i=Array.prototype.indexOf.call(g.children,t);if(i>=g.children.length-6)ipFillGrid(false)}
+  else if(g&&g.contains(t)&&IP.cu&&IP.shown<IP.cu.progs.length&&t.parentNode===g&&Array.prototype.indexOf.call(g.children,t)>=g.children.length-4)ipFillGrid(false)});
+setInterval(()=>{if(view==="iptv")ivClock()},20000);
+/* the old in-page live preview is gone with the new design; keep the hooks the native side may still call */
+function ipStopPreview(){}
+window.onPreviewState=function(){};
 
-
-/* ---------- live preview inside the IPTV screen (native player on top of the page) ---------- */
-const hasPrev=()=>!!(bridge&&bridge.previewPlay);
-let ipPT=0;
-function ipVidRect(){const r=$("#ip-vid").getBoundingClientRect();return[r.left,r.top,r.width,r.height,innerWidth]}
-function ipStopPreview(){clearTimeout(ipPT);if(IP.pv){IP.pv="";if(hasPrev())bridge.previewStop();ipStatus("")}}
-function ipStatus(t){const e=$("#ip-st");if(e)e.textContent=t||""}
-function ipOverlays(){return !$("#adhan").hidden||!$("#nowp").hidden||!$("#guest").hidden||!$("#saver").hidden||!$("#player").hidden||!$("#pl-panel").hidden||!$("#black").hidden}
-function ipPreviewSoon(){clearTimeout(ipPT);if(!hasPrev())return;
-  const c=IP.list[IP.idx];if(view!=="iptv"||!c||IP.page!=="live"||IP.sec!=="live"||IP.drill||IP.loading||IP.err){ipStopPreview();return}
-  if(IP.col!==1)return;if(IP.pv===c.url)return;
-  ipStatus("جاري التشغيل…");ipPT=setTimeout(()=>{if(view!=="iptv"||IP.col!==1||ipOverlays())return;const c2=IP.list[IP.idx];if(!c2||c2.url!==c.url)return;
-    try{$("#radio").pause()}catch(e){}IP.pv=c.url;const r=ipVidRect();bridge.previewPlay(c.url,r[0],r[1],r[2],r[3],r[4])},650)}
-window.onPreviewState=function(s){if(!IP.pv)return;ipStatus(s==="playing"?"":s==="error"?"القناة دي مش بتشتغل دلوقتي، جرّب غيرها":"جاري التشغيل…")};
-window.addEventListener("scroll",()=>{if(IP.pv&&hasPrev()){const r=ipVidRect();bridge.previewRect(r[0],r[1],r[2],r[3],r[4])}},{passive:true});
-setInterval(()=>{if(IP.pv&&(view!=="iptv"||ipOverlays()||document.hidden))ipStopPreview()},700);
 
 /* ---------- screensaver ---------- */
 let saverDelay=store.get("saverDelay",10),lastInput=Date.now(),inPlayer=false,saverPos=0;
@@ -1335,7 +1345,7 @@ let favs=store.get("favs",[]),recent=store.get("recent",[]);
 const allPl=()=>(favs.length?[{id:"fav",n:"★ المفضلة",local:"favs"}]:[]).concat(recent.length?[{id:"recent",n:"شاهدت مؤخراً",local:"recent"}]:[],FREE);
 const chKey=c=>c.url;
 function isFav(c){return favs.some(f=>f.url===c.url)}
-function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة"});toast("★ اتضافت للمفضلة")}
+function toggleFav(c){if(isFav(c)){favs=favs.filter(f=>f.url!==c.url);toast("اتشالت من المفضلة")}else{favs.unshift({name:c.name,url:c.url,logo:c.logo||"",group:"المفضلة",kind:c.kind,sid:c.sid});toast("★ اتضافت للمفضلة")}
   store.set("favs",favs);delete plCache.fav;renderSources();const cur=document.activeElement;if(cur&&cur._ch){const st=cur.querySelector(".star");if(isFav(c)&&!st)cur.prepend(el("span",{class:"star",text:"★"}));if(!isFav(c)&&st)st.remove()}}
 function pushRecent(c){recent=[{name:c.name,url:c.url,logo:c.logo||"",group:"مؤخراً"}].concat(recent.filter(x=>x.url!==c.url)).slice(0,12);store.set("recent",recent);delete plCache.recent;renderRecent()}
 function renderRecent(){const room=Math.max(0,7-$("#my-apps").children.length);$("#recent-sec").hidden=!recent.length;$("#recent").replaceChildren(...recent.slice(0,room).map((c,i)=>{const n=card(cleanName(c.name),logoArt(c.logo,"i-tv",cleanName(c.name)),()=>{channels=recent.slice();playChannel(i)});n._ch=c;return n}))}
@@ -1386,21 +1396,21 @@ function showOsd(){$("#osd").classList.remove("hide");clearTimeout(osdT);osdT=se
 function closePlayer(){playToken++;const v=$("#video");if(hls){hls.destroy();hls=null}v.onerror=null;v.pause();v.removeAttribute("src");v.load();$("#player").hidden=true;
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[chIdx])focusEl(tiles[chIdx]);else focusView()}
 
-window.onPlayerClosed=function(i){IP.pv="";inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){if(IP.page==="live"||IP.drill){if(channels===IP.list){IP.idx=Math.min(i,Math.max(0,IP.list.length-1));IP.col=1;ipRender()}focusEl($("#ip"))}else ipRestoreFocus();return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
+window.onPlayerClosed=function(i){IP.pv="";inPlayer=false;lastInput=Date.now();chIdx=i;if(view==="iptv"){ipRefocus();return}const c=channels[i];if(c){store.set("lastCh",cleanName(c.name));$("#t-lastch").textContent="آخر قناة: "+cleanName(c.name)}
   const tiles=document.querySelectorAll("#tv-grid .card");if(tiles[i])focusEl(tiles[i])};
 
 /* add playlist from phone */
 function phoneUrl(){const ip=bridge&&bridge.ip?bridge.ip():"";return ip?("http://"+ip+":8765"):""}
-function openAddPanel(){if(view!=="iptv")show("iptv");$("#pl-panel").hidden=false;$(".ipx").hidden=true;const u=phoneUrl();$("#addr").textContent=u||"افتح التطبيق على الشاشة عشان يظهر الرابط";
+function openAddPanel(){if(view!=="iptv")show("iptv");$("#pl-panel").hidden=false;$("#iv").hidden=true;const u=phoneUrl();$("#addr").textContent=u||"افتح التطبيق على الشاشة عشان يظهر الرابط";
   const q=$("#qr");q.replaceChildren();if(u&&window.qrcode){try{const qr=qrcode(0,"M");qr.addData(u);qr.make();q.innerHTML=qr.createSvgTag({cellSize:6,margin:0,scalable:true})}catch(e){}}
   if(!u)q.replaceChildren(icon("i-phone"));renderPlLists();focusSel("#pl-close")}
-$("#pl-close").onclick=()=>{$("#pl-panel").hidden=true;$(".ipx").hidden=false;ipFocusMain()};
+$("#pl-close").onclick=()=>{$("#pl-panel").hidden=true;$("#iv").hidden=false;ipRefocus()};
 $("#set-addpl").onclick=()=>{show("iptv");openAddPanel()};
 function renderPlLists(){for(const id of ["#pl-list","#pl-list2"]){const box=$(id);box.replaceChildren(...(userPl.length?userPl.map(p=>el("div",{class:"pl"},el("span",{text:p.n+(p.file?" · ملف":"")}),
   el("button",{class:"btn ghost","data-nav":"",text:"حذف",onclick(){userPl=userPl.filter(x=>x.id!==p.id);store.set("playlists",userPl);if(bridge&&p.file&&bridge.deleteFile)bridge.deleteFile(p.id);if(curPl===p.id)curPl="free-eg";delete plCache[p.id];renderPlLists();renderSources()}}))):[el("div",{class:"muted",text:"مفيش قوايم مضافة لسه."})]))}}
 window.onPhoneAdd=function(p){ // called by the app when the phone page sends a playlist
   const item={id:p.id||("u"+Date.now()),n:p.name||"IPTV",u:p.url||"",file:!!p.file};userPl=userPl.filter(x=>x.id!==item.id);userPl.unshift(item);store.set("playlists",userPl);
-  delete plCache[item.id];show("iptv");$("#pl-panel").hidden=true;$(".ipx").hidden=false;ipOpen(item.id);renderPlLists();toast("اتضافت «"+item.n+"» من الموبايل");return "ok"};
+  delete plCache[item.id];show("iptv");$("#pl-panel").hidden=true;$("#iv").hidden=false;ipOpen(item.id);renderPlLists();toast("اتضافت «"+item.n+"» من الموبايل");return "ok"};
 window.listPlaylists=()=>JSON.stringify(userPl.map(p=>({id:p.id,n:p.n,file:!!p.file})));
 window.deletePlaylist=id=>{const p=userPl.find(x=>x.id===id);userPl=userPl.filter(x=>x.id!==id);store.set("playlists",userPl);if(p&&p.file&&bridge&&bridge.deleteFile)bridge.deleteFile(id);if(curPl===id)curPl="free-eg";renderPlLists();renderSources();if(IP.pl===id){IP.pl="";if(view==="iptv")ipOpen()}return "ok"};
 
@@ -1552,11 +1562,11 @@ $("#adhan-save").onclick=()=>{store.set("adhanUrl",$("#adhan-url").value.trim())
 
 /* ---------- views ---------- */
 let view="home",tabT;const loaded={};
-function show(v){clearTimeout(tabT);if(v!=="iptv"&&window.ipStopPreview)ipStopPreview();view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
+function show(v){clearTimeout(tabT);if(v==="iptv"&&view!=="iptv")IP.from=view;view=v;document.body.classList.toggle("ivon",v==="iptv");document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===v)));
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
   else if(v==="tv"&&loaded.tv&&$("#tv-grid .card")){const p=allPl().find(x=>x.id===curPl);if(p)loadPl(p).then(L=>{channels=curGroup==="الكل"?L:L.filter(c=>c.group===curGroup)}).catch(()=>{})}
-  if(v==="iptv"){$("#v-iptv").insertBefore($("#pl-panel"),$(".ipx"));if(!loaded.ip){loaded.ip=1;ipOpen()}else{channels=IP.list;ipRender()}}
+  if(v==="iptv"){$("#v-iptv").insertBefore($("#pl-panel"),$("#iv"));if(!loaded.ip){loaded.ip=1;ipOpen()}else{channels=IP.list;ipRender()}ipFocusFirst()}
   if(v==="radio"&&!loaded.rd){loaded.rd=1;renderRdSources();renderRadio()}
   if(v==="azkar"&&!loaded.zk){loaded.zk=1;zkLoad();renderZk()}
   if(v==="azkar")setTimeout(()=>fitText($("#zk-text")),50);
@@ -1600,7 +1610,6 @@ window.tvKey=function(k){
   if(hideSaver())return "ok";
   if(k.charAt(0)==="N"&&k.length===2){typeDigit(k.charAt(1));return "ok"}
   if(k==="MENU"){focusView();return "ok"}
-  if(document.activeElement&&document.activeElement.id==="ip"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden){if(ipKey(k))return "ok";if(k==="D"||k==="CL"||k==="RED")return "ok"}
   if(k==="CL"||k==="RED"){const cur=document.activeElement;if(cur&&cur._ch){toggleFav(cur._ch);return "ok"}if(cur&&cur.dataset&&cur.dataset.pkg){togglePin(cur.dataset.pkg);return "ok"}if(k==="RED")return "ok";k="C"}
   if(!document.activeElement||document.activeElement===document.body){if(!$("#adhan").hidden)focusSel("#adhan-close");else focusView();if(k!=="C")return "ok"}
   if(!$("#adhan").hidden){if(k==="C")closeAdhan();return "ok"}
@@ -1612,7 +1621,7 @@ window.tvKey=function(k){
   if(k==="D"&&cur&&cur.classList.contains("tab")){if(cur.dataset.view!==view)show(cur.dataset.view);if(enterView())return "ok"}
   if(k==="D"&&cur&&cur.classList.contains("qb")){focusView();return "ok"}
   if("LRUD".indexOf(k)>=0)move(k);return "ok"};
-window.tvBack=function(){if(wakeBlack())return true;if(view==="iptv"&&IP.drill&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&ipBack())return true;if(view==="iptv"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#pl-panel").hidden&&$(".ipx").contains(document.activeElement)&&!$("#ip-side").contains(document.activeElement)){const b=$("#ip-side [aria-pressed=true]");if(b){focusEl(b);return true}}if(hideGuest())return true;if(hideSaver())return true;
+window.tvBack=function(){if(wakeBlack())return true;if(view==="iptv"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#pl-panel").hidden&&!$("#iv").hidden&&ipBackKey())return true;if(hideGuest())return true;if(hideSaver())return true;
   if(!$("#adhan").hidden){closeAdhan();return true}
   if(!$("#player").hidden){closePlayer();return true}
   if(hideNowPlaying())return true;
