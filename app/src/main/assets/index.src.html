@@ -1757,7 +1757,7 @@ function move(dir){const items=focusables(),cur=document.activeElement;if(items.
     else if(dir==="U"){if(b.bottom>a.top+4)continue;main=-dy;cross=Math.abs(dx)}else{if(b.top<a.bottom-4)continue;main=dy;cross=Math.abs(dx)}
     if(main<=0)continue;const sc=main+cross*2.2;if(sc<bs){bs=sc;best=n}}
   // leaving the content upwards always lands on the CURRENT tab, never on a neighbouring one or a header icon
-  if(best&&cur.closest&&cur.closest(".view")&&best.classList.contains("tab")&&dir==="R"){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
+  if(best&&cur.closest&&cur.closest(".view")&&!document.body.classList.contains("ivon")&&dir==="R"&&(best.classList.contains("tab")||best.getBoundingClientRect().left<a.right-4)){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
   if(best)focusEl(best)}
 window.tvKey=function(k){
   if(wakeBlack())return "ok";
