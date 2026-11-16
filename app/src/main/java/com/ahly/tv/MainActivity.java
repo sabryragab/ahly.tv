@@ -104,6 +104,15 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void openUrl(String u) {
+            try {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(u));
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            } catch (Exception e) { js("toast('مفيش متصفح أو يوتيوب على الشاشة يفتح الرابط ده')"); }
+        }
+
+        @JavascriptInterface
         public void settings() { runOnUiThread(MainActivity.this::openSettings); }
 
         @JavascriptInterface
