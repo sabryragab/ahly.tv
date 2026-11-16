@@ -1753,11 +1753,12 @@ function focusView(){focusEl(document.querySelector(".tab[aria-selected=true]"))
 function move(dir){const items=focusables(),cur=document.activeElement;if(items.indexOf(cur)<0){focusEl(items[0]);return}
   const a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=Infinity;
   for(const n of items){if(n===cur)continue;const b=n.getBoundingClientRect(),dx=b.left+b.width/2-ax,dy=b.top+b.height/2-ay;let main,cross;
-    if(dir==="L"){if(b.right>a.left+4&&(dx>=-2||Math.abs(dy)>a.height*.6))continue;main=-dx;cross=Math.abs(dy)}else if(dir==="R"){if(b.left<a.right-4&&(dx<=2||Math.abs(dy)>a.height*.6))continue;main=dx;cross=Math.abs(dy)}
+    if((dir==="L"||dir==="R")&&Math.abs(dy)>Math.max(a.height,b.height)*.75)continue;
+    if(dir==="L"){if(b.right>a.left+4&&dx>=-2)continue;main=-dx;cross=Math.abs(dy)}else if(dir==="R"){if(b.left<a.right-4&&dx<=2)continue;main=dx;cross=Math.abs(dy)}
     else if(dir==="U"){if(b.bottom>a.top+4)continue;main=-dy;cross=Math.abs(dx)}else{if(b.top<a.bottom-4)continue;main=dy;cross=Math.abs(dx)}
     if(main<=0)continue;const sc=main+cross*2.2;if(sc<bs){bs=sc;best=n}}
   // leaving the content upwards always lands on the CURRENT tab, never on a neighbouring one or a header icon
-  if(best&&cur.closest&&cur.closest(".view")&&!document.body.classList.contains("ivon")&&dir==="R"&&(best.classList.contains("tab")||best.getBoundingClientRect().left<a.right-4)){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
+  if(cur.closest&&cur.closest(".view")&&!document.body.classList.contains("ivon")&&dir==="R"&&(!best||best.classList.contains("tab")||best.getBoundingClientRect().left<a.right-4)){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
   if(best)focusEl(best)}
 window.tvKey=function(k){
   if(wakeBlack())return "ok";
