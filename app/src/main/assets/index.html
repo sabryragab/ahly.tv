@@ -1149,11 +1149,14 @@ function ipBack(){if(IP.det){IP.det=null;IP.sig="";ipRender();ipRefocus();return
 async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=userPl.length?userPl[0].id:"";store.set("ipPl",IP.pl);IP.err="";IP.q="";$("#ip-q").value="";
   if(!IP.pl){IP.items=[];ipRender();return}IP.loading=true;IP.items=[];IP.drill=null;IP.cu=null;IP.det=null;IP.xtDone={};IP.secLoad="";IP.acct="";const p=userPl.find(x=>x.id===IP.pl);IP.xt=xtOf(p);ipRender();
   try{let L=null;
-    if(IP.xt){try{const ui=await xtInfo(IP.xt);IP.acct=xtAcct(ui);L=await xtLive(IP.xt,ui)}catch(e){if(/الاشتراك|اسم المستخدم/.test((e&&e.message)||""))throw e;L=null}if(L&&!L.length)L=null}
+    if(IP.xt){let ui=null,er=null;const wait=t=>new Promise(r=>setTimeout(r,t));
+      for(let a=0;a<3&&!L;a++){try{if(!ui){ui=await xtInfo(IP.xt);IP.acct=xtAcct(ui)}L=await xtLive(IP.xt,ui);er=null}catch(e){er=e;if(/الاشتراك|اسم المستخدم/.test((e&&e.message)||""))throw e;if(!/HTTP [45]\d\d|مش بيرد|timeout|abort/i.test((e&&e.message)||(e&&e.name)||""))break;if(a<2)await wait(a?7000:3000)}}
+      if(er&&/HTTP [45]\d\d/.test(er.message||""))throw new Error("السيرفر رافض الطلب دلوقتي ("+(er.message.match(/HTTP \d+/)||[""])[0]+"). غالباً محظور مؤقتاً بسبب كتر الطلبات — استنى 5 دقايق وجرّب تاني");
+      if(L&&!L.length)L=null}
     if(!L){L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)})}
     if(IP.pl!==p.id)return;
     if(IP.xt){L=L.filter(c=>c.kind==="live");IP.xtDone={}}
-    IP.items=L;IP.loading=false;const rp=IPS.resume?store.get("ipPage","home"):"home";ipGo(rp);ipHomeLoad();ipAuto()}
+    IP.items=L;IP.loading=false;const rp=IPS.resume?store.get("ipPage","home"):"home";ipGo(rp);ipAuto()}
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
 function ipAuto(){if(!IPS.auto||loaded.auto)return;loaded.auto=1;const c=store.get("ipLast",null);if(c&&c.url){channels=[c];IP.last={c:c,list:[c],i:0};playChannel(0)}}
 function ipHomeLoad(){if(!IP.xt)return;ipEnsureSec("movie").then(()=>ipEnsureSec("series"))}
@@ -1185,7 +1188,7 @@ async function ipCuOpen(c){const x=IP.xt;if(!x||!c.id){toast("إعادة الم�
     IP.cu={ch:c,progs:P};IP.fk=c.url;IP.sig="";ipRender();ipFocusFirst()}
   catch(e){toast("مقدرتش أحمّل البرامج: "+((e&&e.message)||""))}}
 async function ipEpg(c){if(!IP.xt||!c.id)return[];if(!EPG[c.id])EPG[c.id]=xtGet(IP.xt,"get_short_epg","&stream_id="+c.id+"&limit=4").then(j=>((j&&j.epg_listings)||[]).map(e=>({t:b64u(e.title),s:+e.start_timestamp,e:+e.stop_timestamp}))).catch(()=>[]);return EPG[c.id]}
-function ipEpgPump(){while(epgBusy<3&&epgQ.length){const j=epgQ.shift();epgBusy++;const done=()=>{epgBusy--;ipEpgPump()};ipEpg(j.c).then(L=>{j.cb(L);done()},done)}}
+function ipEpgPump(){while(epgBusy<2&&epgQ.length){const j=epgQ.shift();epgBusy++;const done=()=>{epgBusy--;ipEpgPump()};ipEpg(j.c).then(L=>{j.cb(L);done()},done)}}
 function ipEpgFill(rows){if(!IP.xt)return;rows.forEach(r=>{const c=r._ch;if(!c.id)return;epgQ.push({c:c,cb:L=>{const now=Date.now()/1000,P=L.filter(e=>e.e>now).slice(0,3),cs=r.querySelectorAll(".pg");
   P.forEach((e,i)=>{cs[i].replaceChildren(el("small",{text:ipHM(e.s)+" – "+ipHM(e.e)}),el("b",{text:e.t}))});if(!P.length)cs[0].textContent="—"}})});ipEpgPump()}
 
@@ -1268,7 +1271,7 @@ function ipRender(){ipPosAll();ipHead();ivClock();const b=$("#iv-body"),p=IP.pag
   if(fi>=0){const n=b.querySelectorAll("[data-nav]")[fi];if(n)n.focus({preventScroll:true})}
   if(view==="iptv"&&!$("#iv").hidden&&!$("#iv").contains(document.activeElement)&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#guest").hidden)ipFocusFirst()}
 function ipRenderHome(b){const A=ipAll(),n={live:0,movie:0,series:0,arch:0};A.forEach(c=>{n[c.kind]=(n[c.kind]||0)+1;if(c.arch)n.arch++});
-  const ld=k=>!IP.xt?"":IP.xtDone[k]?"":"جاري التحميل…";
+  const ld=k=>IP.secLoad===k?"جاري التحميل…":"";
   const sub={live:arNum(n.live)+" قناة",movie:n.movie?arNum(n.movie)+" فيلم":(ld("movie")||"شاهد الأفلام"),series:n.series?arNum(n.series)+" مسلسل":(ld("series")||"شاهد المسلسلات"),kids:"محتوى للصغار",fav:arNum(favs.length)+" عنصر",catchup:n.arch?arNum(n.arch)+" قناة":"شاهد اللي فات",guide:"الآن والجاي"};
   const nav=el("nav",{class:"ivnav"},...IP_NAV.map(x=>{const q=el("button",{"data-nav":"","aria-pressed":String(x[0]==="home")},ipIco(x[1]),el("span",{text:x[2]}));
     q.onclick=()=>{if(x[0]==="home")return;if(IP_HOME.some(h=>h[0]===x[0]))IP.hm=x[0];ipGo(x[0])};return q}));
