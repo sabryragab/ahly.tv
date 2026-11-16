@@ -311,11 +311,11 @@ h2{font-family:var(--f-display);font-weight:500;font-size:1.7vw;margin:0}
 #sky{position:fixed;top:0;right:0;bottom:0;left:0;z-index:-1;pointer-events:none}
 #sky i{position:absolute;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity 4s ease}
 #sky i.on{opacity:1}
-#sky .night{background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 52% 22%,#fff,transparent),radial-gradient(1px 1px at 68% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 28%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 6%,#fff,transparent),radial-gradient(1px 1px at 22% 34%,#fff,transparent),radial-gradient(1px 1px at 44% 40%,#ffffffaa,transparent),radial-gradient(1px 1px at 74% 44%,#ffffffaa,transparent),radial-gradient(ellipse at 80% -10%,rgba(60,40,120,.45),transparent 60%),linear-gradient(180deg,#0b0820,var(--base) 70%)}
-#sky .dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,150,90,.45),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(120,70,160,.45),transparent 60%),linear-gradient(180deg,#1d0f2a,var(--base) 75%)}
+#sky .night{background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 52% 22%,#fff,transparent),radial-gradient(1px 1px at 68% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 28%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 6%,#fff,transparent),radial-gradient(1px 1px at 22% 34%,#fff,transparent),radial-gradient(1px 1px at 44% 40%,#ffffffaa,transparent),radial-gradient(1px 1px at 74% 44%,#ffffffaa,transparent),radial-gradient(ellipse at 80% -10%,rgba(150,30,45,.4),transparent 60%),linear-gradient(180deg,#14080b,var(--base) 70%)}
+#sky .dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,150,90,.45),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(190,70,50,.4),transparent 60%),linear-gradient(180deg,#24100f,var(--base) 75%)}
 #sky .day{background:radial-gradient(ellipse at 85% -10%,var(--glow),transparent 55%),var(--base)}
 #sky .golden{background:radial-gradient(ellipse at 15% 110%,rgba(255,140,40,.40),transparent 55%),radial-gradient(ellipse at 85% -10%,var(--glow),transparent 55%),var(--base)}
-#sky .dusk{background:radial-gradient(ellipse at 50% 115%,rgba(230,70,60,.38),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(90,30,110,.5),transparent 60%),linear-gradient(180deg,#1a0820,var(--base) 75%)}
+#sky .dusk{background:radial-gradient(ellipse at 50% 115%,rgba(230,70,60,.38),transparent 55%),radial-gradient(ellipse at 80% -10%,rgba(150,30,40,.5),transparent 60%),linear-gradient(180deg,#230a0e,var(--base) 75%)}
 body{background-image:none!important;background-color:transparent!important}
 html{background:var(--base)}
 
@@ -551,6 +551,54 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .saver .row6 .on b,.saver .row6 .on{color:var(--gold)}
 .saver .ex{color:#8d8183;font-size:1.15vw}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---- v3 design: side rail, shortcuts, continue card, glass cards, warm black + gold ---- */
+:root{--night:#0b0507;--base:#0b0507;--wine:#1d0d12;--wine-2:#31161d;--gold:#ffc72c;--mist:#cdb9a3}
+body{padding:0 13.2vw 0 3.5vw}
+nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:grid;grid-auto-flow:row;grid-auto-columns:auto;align-content:center;justify-items:center;grid-gap:.25vw;border-bottom:0;border-left:1px solid rgba(255,199,44,.14);background:rgba(255,255,255,.03);padding:1vw .5vw;overflow:hidden}
+.tab{width:9.2vw;display:grid;justify-items:center;grid-gap:.25vw;padding:.55vw 0 .5vw;border-radius:1.3vw;font-size:1vw;text-align:center;line-height:1.2}
+.tab svg.i{width:1.9vw;height:1.9vw}
+.tab[aria-selected="true"]{background:var(--gold);color:#1a1300;font-weight:700}
+.hrow{display:grid;grid-template-columns:1fr;grid-gap:1.2vw}
+.hrow.hc{grid-template-columns:2.15fr 1fr}
+.hero2{height:31vh;border-radius:1.8vw;position:relative;overflow:hidden;box-shadow:0 0 0 .1vw rgba(255,199,44,.4),0 1.4vw 3.4vw rgba(0,0,0,.5)}
+.hero2 .pr.is-next{background:var(--gold);color:#1a1300}.hero2 .pr.is-next .n{color:#1a1300}
+.hrow.hc .hero2{grid-template-columns:15vw 1fr;padding:1vw 1.3vw}
+.hrow.hc .hero2 .name{font-size:3.6vw}.hrow.hc .hero2 .cd{font-size:1.5vw}
+.hrow.hc .hero2 .pr .v{font-size:1.05vw}.hrow.hc .hero2 .pr .n{font-size:.72vw}
+.cont{position:relative;display:block;height:31vh;border-radius:1.8vw;overflow:hidden;background:linear-gradient(160deg,#5b4410,#1d1507);text-align:right;min-height:0}
+.cont .cp{position:absolute;top:0;right:0;bottom:0;left:0;background-size:cover;background-position:center;opacity:.55}
+.cont:after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(0deg,rgba(11,5,7,.96),rgba(11,5,7,.1) 65%)}
+.cont .cb{position:absolute;top:1.1vw;right:1.3vw;z-index:1;background:var(--gold);color:#1a1300;border-radius:2vw;padding:.3vw 1vw;font-size:.95vw;font-weight:700}
+.cont .cpl{position:absolute;z-index:1;top:50%;left:50%;width:4.4vw;height:4.4vw;margin:-3.6vw 0 0 -2.2vw;border-radius:50%;background:var(--gold);color:#1a1300;display:flex;align-items:center;justify-content:center;font-size:1.8vw}
+.cont .ct{position:absolute;z-index:1;right:1.3vw;left:1.3vw;bottom:1.1vw;display:grid;grid-gap:.3vw}
+.cont .ct b{font-family:var(--f-display);font-size:1.6vw;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cont .ct small{color:#e6d2a8;font-size:.95vw}
+.cbar{display:block;height:.4vw;border-radius:.4vw;background:rgba(255,255,255,.25);overflow:hidden}.cbar i{display:block;height:100%;background:var(--gold);width:0}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);grid-gap:1.15vw;height:11vh}
+.stl{display:grid;grid-template-columns:auto 1fr;align-items:center;grid-gap:1.1vw;padding:0 1.4vw;border-radius:1.5vw;background:var(--wine);border:1px solid rgba(255,255,255,.08);text-align:right;min-width:0}
+.stl .ic{width:3.8vw;height:3.8vw;border-radius:1.1vw;background:rgba(255,199,44,.15);color:var(--gold);display:flex;align-items:center;justify-content:center}
+.stl .ic svg.i{width:2.1vw;height:2.1vw}
+.stl b{display:block;font-family:var(--f-display);font-size:1.55vw;line-height:1.2}
+.stl small{display:block;color:var(--mist);font-size:.95vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stl.gold{background:linear-gradient(135deg,#ffd75e,#e5a100);color:#1a1300;border-color:transparent}
+.stl.gold .ic{background:rgba(26,19,0,.14);color:#1a1300}.stl.gold small{color:#3c2d00}
+.quad{height:17vh}
+.quad .box,.quad .tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:1.5vw}
+.card,.tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.card{border-radius:1.4vw;padding:.8vw;grid-gap:.7vw}
+.card .art{border-radius:1vw}
+.card .nm{font-size:1.05vw;font-weight:600}
+.card:focus{background:rgba(255,199,44,.14)}
+.chip{padding:.6vw 1.5vw;font-size:1.15vw;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.chip[aria-pressed="true"]{background:var(--gold);color:#1a1300;border-color:var(--gold)}
+#prayer-full.prayers{grid-template-columns:1fr;grid-gap:.55vw}
+#prayer-full .pr{display:grid;grid-template-columns:1fr auto;align-items:center;grid-gap:1.5vw;text-align:right;padding:.45vw 2vw;border-radius:1.3vw;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+#prayer-full .pr .n{font-family:var(--f-display);font-size:1.9vw;color:var(--chalk)}
+#prayer-full .pr .v{font-size:2vw}
+#prayer-full .pr.is-next{background:linear-gradient(135deg,#ffd75e,#e5a100);color:#1a1300;border-color:transparent}
+#prayer-full .pr.is-next .n{color:#1a1300}
+#prayer-full .pr.is-past{opacity:.5}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -567,6 +615,7 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.500 12h2.500M19 12h2.500M5.300 5.300l1.800 1.800M16.900 16.900l1.800 1.800M5.300 18.700l1.800-1.800M16.900 7.100l1.800-1.800"/></symbol>
   <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.500l4 2.900-1.500 4.700h-5L8 10.400z"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.500"/><path d="M16 16l4.500 4.500"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></symbol>
   <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 4v6h6"/><path d="M5.5 15a7 7 0 1 0 1.5-7.5L4 10"/></symbol>
 </svg>
@@ -590,20 +639,21 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
   </header>
 
   <nav class="tabs" role="tablist" id="tabs">
-    <button class="tab" role="tab" data-nav data-view="home" aria-selected="true">الرئيسية</button>
-    <button class="tab" role="tab" data-nav data-view="apps">التطبيقات</button>
-    <button class="tab" role="tab" data-nav data-view="prayer">مواقيت الصلاة</button>
-    <button class="tab" role="tab" data-nav data-view="azkar">الأذكار</button>
-    <button class="tab" role="tab" data-nav data-view="quran">القرآن</button>
-    <button class="tab" role="tab" data-nav data-view="tv">القنوات</button>
-    <button class="tab" role="tab" data-nav data-view="iptv">IPTV</button>
-    <button class="tab" role="tab" data-nav data-view="radio">الراديو</button>
-    <button class="tab" role="tab" data-nav data-view="settings">الإعدادات</button>
+    <button class="tab" role="tab" data-nav data-view="home" aria-selected="true"><svg class="i"><use href="#i-home"/></svg><span>الرئيسية</span></button>
+    <button class="tab" role="tab" data-nav data-view="apps"><svg class="i"><use href="#i-apps"/></svg><span>التطبيقات</span></button>
+    <button class="tab" role="tab" data-nav data-view="prayer"><svg class="i"><use href="#i-clock"/></svg><span>المواقيت</span></button>
+    <button class="tab" role="tab" data-nav data-view="azkar"><svg class="i"><use href="#i-moon"/></svg><span>الأذكار</span></button>
+    <button class="tab" role="tab" data-nav data-view="quran"><svg class="i"><use href="#i-book"/></svg><span>القرآن</span></button>
+    <button class="tab" role="tab" data-nav data-view="tv"><svg class="i"><use href="#i-tv"/></svg><span>القنوات</span></button>
+    <button class="tab" role="tab" data-nav data-view="iptv"><svg class="i"><use href="#i-play"/></svg><span>IPTV</span></button>
+    <button class="tab" role="tab" data-nav data-view="radio"><svg class="i"><use href="#i-radio"/></svg><span>الراديو</span></button>
+    <button class="tab" role="tab" data-nav data-view="settings"><svg class="i"><use href="#i-gear"/></svg><span>الإعدادات</span></button>
   </nav>
 
   <!-- HOME -->
   <section class="view" id="v-home">
     <div class="h2">
+      <div class="hrow" id="hrow">
       <div class="hero2">
         <div class="hl"><span class="greet" id="greet" hidden></span><span class="lbl" id="nx-lbl">الصلاة القادمة</span><span class="name" id="nx-name">—</span><span class="cd" id="nx-cd">--:--:--</span><span class="iq" id="nx-iq" hidden></span><span class="city" id="nx-city"></span>
           <div class="notice" id="notice" hidden><div><b id="notice-t"></b> <span id="notice-s"></span></div><span id="notice-act"></span></div></div>
@@ -611,6 +661,14 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
           <svg class="arc" viewBox="0 0 760 150" preserveAspectRatio="none" aria-hidden="true"><path d="M 20 140 Q 380 -90 740 140" fill="none" stroke="#ffe9a8" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/><circle id="arc-now" cx="740" cy="140" r="11" fill="#ffe9a8" stroke="rgba(0,0,0,.5)" stroke-width="3"/></svg>
           <div class="prayers" id="home-prayers"></div>
         </div>
+      </div>
+      <button class="cont" data-nav id="h-cont" hidden><span class="cp" id="h-cont-img"></span><span class="cb">كمّل المشاهدة</span><span class="cpl">▶</span><span class="ct"><b id="h-cont-t"></b><small id="h-cont-s"></small><i class="cbar"><i id="h-cont-p"></i></i></span></button>
+      </div>
+      <div class="sc">
+        <button class="stl gold" data-nav id="sc-tv"><span class="ic"><svg class="i"><use href="#i-tv"/></svg></span><span><b>البث المباشر</b><small>قنوات مصر والسعودية</small></span></button>
+        <button class="stl" data-nav id="sc-ip"><span class="ic"><svg class="i"><use href="#i-play"/></svg></span><span><b>أفلام ومسلسلات</b><small>IPTV</small></span></button>
+        <button class="stl" data-nav id="sc-qr"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span><b>القرآن الكريم</b><small>استماع وقراءة</small></span></button>
+        <button class="stl" data-nav id="sc-rd"><span class="ic"><svg class="i"><use href="#i-radio"/></svg></span><span><b>الراديو</b><small>إذاعات مباشرة</small></span></button>
       </div>
       <div class="quad">
         <button class="tile" data-nav id="t-azkar"><span class="h"><svg class="i"><use href="#i-moon"/></svg>الأذكار</span><span class="mid big" id="t-azkar-t">أذكار الصباح</span><span class="sm" id="t-azkar-s">قراءة واستماع</span></button>
@@ -1156,7 +1214,7 @@ async function ipOpen(id){if(id)IP.pl=id;if(!userPl.find(x=>x.id===IP.pl))IP.pl=
     if(!L){L=await loadPl(p);L.forEach(c=>{if(!c.kind)c.kind=kindOf(c)})}
     if(IP.pl!==p.id)return;
     if(IP.xt){L=L.filter(c=>c.kind==="live");IP.xtDone={}}
-    IP.items=L;IP.loading=false;const rp=IPS.resume?store.get("ipPage","home"):"home";ipGo(rp);ipAuto()}
+    IP.items=L;IP.loading=false;const rp=IPS.resume?store.get("ipPage","home"):"home";ipGo(rp);ipAuto();if(IP.pend){const c=IP.pend;IP.pend=null;ipDetail(c)}}
   catch(e){delete plCache[p.id];IP.loading=false;IP.err=(e&&e.name==="AbortError")?"النت بطيء أو السيرفر مش بيرد":((e&&e.message)||"اتأكد من الرابط والنت");ipRender()}}
 function ipAuto(){if(!IPS.auto||loaded.auto)return;loaded.auto=1;const c=store.get("ipLast",null);if(c&&c.url){channels=[c];IP.last={c:c,list:[c],i:0};playChannel(0)}}
 function ipHomeLoad(){if(!IP.xt)return;ipEnsureSec("movie").then(()=>ipEnsureSec("series"))}
@@ -1198,6 +1256,12 @@ function ipPosAll(){try{IPP=(bridge&&bridge.allPos)?JSON.parse(bridge.allPos()):
 function ipPosOf(u){const s=IPP[u];if(!s)return null;const a=String(s).split("|"),p=+a[0],d=+a[1];return p>0?{p:p,d:d,f:d>0?Math.min(1,p/d):0}:null}
 function ipProg(c){const u=c.kind==="series"&&c.sid?store.get("ipSL",{})[c.sid]:c.kind==="movie"?c.url:"";const p=u?ipPosOf(u):null;return p?p.f:0}
 const mm=ms=>{const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),c=s%60,p=n=>("0"+n).slice(-2);return h?h+":"+p(m)+":"+p(c):m+":"+p(c)};
+window.renderCont=function(){const b=$("#h-cont"),hr=$("#hrow");if(!b||!hr)return;ipPosAll();
+  const c=store.get("ipRecent",[]).find(x=>ipProg(x)>0);hr.classList.toggle("hc",!!c);b.hidden=!c;if(!c)return;
+  const u=c.kind==="series"&&c.sid?store.get("ipSL",{})[c.sid]:c.url,p=ipPosOf(u);if(!p){b.hidden=true;hr.classList.remove("hc");return}
+  $("#h-cont-t").textContent=cleanName(c.name);$("#h-cont-s").textContent=(c.kind==="series"?"مسلسل":"فيلم")+" · متبقي "+arNum(Math.max(1,Math.round((p.d-p.p)/60000)))+" دقيقة";
+  $("#h-cont-p").style.width=Math.round(p.f*100)+"%";$("#h-cont-img").style.backgroundImage=c.logo&&/^https?:/.test(c.logo)?"url("+JSON.stringify(c.logo)+")":"none";
+  b.onclick=()=>{IP.pend=c;show("iptv")}};
 const epTag=e=>"م"+arNum(e.sn)+" ح"+arNum(e.n);
 async function ipDetail(c){ipPosAll();IP.fk=c.url;const d={c:c,info:{},eps:null,sn:null,loading:true};IP.det=d;IP.sig="";ipRender();ipFocusFirst();
   const x=IP.xt;
@@ -1652,11 +1716,11 @@ $("#adhan-save").onclick=()=>{store.set("adhanUrl",$("#adhan-url").value.trim())
 
 /* ---------- views ---------- */
 let view="home",tabT;const loaded={};
-function show(v){clearTimeout(tabT);if(v==="iptv"&&view!=="iptv")IP.from=view;view=v;document.body.classList.toggle("ivon",v==="iptv");document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
+function show(v){clearTimeout(tabT);if(v==="home"&&window.renderCont)renderCont();if(v==="iptv"&&view!=="iptv")IP.from=view;view=v;document.body.classList.toggle("ivon",v==="iptv");document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===v)));
   if(v==="tv"&&!loaded.tv){loaded.tv=1;renderSources();renderChannels()}
   else if(v==="tv"&&loaded.tv&&$("#tv-grid .card")){const p=allPl().find(x=>x.id===curPl);if(p)loadPl(p).then(L=>{channels=curGroup==="الكل"?L:L.filter(c=>c.group===curGroup)}).catch(()=>{})}
-  if(v==="iptv"){$("#v-iptv").insertBefore($("#pl-panel"),$("#iv"));if(!loaded.ip){loaded.ip=1;ipOpen()}else{channels=IP.list;ipRender()}ipFocusFirst()}
+  if(v==="iptv"){$("#v-iptv").insertBefore($("#pl-panel"),$("#iv"));if(!loaded.ip){loaded.ip=1;ipOpen()}else{channels=IP.list;ipRender();if(IP.pend){const c=IP.pend;IP.pend=null;ipDetail(c);return}}ipFocusFirst()}
   if(v==="radio"&&!loaded.rd){loaded.rd=1;renderRdSources();renderRadio()}
   if(v==="azkar"&&!loaded.zk){loaded.zk=1;zkLoad();renderZk()}
   if(v==="azkar")setTimeout(()=>fitText($("#zk-text")),50);
@@ -1665,6 +1729,7 @@ function show(v){clearTimeout(tabT);if(v==="iptv"&&view!=="iptv")IP.from=view;vi
   if(v==="quran"&&!loaded.q){loaded.q=1;renderQuran();renderSleep()}
   if(v==="settings"){renderThemes();renderCols();renderTabMgr();renderHaramTog();renderGuestQ();renderVer();renderVoices();renderToggles();renderSaverOpts()}}
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>show(t.dataset.view));
+[["sc-tv","tv"],["sc-ip","iptv"],["sc-qr","quran"],["sc-rd","radio"]].forEach(x=>{$("#"+x[0]).onclick=()=>{show(x[1]);if(x[1]!=="iptv")enterView()}});
 document.querySelectorAll("[data-go]").forEach(t=>t.onclick=()=>{show(t.dataset.go);focusView()});
 
 /* ---------- settings split into sections (short lists, no endless scrolling) ---------- */
@@ -1688,11 +1753,11 @@ function focusView(){focusEl(document.querySelector(".tab[aria-selected=true]"))
 function move(dir){const items=focusables(),cur=document.activeElement;if(items.indexOf(cur)<0){focusEl(items[0]);return}
   const a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=Infinity;
   for(const n of items){if(n===cur)continue;const b=n.getBoundingClientRect(),dx=b.left+b.width/2-ax,dy=b.top+b.height/2-ay;let main,cross;
-    if(dir==="L"){if(b.right>a.left+4&&dx>=-2)continue;main=-dx;cross=Math.abs(dy)}else if(dir==="R"){if(b.left<a.right-4&&dx<=2)continue;main=dx;cross=Math.abs(dy)}
+    if(dir==="L"){if(b.right>a.left+4&&(dx>=-2||Math.abs(dy)>a.height*.6))continue;main=-dx;cross=Math.abs(dy)}else if(dir==="R"){if(b.left<a.right-4&&(dx<=2||Math.abs(dy)>a.height*.6))continue;main=dx;cross=Math.abs(dy)}
     else if(dir==="U"){if(b.bottom>a.top+4)continue;main=-dy;cross=Math.abs(dx)}else{if(b.top<a.bottom-4)continue;main=dy;cross=Math.abs(dx)}
     if(main<=0)continue;const sc=main+cross*2.2;if(sc<bs){bs=sc;best=n}}
   // leaving the content upwards always lands on the CURRENT tab, never on a neighbouring one or a header icon
-  if(best&&cur.closest&&cur.closest(".view")&&!best.closest(".view")&&dir==="U"){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
+  if(best&&cur.closest&&cur.closest(".view")&&best.classList.contains("tab")&&dir==="R"){const t=document.querySelector(".tab[aria-selected=true]");if(t)best=t}
   if(best)focusEl(best)}
 window.tvKey=function(k){
   if(wakeBlack())return "ok";
@@ -1708,8 +1773,8 @@ window.tvKey=function(k){
   if(cur&&cur.id==="zk-reader"){if(k==="L"){zkGo(1);return "ok"}if(k==="R"){zkGo(-1);return "ok"}if(k==="PP"){$("#zk-listen").click();return "ok"}}
   if(k==="PP"){const a=$("#radio");if(a.src){a.paused?a.play():a.pause()}return "ok"}
   if(k==="C"){if(cur&&cur.tagName==="INPUT"){cur.focus();return "ime"}if(cur)cur.click();return "ok"}
-  if(k==="D"&&cur&&cur.classList.contains("tab")){if(cur.dataset.view!==view)show(cur.dataset.view);if(enterView())return "ok"}
-  if(k==="D"&&cur&&cur.classList.contains("qb")){focusView();return "ok"}
+  if(k==="L"&&cur&&cur.classList.contains("tab")){if(cur.dataset.view!==view)show(cur.dataset.view);if(enterView())return "ok"}
+  if(k==="D"&&cur&&cur.classList.contains("qb")){if(enterView())return "ok"}
   if("LRUD".indexOf(k)>=0)move(k);return "ok"};
 window.tvBack=function(){if(wakeBlack())return true;if(view==="iptv"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#pl-panel").hidden&&!$("#iv").hidden&&ipBackKey())return true;if(hideGuest())return true;if(hideSaver())return true;
   if(!$("#adhan").hidden){closeAdhan();return true}
@@ -1829,5 +1894,5 @@ initSettingsTabs();renderCities();renderAdhanToggle();
 const lc=store.get("lastCh",""),lr=store.get("lastRd",null);if(lc)$("#t-lastch").textContent="آخر قناة: "+lc;if(lr)$("#t-lastrd").textContent="آخر إذاعة: "+lr.name;
 applyTheme();applyCols();applyTabs();applyUserBg();renderGreet();renderMyApps();renderRecent();renderAyah();loadWeather();loadAhly();loadTop();renderArc(Date.now());
 setInterval(()=>loadWeather(),10*6e4);setInterval(loadAhly,10*6e4);setInterval(loadTop,10*6e4);setInterval(renderAyah,60*6e4);
-tick();renderNotice(new Date(),Date.now());renderSky(Date.now());findHaram();setInterval(tick,1000);setTimeout(focusView,300);
+renderCont();tick();renderNotice(new Date(),Date.now());renderSky(Date.now());findHaram();setInterval(tick,1000);setTimeout(focusView,300);
 </script>

@@ -68,12 +68,12 @@ def main():
       for v in ["home", "apps", "prayer", "azkar", "quran", "tv", "radio", "settings"]:
           page.evaluate(f"show('{v}');focusView()")
           page.wait_for_timeout(500)
-          page.evaluate("tvKey('D')")
-          page.evaluate("tvKey('U')")
+          page.evaluate("tvKey('L')")
+          page.evaluate("tvKey('R')")
           ok_back = page.evaluate("(document.activeElement.classList.contains('tab')&&document.activeElement.dataset.view===view)")
           if not ok_back:
               bad_nav.append(v)
-      log(f"nav: Down then Up returns to the same tab in every view: {not bad_nav} {bad_nav}")
+      log(f"nav: Left (into the page) then Right returns to the same tab in every view: {not bad_nav} {bad_nav}")
       if bad_nav:
           failed = True
       page.evaluate("show('home')")
