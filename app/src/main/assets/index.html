@@ -540,24 +540,28 @@ body.ivon header.top,body.ivon nav.tabs{display:none}
 .banner{position:fixed;top:3vh;right:5vw;z-index:66;background:var(--chalk);color:var(--night);border-radius:1vw;padding:1vw 1.6vw;font-size:1.3vw;font-weight:700;box-shadow:0 1vw 3vw rgba(0,0,0,.4)}
 
 /* screensaver */
-.saver{position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:#000;color:#eee;cursor:none}
-.saver .in{position:absolute;width:56vw;transition:top 2s ease,left 2s ease;display:grid;grid-gap:1.4vw;text-align:center}
-.saver .clk{font-family:var(--f-display);font-size:9vw;line-height:1;font-variant-numeric:tabular-nums;color:#fff}
-.saver .dt{color:#9a8e90;font-size:1.4vw}
-.saver .nx{font-size:2vw;color:#d9c7c9}
-.saver .nx b{color:var(--gold);font-family:var(--f-display);font-weight:500}
-.saver .row6{display:grid;grid-template-columns:repeat(6,1fr);grid-gap:.6vw;color:#8d8183;font-size:1vw}
-.saver .row6 b{display:block;color:#cfc3c5;font-size:1.5vw;font-weight:500;font-variant-numeric:tabular-nums}
+.saver{position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:radial-gradient(70vw 45vw at 50% 50%,#240b12 0%,#0b0507 55%,#000 100%);color:#fff6e5;cursor:none}
+.saver .in{position:absolute;top:50%;left:50%;width:84vw;margin:-24vw 0 0 -42vw;transition:margin 3s ease;display:grid;grid-gap:1.2vw;text-align:center;justify-items:center}
+.saver .clk{font-family:var(--f-display);font-size:13vw;line-height:1.1;font-weight:700;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 4vw rgba(255,199,44,.35)}
+.saver .dt{color:var(--gold);font-size:2.3vw;font-weight:500}
+.saver .nx{font-size:2.8vw;color:#f1e4cc}
+.saver .nx b{color:var(--gold);font-family:var(--f-display);font-weight:700}
+.saver .orn{width:22vw;height:.18vw;background:linear-gradient(90deg,rgba(255,199,44,0),#ffc72c,rgba(255,199,44,0))}
+.saver .vs{font-family:var(--f-quran);font-size:3.4vw;line-height:1.6;color:#fff6e5;max-width:76vw;min-height:11vw;display:grid;align-content:center;transition:opacity 1.2s ease}
+.saver .vs small{display:block;font-family:var(--f-ui,inherit);font-size:1.7vw;color:var(--gold);margin-top:.5vw}
+.saver .row6{display:grid;grid-template-columns:repeat(6,1fr);grid-gap:1.4vw;color:#bfae93;font-size:1.5vw;width:70vw}
+.saver .row6 b{display:block;color:#f1e4cc;font-size:2.4vw;font-weight:600;font-variant-numeric:tabular-nums}
 .saver .row6 .on b,.saver .row6 .on{color:var(--gold)}
-.saver .ex{color:#8d8183;font-size:1.15vw}
+.saver .ex{color:#bfae93;font-size:1.6vw}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ---- v3 design: side rail, shortcuts, continue card, glass cards, warm black + gold ---- */
 :root{--night:#0b0507;--base:#0b0507;--wine:#1d0d12;--wine-2:#31161d;--gold:#ffc72c;--mist:#cdb9a3}
-body{padding:0 13.2vw 0 3.5vw}
-nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:grid;grid-auto-flow:row;grid-auto-columns:auto;align-content:center;justify-items:center;grid-gap:.25vw;border-bottom:0;border-left:1px solid rgba(255,199,44,.14);background:rgba(255,255,255,.03);padding:1vw .5vw;overflow:hidden}
-.tab{width:9.2vw;display:grid;justify-items:center;grid-gap:.25vw;padding:.55vw 0 .5vw;border-radius:1.3vw;font-size:1vw;text-align:center;line-height:1.2}
-.tab svg.i{width:1.9vw;height:1.9vw}
+body{padding:0 17.4vw 0 3.5vw}
+nav.tabs{position:fixed;top:0;right:0;bottom:0;width:15.4vw;z-index:30;display:grid;grid-auto-flow:row;grid-auto-columns:auto;align-content:center;justify-items:center;grid-gap:.25vw;border-bottom:0;border-left:1px solid rgba(255,199,44,.14);background:rgba(255,255,255,.03);padding:1vw .5vw;overflow:hidden}
+.tab{width:14.2vw;display:grid;grid-template-columns:2.4vw 1fr;grid-column-gap:1vw;align-items:center;justify-items:start;padding:.6vw 1.1vw;border-radius:1.2vw;font-size:1.5vw;font-weight:600;text-align:right;line-height:1.15;color:#e8dcc8}
+.tab svg.i{width:2.3vw;height:2.3vw}
+.tab[aria-selected="false"]{color:#e8dcc8}
 .tab[aria-selected="true"]{background:var(--gold);color:#1a1300;font-weight:700}
 .hrow{display:grid;grid-template-columns:1fr;grid-gap:1.2vw}
 .hrow.hc{grid-template-columns:2.15fr 1fr}
@@ -951,6 +955,8 @@ nav.tabs{position:fixed;top:0;right:0;bottom:0;width:10.4vw;z-index:30;display:g
 <div class="saver" id="saver" hidden><div class="in" id="saver-in">
   <div class="clk" id="sv-clk"></div><div class="dt" id="sv-dt"></div>
   <div class="nx" id="sv-nx"></div>
+  <div class="orn"></div>
+  <div class="vs" id="sv-vs"></div>
   <div class="row6" id="sv-row"></div>
   <div class="ex" id="sv-ex"></div>
 </div></div>
@@ -980,7 +986,7 @@ const el=(t,a,...kids)=>{a=a||{};const n=document.createElement(t);for(const k i
 const icon=(id)=>{const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("class","i");const u=document.createElementNS("http://www.w3.org/2000/svg","use");u.setAttribute("href","#"+id);u.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","#"+id);s.append(u);return s};
 function toast(m){const t=el("div",{class:"toast",text:m});document.body.append(t);setTimeout(()=>t.remove(),2600)}
 const bridge=window.AhlyTV||null;
-const arNum=(n,d)=>new Intl.NumberFormat("ar-EG",{minimumIntegerDigits:d||1}).format(n);
+const arNum=(n,d)=>new Intl.NumberFormat("ar-EG",{minimumIntegerDigits:d||1,useGrouping:false}).format(n);
 
 /* ---------- cities & prayer math ---------- */
 const UQ={fajr:18.5,isha:"90min"},EG={fajr:19.5,isha:17.5};
@@ -1026,7 +1032,7 @@ function prayerTimes(c,date,shift){const s=cityYMD(c.tz,new Date(date.getTime()+
 function clockStr(d){try{return dtf("ar-EG",{timeZone:city.tz,hour:"numeric",minute:"2-digit",hour12:true}).format(d)}catch(e){let h=d.getHours(),m=d.getMinutes();const pm=h>=12;h=h%12||12;return arNum(h)+":"+arNum(m,2)+(pm?" م":" ص")}}
 const fmtTime=ms=>clockStr(new Date(ms));
 function dates(d){let g="";try{g=dtf("ar-EG",{timeZone:city.tz,weekday:"long",day:"numeric",month:"long"}).format(d)}catch(e){}
-  const h=hijri(d);return g+(h?" · "+arNum(h.d)+" "+HM[h.m-1]+" "+arNum(h.y)+" هـ":"")}
+  const h=hijri(d);return g+(h?" — "+arNum(h.d)+" "+HM[h.m-1]+" "+arNum(h.y)+" هـ":"")}
 
 /* ---------- prayer UI ---------- */
 let lastMin=-1,today={},tomorrow={},adhanOn=store.get("adhanOn",true),fired=store.get("fired",{}),lastDay="";
@@ -1041,7 +1047,7 @@ function tickInner(){const now=new Date(),ms=now.getTime();const s=cityYMD(city.
   if(dk!==lastDay||!(today.fajr>0)){if(lastDay&&dk!==lastDay){fired={};store.set("fired",fired)}lastDay=dk;compute();renderPrayers()}
   $("#clk").textContent=clockStr(now);if(now.getMinutes()!==lastMin||!$("#dates").textContent){lastMin=now.getMinutes();$("#dates").textContent=dates(now)}
   const nx=nextPrayer(ms);$("#nx-name").textContent=PNAMES[nx.k];
-  const sec=Math.max(0,Math.floor((nx.ms-ms)/1000)),cds=arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2);$("#nx-cd").textContent=cds+" متبقي";
+  const sec=Math.max(0,Math.floor((nx.ms-ms)/1000)),cds="\u202A"+arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2)+"\u202C";$("#nx-cd").textContent=cds+" متبقي";
   {let prev=today.isha-864e5;for(const k of ORDER)if(today[k]<=ms&&today[k]>prev)prev=today[k];const pr=Math.max(0,Math.min(1,(ms-prev)/Math.max(1,nx.ms-prev)));
     $("#pd-name").textContent=PNAMES[nx.k];$("#pd-cd").textContent=cds;$("#pd-time").textContent="متبقي · "+fmtTime(nx.ms);$("#pd-ring").setAttribute("stroke-dashoffset",String(1483*(1-pr)));$("#pd-dot").setAttribute("transform","rotate("+(pr*360).toFixed(1)+" 260 260)")}
   const evening=ms>=today.asr||ms<today.fajr;$("#t-azkar-t").textContent=evening?"أذكار المساء":"أذكار الصباح";$("#t-azkar").dataset.zk=evening?"pm":"am";
@@ -1469,15 +1475,19 @@ window.onPreviewState=function(){};
 /* ---------- screensaver ---------- */
 let saverDelay=store.get("saverDelay",10),lastInput=Date.now(),inPlayer=false,saverPos=0;
 function renderSaverOpts(){$("#saver-opts").replaceChildren(...[[5,"بعد ٥ دقايق"],[10,"بعد ١٠ دقايق"],[20,"بعد ٢٠ دقيقة"],[30,"بعد ٣٠ دقيقة"],[0,"مقفولة"]].map(o=>el("button",{class:"chip","data-nav":"","aria-pressed":String(o[0]===saverDelay),text:o[1],onclick(){saverDelay=o[0];store.set("saverDelay",saverDelay);renderSaverOpts()}})))}
-function showSaver(){$("#saver").hidden=false;saverPos=0;moveSaver();tick()}
+function showSaver(){$("#saver").hidden=false;saverPos=0;svT=0;$("#sv-vs").replaceChildren();moveSaver();tick()}
 function hideSaver(){lastInput=Date.now();if(!$("#saver").hidden){$("#saver").hidden=true;return true}return false}
-function moveSaver(){const i=$("#saver-in");i.style.left=(Math.random()*40)+"vw";i.style.top=(4+Math.random()*38)+"vh"}
+function moveSaver(){const i=$("#saver-in"),dx=(Math.random()*2-1)*1.2,dy=(Math.random()*2-1)*1.2;i.style.marginLeft=(-42+dx)+"vw";i.style.marginTop=(-24+dy)+"vw"}
+let svI=0,svT=0;
+function saverVerse(){const v=$("#sv-vs"),n=Date.now();if(v.firstChild&&n-svT<45e3)return;svT=n;
+  const all=AYAT.map(x=>["﴿"+x[0]+"﴾","سورة "+x[1]]).concat(AHADITH.map(x=>["«"+x[0]+"»",x[1]])),x=all[(Math.floor(n/864e5)*7+svI++)%all.length];
+  v.style.opacity=0;setTimeout(()=>{v.replaceChildren(x[0],el("small",{text:x[1]}));v.style.opacity=1},v.firstChild?1200:0)}
 function renderSaver(now,ms,nx){$("#sv-clk").textContent=clockStr(now);
-  $("#sv-dt").textContent=dates(now)+" · "+city.n;const sec=Math.max(0,Math.floor((nx.ms-ms)/1000));
-  $("#sv-nx").innerHTML="";$("#sv-nx").append("باقي على ",el("b",{text:PNAMES[nx.k]})," "+arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2));
+  $("#sv-dt").textContent=dates(now)+" — "+city.n;const sec=Math.max(0,Math.floor((nx.ms-ms)/1000));
+  $("#sv-nx").innerHTML="";$("#sv-nx").append("باقي على ",el("b",{text:PNAMES[nx.k]})," \u202A"+arNum(Math.floor(sec/3600))+":"+arNum(Math.floor(sec/60)%60,2)+":"+arNum(sec%60,2)+"\u202C");
   if(now.getSeconds()===0||!$("#sv-row").firstChild)$("#sv-row").replaceChildren(...ORDER.map(k=>el("div",{class:today[k]===nx.ms?"on":""},PNAMES[k],el("b",{text:fmtTime(today[k])}))));
   const a=$("#radio");$("#sv-ex").textContent=[wxNow,(!a.paused&&$("#np-name").textContent)?"▶ "+$("#np-name").textContent:""].filter(Boolean).join("   ·   ");
-  if(++saverPos%60===0)moveSaver()}
+  saverVerse();if(++saverPos%60===0)moveSaver()}
 document.addEventListener("mousedown",hideSaver);
 
 /* ---------- azkar (text and audio: Hisn al-Muslim) ---------- */
@@ -1889,6 +1899,7 @@ window.tvKey=function(k){
   if(k==="C"){if(cur&&cur.tagName==="INPUT"){cur.focus();return "ime"}if(cur)cur.click();return "ok"}
   if(k==="L"&&cur&&cur.classList.contains("tab")){if(cur.dataset.view!==view)show(cur.dataset.view);if(enterView())return "ok"}
   if(k==="D"&&cur&&cur.classList.contains("qb")){if(enterView())return "ok"}
+  if((k==="CU"||k==="CD")&&cur&&cur.closest&&cur.closest(".view")){for(let i=0;i<4;i++)move(k==="CU"?"U":"D");return "ok"}
   if("LRUD".indexOf(k)>=0)move(k);return "ok"};
 window.tvBack=function(){if(wakeBlack())return true;if(view==="iptv"&&$("#player").hidden&&$("#adhan").hidden&&$("#nowp").hidden&&$("#pl-panel").hidden&&!$("#iv").hidden&&ipBackKey())return true;if(hideGuest())return true;if(hideSaver())return true;
   if(!$("#adhan").hidden){closeAdhan();return true}
