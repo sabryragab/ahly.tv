@@ -243,12 +243,10 @@ https://rp.tactivemedia.com/palestiniantv_source/live/playlist.m3u8
 https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="FutureTV.lb@SD" tvg-logo="https://i.imgur.com/OaqEpwe.png" group-title="General",Future TV (1080p)
 https://live.kwikmotion.com/futurelive/ftv.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="GodStandsKidsClubTV.pk@Arabic" tvg-logo="https://i.imgur.com/FxDBbpz.jpeg" group-title="Kids",God Stands Kids Club TV Arabic
-https://online.godstands.tv:5443/WebRTCApp/streams/KidsArabic.m3u8
-#EXTINF:-1 tvg-id="GodStandsTV.pk@Arabic" tvg-logo="https://i.imgur.com/EO6cYUI.png" group-title="Religious",God Stands TV Arabic
-https://online.godstands.tv:5443/WebRTCApp/streams/Arabic.m3u8
 #EXTINF:-1 tvg-id="HabibTV.ir@SD" tvg-logo="https://i.ibb.co/spZRy7mg/habib.png" group-title="Religious",Habib TV
 https://ncdn.telewebion.ir/habib/live/playlist.m3u8
+#EXTINF:-1 tvg-id="HalaLondon.uk@SD" tvg-logo="https://i.imgur.com/bM4VZDH.png" group-title="General",Hala London (1080p)
+https://halalondon-live.ercdn.net/halalondon/halalondon.m3u8
 #EXTINF:-1 tvg-id="HalaTV.il@SD" tvg-logo="https://i.imgur.com/028M4Ew.png" group-title="General",Hala TV (1080p) [Not 24/7]
 https://stream.panet.com/edge/halaTV/playlist.m3u8
 #EXTINF:-1 tvg-id="HalabTodayTV.sy@SD" tvg-logo="https://pbs.twimg.com/profile_images/1779495135841075200/aPINrLwe_400x400.png" group-title="News",Halab Today TV (1080p)
@@ -345,6 +343,8 @@ https://vmi747311.contaboserver.net/hls/livetv.m3u8
 https://shd-amg-fast.edgenextcdn.net/tx008/playlist.m3u8
 #EXTINF:-1 tvg-id="MarinaTV.kw@SD" tvg-logo="https://i.imgur.com/F2PzEaw.png" group-title="Music",Marina TV (1080p)
 https://ffs.gulfsat.com/Marina-TV-HD/index.m3u8
+#EXTINF:-1 tvg-id="MarjaeyatTVArabic.iq@SD" tvg-logo="https://i.imgur.com/LsYYkUI.png" group-title="Religious",Marjaeyat TV Arabic (1080p)
+https://livefa.marjaeyattv.com/mtv_ar/playlist.m3u8
 #EXTINF:-1 tvg-id="MasterChefsAcademyTV.uk@HD" tvg-logo="https://platform-iuoamc.uk/storage/tv/branding/mca-tv-official-logo.png" group-title="Cooking",Master Chefs Academy TV (720p)
 https://platform-iuoamc.uk/iptv/mca-tv/index.m3u8
 #EXTINF:-1 tvg-id="Mazzika.eg@SD" tvg-logo="https://i.imgur.com/P7PUHIx.png" group-title="Music",Mazzika (576p)
@@ -495,8 +495,8 @@ https://live.kwikmotion.com/royatvpublic/royatv.smil/playlist.m3u8
 https://rt-arb.rttv.com/dvr/rtarab/playlist.m3u8
 #EXTINF:-1 tvg-id="SafeerTV.uk@SD" tvg-logo="https://image.roku.com/developer_channels/prod/8389e15af8fe49ac7c36d201c24ebf62fbe5b22897c2879ca26ae936e0ed308d.png" group-title="Religious",Safeer TV (1080p)
 https://cdn3.wowza.com/1/YStGZlJRdktzZkdK/VXROZWNW/hls/live/playlist.m3u8
-#EXTINF:-1 tvg-id="Sahara24.mr@HD" tvg-logo="https://i.imgur.com/pnzWYwT.png" group-title="News",Sahara 24 (1080p)
-https://live.saharamedias.net:3317/live/shara24live.m3u8
+#EXTINF:-1 tvg-id="Sat7Arabic.cy@SD" tvg-logo="https://i.imgur.com/BzDjQeQ.png" group-title="Undefined",Sat 7 Arabic (240p)
+https://svs.itworkscdn.net/sat7arabiclive/sat7arabic.smil/playlist_dvr.m3u8
 #EXTINF:-1 tvg-id="Sat7Kids.cy@SD" tvg-logo="https://i.imgur.com/M0ik0i2.png" group-title="Kids",Sat 7 Kids (1080p)
 https://svs.itworkscdn.net/sat7kidslive/sat7kids.smil/playlist_dvr.m3u8
 #EXTINF:-1 tvg-id="SaudiThaqafiyaTV.sa@SD" tvg-logo="https://shahid.mbc.net/mediaObject/55f69983-5b4b-47c7-9c25-06ed5ad860a4?height=auto&width=512&croppingPoint=&version=1&type=jpeg" group-title="Culture",Saudi Thaqafiya TV (1080p)
@@ -519,6 +519,8 @@ https://svs.itworkscdn.net/smc2live/smc2tv.smil/playlist.m3u8
 https://svs.itworkscdn.net/smcradiolive/smcradiolive/playlist.m3u8
 #EXTINF:-1 tvg-id="SharjahRadioQuran.ae@SD" tvg-logo="https://i.imgur.com/MxZlOvc.png" group-title="Religious",Sharjah Radio Quran (1080p)
 https://live.kwikmotion.com/smcquranlive/quranradiolive/playlist.m3u8
+#EXTINF:-1 tvg-id="SharjahTV.ae@SD" tvg-logo="https://i.imgur.com/Oz2bPOt.png" group-title="Religious",Sharjah TV (1080p)
+https://live.kwikmotion.com/smc1live/smc1tv.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="SkyNewsArabia.ae@HD" tvg-logo="https://i.imgur.com/SvjU4h6.png" group-title="News",Sky News Arabia (1080p)
 https://live-stream.skynewsarabia.com/c-horizontal-channel/horizontal-stream/index.m3u8
 #EXTINF:-1 tvg-id="SkyNewsArabia.ae@SD" tvg-logo="https://i.imgur.com/SvjU4h6.png" group-title="News",Sky News Arabia SD (1080p) [Not 24/7]
@@ -555,8 +557,6 @@ https://tv-trtarabi.medya.trt.com.tr/master.m3u8
 https://alpha.tv.online.tm/hls/ch007.m3u8
 #EXTINF:-1 tvg-id="TV2.dz@SD" tvg-logo="https://i.imgur.com/VEb631f.png" group-title="General",TV2 (Algeria) (1080p)
 http://185.9.2.18/chid_347/index.m3u8
-#EXTINF:-1 tvg-id="UNews.lb@SD" tvg-logo="" group-title="News",UNews (1080p)
-https://cdn.catiacast.video/abr/9436b5ab3c1171ab04a59af11951292f/playlist.m3u8
 #EXTINF:-1 tvg-id="UTV.iq@SD" tvg-logo="https://i.imgur.com/9qFHjnu.png" group-title="Undefined",UTV (Iraq) (1080p)
 https://utviraqi-live.lg.mncdn.com/utviraqi-live/64c80359/index.m3u8
 #EXTINF:-1 tvg-id="VilayetTV.az@SD" tvg-logo="https://vilayet.tv/wp-content/uploads/elementor/thumbs/logo-q3w2md1u47q39x7d0004wqzz74xdv1glw356ex6ph0.png" group-title="General",Vilayet TV
