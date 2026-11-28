@@ -263,8 +263,6 @@ https://stream.panet.com/edge/halaTV/playlist.m3u8
 https://halabtoday-live.lg.mncdn.com/halabtoday/livestream/playlist.m3u8
 #EXTINF:-1 tvg-id="HolyQuranRadio.sa@SD" tvg-logo="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" group-title="General",Holy Quran Radio (1080p)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
-#EXTINF:-1 tvg-id="HolyQuranRadioNablus.ps@SD" tvg-logo="https://quran-radio.com/assets/images/site/quran-radio-logo-h-rtl.png" group-title="Religious",Holy Quran Radio Nablus (720p)
-http://streaming.zaytonatube.com:8080/holyquran/holyquran/video.m3u8
 #EXTINF:-1 tvg-id="HyaTV.eg@SD" tvg-logo="https://i.imgur.com/XjBIi0e.png" group-title="Entertainment",Hya TV (1080p)
 https://freem3u.xyz/api/live/play.m3u8?vid=187
 #EXTINF:-1 tvg-id="i24NEWSArabic.il@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/LOGO_i24NEWS.png/960px-LOGO_i24NEWS.png" group-title="News",i24NEWS Arabic (1080p)
